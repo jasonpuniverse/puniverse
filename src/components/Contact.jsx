@@ -8,10 +8,10 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setStatus('submitting')
-    
+
     // In production, configure Google Apps Script Web App URL pointing to the Sheet
-    const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'
-    
+    const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwspKzC_0VTnIInR08DD24Bgr3sF4QEBhL58QzNfNntMq8GtbcYhPur52zrITG8G-o/exec'
+
     try {
       // Create FormData to send to Google Sheets
       const data = new FormData()
@@ -21,16 +21,16 @@ export default function Contact() {
       data.append('timestamp', new Date().toISOString())
 
       // Simulate network request for now
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      /* Uncomment for real deployment:
+      // await new Promise(resolve => setTimeout(resolve, 1500))
+
+      // Uncomment for real deployment:
       await fetch(GOOGLE_SHEET_URL, {
         method: 'POST',
         body: data,
         mode: 'no-cors' // Google Sheets requires no-cors
       })
-      */
-      
+
+
       setStatus('success')
       setFormData({ name: '', email: '', message: '' })
     } catch (error) {
@@ -118,7 +118,7 @@ export default function Contact() {
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                   )}
-                  {status === 'idle' && 'Send Message -> Google Sheets'}
+                  {status === 'idle' && 'Send Message'}
                   {status === 'submitting' && 'Sending...'}
                   {status === 'success' && 'Message Received ✓'}
                   {status === 'error' && 'Failed to send'}
