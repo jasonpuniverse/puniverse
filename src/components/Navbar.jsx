@@ -12,13 +12,13 @@ export default function Navbar() {
   }, [])
 
   const navLinks = [
-    { label: 'Home', href: '#hero' },
-    { label: 'System', href: '#system' },
-    { label: 'AETHEO', href: '#case-study' },
-    { label: 'Products', href: '#products' },
+    { label: 'Home', href: '/' },
+    { label: 'System', href: '/system' },
+    { label: 'AETHEO', href: '/#case-study' },
+    { label: 'Products', href: '/#products' },
     { label: 'Blog', href: '#' },
-    { label: 'Community', href: '#community' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Community', href: '/#community' },
+    { label: 'Contact', href: '/#contact' },
   ]
 
   return (
@@ -34,7 +34,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="no-underline">
+        <a href="/" className="no-underline">
           <Logo className="h-8" />
         </a>
 
