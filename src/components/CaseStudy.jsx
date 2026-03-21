@@ -1,107 +1,59 @@
 import React from 'react'
 import { Reveal } from '../hooks/useReveal'
 
-const metrics = [
-  { value: '80%', label: 'Reduction in manual tasks' },
-  { value: '3x', label: 'Content output increase' },
-  { value: '24/7', label: 'Automated operations' },
-]
-
-const steps = [
-  { step: '01', title: 'AI reads the store', body: 'Agent pulls Shopify data — orders, inventory, SKUs — and builds a real-time picture of what\'s happening.' },
-  { step: '02', title: 'Workflows trigger automatically', body: 'n8n orchestrates tasks: generate product descriptions, pin to Pinterest, tag orders, send email sequences.' },
-  { step: '03', title: 'Founder reviews, not manages', body: 'Aetheo\'s founder checks a weekly report. The system runs; the team focuses on growth.' },
-]
-
 export default function CaseStudy() {
   return (
-    <section id="case-study" className="py-24 relative overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(168,85,247,0.04) 50%, transparent 100%)' }}
-      />
-
+    <section id="case-study" className="relative overflow-hidden pt-0">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left */}
-          <Reveal>
-            <div>
-              <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full text-xs font-medium"
-                style={{ background: 'rgba(168,85,247,0.1)', border: '1px solid rgba(168,85,247,0.25)', color: '#c084fc' }}>
-                📦 Live Case Study: Aetheo
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-                Built and Tested on a{' '}
-                <span className="gradient-text">Real Brand</span>
-              </h2>
-
-              <div className="text-zinc-400 text-lg leading-relaxed mb-8">
-                <p className="mb-4">
-                  AETHEO is a UK-based DTC brand powered by the Puniverse system.
-                  From product research to content generation and marketing automation — AI handles the heavy lifting.
-                </p>
-                <p className="font-medium text-zinc-300">
-                  This is not theory.<br/>
-                  It's a working ecommerce system.
-                </p>
-              </div>
-
-              {/* Metrics */}
-              <div className="flex gap-8 mb-10">
-                {metrics.map((m, i) => (
-                  <div key={i}>
-                    <div className="text-3xl font-black gradient-text">{m.value}</div>
-                    <div className="text-zinc-500 text-xs mt-1">{m.label}</div>
+        <Reveal>
+          <div className="card-elevated overflow-hidden border border-[#464554]/10 rounded-xl">
+            <div className="bg-[#1f1f22]/80 backdrop-blur-xl rounded-xl p-12 md:p-24 relative overflow-hidden group">
+              <div className="grid lg:grid-cols-2 gap-24 items-center">
+                <div>
+                  <div className="inline-flex items-center gap-2 mb-10">
+                    <span className="label-text text-[#ec0101]">Live Node Report</span>
                   </div>
-                ))}
-              </div>
 
-              <a href="#community" className="btn-primary inline-flex items-center gap-2 no-underline text-sm">
-                See How It Works
-                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
-            </div>
-          </Reveal>
+                  <h2 className="headline text-5xl md:text-8xl text-[#e4e1e6] mb-8 italic leading-tight">
+                    AETHEO <br />
+                    <span className="text-[#ec0101] font-black not-italic text-6xl md:text-7xl">POWERED.</span>
+                  </h2>
 
-          {/* Right: Steps */}
-          <Reveal delay={150}>
-            <div className="flex flex-col gap-5">
-              {steps.map((s, i) => (
-                <div
-                  key={i}
-                  className="flex gap-5 p-5 rounded-2xl transition-all duration-300"
-                  style={{
-                    background: 'rgba(255,255,255,0.02)',
-                    border: '1px solid rgba(168,85,247,0.12)',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = 'rgba(168,85,247,0.35)'
-                    e.currentTarget.style.background = 'rgba(168,85,247,0.05)'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = 'rgba(168,85,247,0.12)'
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.02)'
-                  }}
-                >
-                  <div
-                    className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm"
-                    style={{ background: 'linear-gradient(135deg, #a855f7, #37b9ff)', color: 'white' }}
-                  >
-                    {s.step}
+                  <p className="body-text text-xl text-[#c7c4d7] mb-12 leading-relaxed max-w-lg">
+                    Witness the system in action. Every product, every creative asset, and every distribution signal on Aetheo is orchestrated by the Puniverse core.
+                  </p>
+
+                  <div className="flex flex-wrap gap-12 mb-12">
+                    <div>
+                      <div className="text-4xl font-black text-[#e4e1e6] mb-1">98%</div>
+                      <div className="label-text text-[#c7c4d7]">Sync Efficiency</div>
+                    </div>
+                    <div>
+                      <div className="text-4xl font-black text-[#e4e1e6] mb-1">4.5h</div>
+                      <div className="label-text text-[#c7c4d7]">Daily Saved</div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-1">{s.title}</h4>
-                    <p className="text-zinc-400 text-sm leading-relaxed">{s.body}</p>
+
+                  <a href="https://aetheo.co.uk" target="_blank" className="btn-secondary no-underline inline-block group-hover:border-[#464554]/60 transition-all">
+                    Visit the System Node
+                  </a>
+                </div>
+
+                <div className="relative aspect-square">
+                  <div className="absolute inset-0 sphere-gradient-secondary opacity-10 rounded-full blur-3xl animate-pulse" />
+                  <div className="relative h-full w-full rounded-xl border border-[#464554]/20 bg-[#131316] backdrop-blur-xl flex items-center justify-center p-12 overflow-hidden">
+                    <div className="absolute top-0 right-0 p-6 flex gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#ec0101] animate-ping" />
+                      <span className="text-[10px] font-mono text-[#c7c4d7]">LIVE_DATA_STREAM</span>
+                    </div>
+                    {/* Decorative grid */}
+                    <div className="w-full h-full opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #c7c4d7 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

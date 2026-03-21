@@ -3,21 +3,21 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
+import ProductsPage from './pages/ProductsPage'
 import SystemPage from './pages/System'
 
-// Scroll to top on route change or handle hash links
-function ScrollToHash() {
+function ScrollToTop() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
     if (hash) {
-      const element = document.querySelector(hash)
+      const element = document.getElementById(hash.replace('#', ''))
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' })
+        return
       }
-    } else {
-      window.scrollTo(0, 0)
     }
+    window.scrollTo(0, 0)
   }, [pathname, hash])
 
   return null
@@ -26,16 +26,17 @@ function ScrollToHash() {
 export default function App() {
   return (
     <BrowserRouter>
-      <ScrollToHash />
-      <div className="min-h-screen flex flex-col bg-[#0d0d0e] text-[#e4e4e7] selection:bg-purple-500/30">
+      <ScrollToTop />
+      <div className="min-h-screen bg-[#131316] text-[#e4e1e6] selection:bg-purple-500/30">
         <Navbar />
         
-        <div className="flex-grow">
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/products" element={<ProductsPage />} />
             <Route path="/system" element={<SystemPage />} />
           </Routes>
-        </div>
+        </main>
 
         <Footer />
       </div>

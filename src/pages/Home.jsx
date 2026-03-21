@@ -1,6 +1,7 @@
 import React from 'react'
 import Hero from '../components/Hero'
 import TrustBadges from '../components/TrustBadges'
+import LiveDataStream from '../components/LiveDataStream'
 import SystemSection from '../components/SystemSection'
 import CaseStudy from '../components/CaseStudy'
 import Products from '../components/Products'
@@ -14,6 +15,7 @@ export default function Home() {
     <main>
       <Hero />
       <TrustBadges />
+      <LiveDataStream />
       <SystemSection />
       <CaseStudy />
       <Products />

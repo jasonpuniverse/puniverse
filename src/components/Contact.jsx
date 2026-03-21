@@ -2,136 +2,125 @@ import React, { useState } from 'react'
 import { Reveal } from '../hooks/useReveal'
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState('idle')
+  const [formState, setFormState] = useState('idle') // idle, loading, success
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setStatus('submitting')
-
-    // In production, configure Google Apps Script Web App URL pointing to the Sheet
-    const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwspKzC_0VTnIInR08DD24Bgr3sF4QEBhL58QzNfNntMq8GtbcYhPur52zrITG8G-o/exec'
+    setFormState('loading')
+    
+    const formData = new FormData(e.target)
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+      timestamp: new Date().toISOString()
+    }
 
     try {
-      // Create FormData to send to Google Sheets
-      const data = new FormData()
-      data.append('name', formData.name)
-      data.append('email', formData.email)
-      data.append('message', formData.message)
-      data.append('timestamp', new Date().toISOString())
-
-      // Simulate network request for now
-      // await new Promise(resolve => setTimeout(resolve, 1500))
-
-      // Uncomment for real deployment:
-      await fetch(GOOGLE_SHEET_URL, {
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPz2t6vA6Pq6_vQ-O_n8W6G_f9_G9z9q_z/exec' 
+      
+      await fetch(SCRIPT_URL, {
         method: 'POST',
-        body: data,
-        mode: 'no-cors' // Google Sheets requires no-cors
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
       })
-
-
-      setStatus('success')
-      setFormData({ name: '', email: '', message: '' })
-    } catch (error) {
-      console.error('Submission failed', error)
-      setStatus('error')
+      
+      setFormState('success')
+    } catch (err) {
+      console.error(err)
+      setFormState('idle')
     }
   }
 
   return (
-    <section id="contact" className="py-24 relative border-t border-purple-900/10">
-      <div className="max-w-3xl mx-auto px-6">
-        <Reveal>
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-white mb-4">
-              Get in <span className="text-purple-400">Touch</span>
-            </h2>
-            <p className="text-zinc-400">
-              Have a question, idea, or collaboration in mind? Reach out.
-            </p>
-          </div>
-        </Reveal>
-
-        <Reveal delay={100}>
-          <div className="card-border rounded-2xl p-8 md:p-12 relative overflow-hidden">
-            {/* Background noise/glow */}
-            <div className="absolute inset-0 noise opacity-50 pointer-events-none" />
-            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-[80px] pointer-events-none" />
-
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6 relative z-10">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-                    Name
-                  </label>
-                  <input
-                    required
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-[#111113] border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
-                    placeholder="John Doe"
-                    disabled={status === 'submitting' || status === 'success'}
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-                    Email
-                  </label>
-                  <input
-                    required
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-[#111113] border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all"
-                    placeholder="john@brand.com"
-                    disabled={status === 'submitting' || status === 'success'}
-                  />
-                </div>
+    <section id="contact" className="relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-2 gap-24 items-center">
+          <Reveal>
+            <div>
+              <div className="inline-flex items-center gap-2 mb-10">
+                <span className="label-text text-[#ec0101]">Deployment Query</span>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-                  Project Details
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-[#111113] border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 transition-all resize-none"
-                  placeholder="Tell us about your current stack and what you want to automate..."
-                  disabled={status === 'submitting' || status === 'success'}
-                />
-              </div>
+              <h2 className="headline text-5xl md:text-8xl text-[#e4e1e6] mb-8">INITIATE <br /><span className="text-[#4edea3] font-black italic">CONTACT.</span></h2>
 
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  disabled={status === 'submitting' || status === 'success'}
-                  className="w-full btn-primary py-4 text-base tracking-wide flex justify-center items-center gap-2 disabled:opacity-70"
-                >
-                  {status === 'submitting' && (
-                    <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <p className="body-text text-xl text-[#c7c4d7] mb-12 leading-relaxed max-w-lg">
+                Ready to deploy autonomous systems? Request custom blueprints for your brand or enterprise access to our multi-agent core.
+              </p>
+
+              <div className="space-y-8">
+                <div className="flex items-center gap-6 group">
+                  <div className="w-12 h-12 rounded-full bg-[#464554]/10 border border-[#464554]/20 flex items-center justify-center text-[#e4e1e6] transition-colors group-hover:border-[#ec0101]/50">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
-                  )}
-                  {status === 'idle' && 'Send Message'}
-                  {status === 'submitting' && 'Sending...'}
-                  {status === 'success' && 'Message Received ✓'}
-                  {status === 'error' && 'Failed to send'}
-                </button>
-                {status === 'success' && (
-                  <p className="text-center text-green-400 text-sm mt-4 animate-fade-up">
-                    We'll be in touch shortly.
-                  </p>
+                  </div>
+                  <div>
+                    <div className="label-text text-[#c7c4d7] mb-1">Digital Node</div>
+                    <span className="text-xl text-[#e4e1e6] font-bold group-hover:text-[#4edea3] transition-colors">hello@puniverse.net</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={200}>
+            <div className="card-elevated p-1">
+              <div className="bg-[#1f1f22]/80 backdrop-blur-xl rounded-xl p-10 md:p-14">
+                {formState === 'success' ? (
+                  <div className="text-center py-20 animate-fade-up">
+                    <div className="w-20 h-20 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 flex items-center justify-center text-[#4edea3] text-3xl mx-auto mb-8">
+                      ✓
+                    </div>
+                    <h3 className="text-3xl font-black text-[#e4e1e6] mb-4 italic">TRANSMISSION RECEIVED.</h3>
+                    <p className="text-[#c7c4d7] mb-10 italic">Your internal node will respond within 12 standard hours.</p>
+                    <button
+                      onClick={() => setFormState('idle')}
+                      className="btn-secondary"
+                    >
+                      New Transmission
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-8">
+                    <div className="space-y-2">
+                      <label className="label-text text-[#c7c4d7] ml-4">Identifier</label>
+                      <input
+                        name="name" required type="text" placeholder="Identity / Brand"
+                        className="w-full bg-[#0e0e11] border border-[#464554]/10 rounded-xl px-6 py-4 text-[#e4e1e6] placeholder:text-[#c7c4d7]/40 focus:border-b-2 focus:border-[#4edea3] outline-none transition-all"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="label-text text-[#c7c4d7] ml-4">Postal Node</label>
+                      <input
+                        name="email" required type="email" placeholder="example@brand.io"
+                        className="w-full bg-[#0e0e11] border border-[#464554]/10 rounded-xl px-6 py-4 text-[#e4e1e6] placeholder:text-[#c7c4d7]/40 focus:border-b-2 focus:border-[#ec0101] outline-none transition-all"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="label-text text-[#c7c4d7] ml-4">Requirement Log</label>
+                      <textarea
+                        name="message" required rows="4" placeholder="How can we scale your operations?"
+                        className="w-full bg-[#0e0e11] border border-[#464554]/10 rounded-xl px-6 py-4 text-[#e4e1e6] placeholder:text-[#c7c4d7]/40 focus:border-b-2 focus:border-[#4edea3] outline-none transition-all resize-none"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={formState === 'loading'}
+                      className="w-full btn-primary mt-4 disabled:opacity-50"
+                    >
+                      {formState === 'loading' ? 'TRANSMITTING...' : 'INITIATE CONNECTION'}
+                    </button>
+                  </form>
                 )}
               </div>
-            </form>
-          </div>
-        </Reveal>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   )

@@ -3,81 +3,58 @@ import { Reveal } from '../hooks/useReveal'
 
 const faqs = [
   {
-    q: 'What is Puniverse?',
-    a: 'A system for running ecommerce using AI, automation, and integrated tools.',
+    q: 'How is Puniverse connected to Aetheo?',
+    a: 'Puniverse is the intelligent core that powers Aetheo.co.uk. The same multi-agent systems we build for clients are deployed in real-time across the Aetheo brand ecosystem.',
   },
   {
-    q: 'Do I need coding skills?',
-    a: 'No. Most workflows are designed to be used with minimal technical knowledge.',
+    q: 'What makes your automation different?',
+    a: 'Unlike standard scripting, our agentic workflows are research-driven and context-aware. They don\'t just follow rules—they optimize for brand growth and creative fidelity.',
   },
   {
-    q: 'Are the workflows free?',
-    a: 'Some are free. Advanced systems and tools are available inside the community.',
-  },
-  {
-    q: 'What do I get in the community?',
-    a: 'Access to workflows, tutorials, system breakdowns, and early tools.',
-  },
-  {
-    q: 'How is this different from other AI tools?',
-    a: 'Puniverse focuses on real systems used in ecommerce — not isolated tools.',
+    q: 'Is this system suitable for smaller brands?',
+    a: 'Our systems are designed to scale. Whether you\'re processing 10 orders or 10,000, the architecture remains the same: efficient, autonomous, and brand-first.',
   },
 ]
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(0)
+  const [open, setOpen] = useState(null)
 
   return (
-    <section id="faq" className="py-24 relative bg-[#09090a]">
+    <section id="faq" className="relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-6">
-        <Reveal>
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
-              Common <span className="gradient-text">Questions</span>
-            </h2>
-          </div>
-        </Reveal>
+        <div className="text-center mb-24">
+          <Reveal>
+            <div className="label-text text-[#4edea3] mb-6">FAQ Nodes</div>
+            <h2 className="headline text-5xl md:text-7xl text-[#e4e1e6] mb-8">SYSTEM <span className="text-[#4edea3]">INQUIRY.</span></h2>
+          </Reveal>
+        </div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, i) => {
-            const isOpen = openIndex === i
-            return (
-              <Reveal key={i} delay={i * 50}>
-                <div
-                  className="rounded-xl overflow-hidden transition-all duration-300"
-                  style={{
-                    background: isOpen ? 'rgba(255,255,255,0.04)' : 'transparent',
-                    border: '1px solid',
-                    borderColor: isOpen ? 'rgba(168,85,247,0.3)' : 'rgba(255,255,255,0.05)',
-                  }}
-                >
-                  <button
-                    className="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none"
-                    onClick={() => setOpenIndex(isOpen ? -1 : i)}
-                  >
-                    <span className={`font-semibold ${isOpen ? 'text-white' : 'text-zinc-300'}`}>
-                      {faq.q}
-                    </span>
-                    <span className="text-purple-400 font-bold ml-4">
-                      {isOpen ? '−' : '+'}
-                    </span>
-                  </button>
-                  
-                  <div
-                    className="overflow-hidden transition-all duration-300 ease-in-out"
-                    style={{
-                      maxHeight: isOpen ? '200px' : '0',
-                      opacity: isOpen ? 1 : 0,
-                    }}
-                  >
-                    <div className="px-6 pb-6 text-zinc-400 text-sm leading-relaxed">
-                      {faq.a}
+        <div className="space-y-6">
+          {faqs.map((faq, i) => (
+            <Reveal key={i} delay={i * 100}>
+              <div
+                className="card-elevated p-1 cursor-pointer group"
+                onClick={() => setOpen(open === i ? null : i)}
+              >
+                <div className="bg-[#1f1f22]/80 backdrop-blur-xl rounded-xl p-10">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-[#e4e1e6] group-hover:text-[#4edea3] transition-colors">{faq.q}</h3>
+                    <div className={`transition-transform duration-500 text-[#ec0101] ${open === i ? 'rotate-180' : ''}`}>
+                      <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                        <path d="M19 9l-7 7-7-7"/>
+                      </svg>
                     </div>
                   </div>
+
+                  {open === i && (
+                    <div className="mt-8 text-[#c7c4d7] leading-relaxed animate-fade-up">
+                      {faq.a}
+                    </div>
+                  )}
                 </div>
-              </Reveal>
-            )
-          })}
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
