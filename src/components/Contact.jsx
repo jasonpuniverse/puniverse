@@ -7,7 +7,7 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormState('loading')
-    
+
     const formData = new FormData(e.target)
     const data = {
       name: formData.get('name'),
@@ -17,20 +17,23 @@ export default function Contact() {
     }
 
     try {
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPz2t6vA6Pq6_vQ-O_n8W6G_f9_G9z9q_z/exec' 
-      
-      await fetch(SCRIPT_URL, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
       })
-      
+
+      if (!response.ok) {
+        throw new Error(`Form submission failed: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+      console.log('Form submission successful:', result)
       setFormState('success')
     } catch (err) {
-      console.error(err)
+      console.error('Form submission error:', err)
       setFormState('idle')
     }
   }
