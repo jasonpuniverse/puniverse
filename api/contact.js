@@ -1,3 +1,5 @@
+import { getSupabaseClient } from '../lib/supabase.js'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -10,23 +12,32 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Log submission (for now, could integrate with email service, database, or Google Sheets)
-    console.log('Form submission received:', {
-      name,
-      email,
-      message,
-      timestamp,
-      receivedAt: new Date().toISOString(),
-    })
+    const supabase = getSupabaseClient()
+    const submittedAt = timestamp || new Date().toISOString()
 
-    // TODO: Integrate with email service (Resend, SendGrid, etc.)
-    // or store in database (Neon, MongoDB, etc.)
-    // or send to Google Sheets via Apps Script
+    // Insert form submission into Supabase
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .insert([
+        {
+          name,
+          email,
+          message,
+          submitted_at: submittedAt,
+          created_at: new Date().toISOString(),
+        },
+      ])
+      .select()
+
+    if (error) {
+      console.error('Database insertion error:', error)
+      return res.status(500).json({ error: 'Failed to save submission' })
+    }
 
     res.status(200).json({
       success: true,
       message: 'Form submission received successfully',
-      id: `submission-${Date.now()}`,
+      id: data?.[0]?.id || `submission-${Date.now()}`,
     })
   } catch (error) {
     console.error('Form submission error:', error)
