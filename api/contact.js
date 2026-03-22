@@ -1,6 +1,15 @@
 import { getSupabaseClient } from '../lib/supabase.js'
 
 export default async function handler(req, res) {
+  // Enable CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end()
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -14,6 +23,8 @@ export default async function handler(req, res) {
   try {
     const supabase = getSupabaseClient()
     const submittedAt = timestamp || new Date().toISOString()
+
+    console.log('Attempting to insert submission:', { name, email })
 
     // Insert form submission into Supabase
     const { data, error } = await supabase
@@ -30,17 +41,24 @@ export default async function handler(req, res) {
       .select()
 
     if (error) {
-      console.error('Database insertion error:', error)
-      return res.status(500).json({ error: 'Failed to save submission' })
+      console.error('Database insertion error:', JSON.stringify(error))
+      return res.status(500).json({
+        error: 'Failed to save submission',
+        details: error.message
+      })
     }
 
-    res.status(200).json({
+    console.log('Submission saved successfully:', data?.[0]?.id)
+    return res.status(200).json({
       success: true,
       message: 'Form submission received successfully',
       id: data?.[0]?.id || `submission-${Date.now()}`,
     })
   } catch (error) {
     console.error('Form submission error:', error)
-    res.status(500).json({ error: 'Form submission failed' })
+    return res.status(500).json({
+      error: 'Form submission failed',
+      details: error.message
+    })
   }
 }

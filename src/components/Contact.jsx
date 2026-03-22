@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import { Reveal } from '../hooks/useReveal'
 
 export default function Contact() {
-  const [formState, setFormState] = useState('idle') // idle, loading, success
+  const [formState, setFormState] = useState('idle') // idle, loading, success, error
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormState('loading')
+    setErrorMessage('')
 
     const formData = new FormData(e.target)
     const data = {
@@ -25,16 +27,18 @@ export default function Contact() {
         body: JSON.stringify(data)
       })
 
+      const result = await response.json()
+
       if (!response.ok) {
-        throw new Error(`Form submission failed: ${response.statusText}`)
+        throw new Error(result.details || result.error || `Form submission failed: ${response.statusText}`)
       }
 
-      const result = await response.json()
       console.log('Form submission successful:', result)
       setFormState('success')
     } catch (err) {
       console.error('Form submission error:', err)
-      setFormState('idle')
+      setErrorMessage(err.message || 'Failed to submit form. Please try again.')
+      setFormState('error')
     }
   }
 
@@ -85,6 +89,20 @@ export default function Contact() {
                       className="btn-secondary"
                     >
                       New Transmission
+                    </button>
+                  </div>
+                ) : formState === 'error' ? (
+                  <div className="text-center py-20 animate-fade-up">
+                    <div className="w-20 h-20 rounded-full bg-[#ec0101]/10 border border-[#ec0101]/30 flex items-center justify-center text-[#ec0101] text-3xl mx-auto mb-8">
+                      ⚠
+                    </div>
+                    <h3 className="text-3xl font-black text-[#e4e1e6] mb-4 italic">TRANSMISSION FAILED.</h3>
+                    <p className="text-[#c7c4d7] mb-10">{errorMessage}</p>
+                    <button
+                      onClick={() => setFormState('idle')}
+                      className="btn-secondary"
+                    >
+                      Try Again
                     </button>
                   </div>
                 ) : (
