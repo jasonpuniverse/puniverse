@@ -2,28 +2,30 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { readFileSync } from 'fs'
-import { join } from 'path'
 
-// Load .env.local manually
-const envPath = join(import.meta.url.replace('file://', ''), '..', '.env.local')
-try {
-  const envContent = readFileSync('.env.local', 'utf-8')
-  const lines = envContent.split('\n').filter((line) => line && !line.startsWith('#'))
-  lines.forEach((line) => {
-    const [key, ...valueParts] = line.split('=')
-    const value = valueParts.join('=').replace(/^"/, '').replace(/"$/, '')
-    process.env[key.trim()] = value.trim()
-  })
-} catch (err) {
-  console.warn('Could not load .env.local')
+// Load .env.local manually (only for dev server)
+function loadEnvLocal() {
+  try {
+    const envContent = readFileSync('.env.local', 'utf-8')
+    const lines = envContent.split('\n').filter((line) => line && !line.startsWith('#'))
+    lines.forEach((line) => {
+      const [key, ...valueParts] = line.split('=')
+      const value = valueParts.join('=').replace(/^"/, '').replace(/"$/, '')
+      process.env[key.trim()] = value.trim()
+    })
+  } catch (err) {
+    console.warn('Could not load .env.local')
+  }
 }
 
-// Custom API handler middleware
+// Custom API handler middleware (dev only)
 function apiMiddleware() {
   return {
     name: 'api-middleware',
     apply: 'serve',
     configureServer(server) {
+      loadEnvLocal()
+
       return () => {
         server.middlewares.use('/api/contact', async (req, res) => {
           if (req.method !== 'POST') {
@@ -50,7 +52,9 @@ function apiMiddleware() {
                 return
               }
 
-              const { default: handler } = await import('./api/contact.js')
+              // Dynamic import with non-static path to avoid Vite bundling
+              const importPath = './api/contact.js'
+              const handler = await import(/* @vite-ignore */ importPath)
 
               const mockReq = { method: 'POST', body: data }
               const mockRes = {
@@ -64,7 +68,7 @@ function apiMiddleware() {
                 },
               }
 
-              await handler(mockReq, mockRes)
+              await handler.default(mockReq, mockRes)
             } catch (error) {
               console.error('API error:', error)
               res.statusCode = 500
