@@ -25,9 +25,8 @@ export default function Navbar() {
         : 'bg-transparent py-8'
     }`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 no-underline group">
-          <Logo className="w-10 h-10 group-hover:rotate-[30deg] transition-transform duration-500" />
-          <span className="font-headline font-extrabold text-xl tracking-tight text-[#e4e1e6]">PUNIVERSE</span>
+        <Link to="/" className="flex items-center gap-3 no-underline">
+          <Logo className="w-10 h-10" />
         </Link>
 
         {/* Desktop */}
