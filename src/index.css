@@ -1,155 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  /* Dimensional Noir Color Palette */
-  --color-background: #131316;
-  --color-surface: #131316;
-  --color-surface-container-lowest: #0e0e11;
-  --color-surface-container-low: #1b1b1e;
-  --color-surface-container: #1f1f22;
-  --color-surface-container-high: #2a2a2d;
-  --color-surface-container-highest: #353438;
-  --color-surface-bright: #39393c;
-  --color-outline-variant: #464554;
-  --color-primary: #ec0101;
-  --color-primary-container: #a80000;
-  --color-secondary: #4edea3;
-  --color-tertiary: #c0c1ff;
-  --color-on-surface: #e4e1e6;
-  --color-on-surface-variant: #c7c4d7;
-
-  /* Typography */
-  --font-headline: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-label: "Space Grotesk", monospace;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-background: #050505;
+  --color-surface: rgba(255, 255, 255, 0.03);
+  --color-surface-hover: rgba(255, 255, 255, 0.05);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-highlight: rgba(255, 255, 255, 0.2);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a1a1aa;
+  --color-text-tertiary: #71717a;
+  --color-accent-purple: #8b5cf6;
+  --color-accent-teal: #14b8a6;
+  --color-accent-green: #10b981;
 }
 
 body {
   background-color: var(--color-background);
-  color: var(--color-on-surface);
-  font-family: var(--font-body);
-  margin: 0;
-  padding: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
-/* Typography */
-.headline {
-  font-family: var(--font-headline);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.body-text {
-  font-family: var(--font-body);
-  color: var(--color-on-surface);
-}
-
-.label-text {
-  font-family: var(--font-label);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-on-surface-variant);
-}
-
-/* Button Styles - Dimensional Noir */
-.btn-primary {
-  @apply bg-gradient-to-br from-[#ec0101] to-[#a80000] text-white font-bold px-8 py-4 rounded-xl font-headline transition-transform duration-300 hover:scale-105 active:scale-95;
-}
-
-.btn-secondary {
-  @apply bg-[#2a2a2d] backdrop-blur-md border border-[#464554]/20 text-[#e4e1e6] px-8 py-4 rounded-xl font-headline font-bold transition-all duration-300 hover:bg-[#353438];
-}
-
-/* Cards - Tonal Layering */
-.card-base {
-  @apply bg-[#1f1f22] rounded-xl border border-[#464554]/10 overflow-hidden transition-all duration-300;
-}
-
-.card-elevated {
-  @apply bg-[#2a2a2d] rounded-xl border border-[#464554]/5 overflow-hidden transition-all duration-300;
-}
-
-.card-hover {
-  @apply hover:border-[#464554]/30 hover:shadow-lg transition-all duration-300;
-}
-
-/* Glassmorphism */
-.glass-effect {
-  @apply bg-[#131316]/60 backdrop-blur-xl border border-white/5;
-}
-
-.glass-nav {
-  @apply fixed top-0 w-full z-50 bg-[#131316]/60 backdrop-blur-xl border-b border-white/5;
-}
-
-/* Surface Hierarchy */
-.surface-low {
-  background-color: var(--color-surface-container-low);
-}
-
-.surface-high {
-  background-color: var(--color-surface-container-high);
-}
-
-.surface-highest {
-  background-color: var(--color-surface-container-highest);
-}
-
-/* Glow Effects */
-.glow-primary {
-  box-shadow: 0 0 40px 0 rgba(236, 1, 1, 0.06);
-}
-
-.glow-tertiary {
-  box-shadow: 0 0 40px 0 rgba(192, 193, 255, 0.06);
-}
-
-/* Floating Spheres */
-.sphere-gradient-primary {
-  background: radial-gradient(circle at 30% 30%, #ec0101, #a80000);
-}
-
-.sphere-gradient-secondary {
-  background: radial-gradient(circle at 30% 30%, #4edea3, #005236);
-}
-
-.sphere-gradient-tertiary {
-  background: radial-gradient(circle at 30% 30%, #c0c1ff, #7a7cff);
-}
-
-/* Animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1s cubic-bezier(0.19, 1, 0.22, 1), transform 1s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-section {
-  @apply py-32;
-}
-
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(to right, var(--color-primary), var(--color-tertiary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Custom utilities for glows */
+@layer utilities {
+  .glow-purple {
+    box-shadow: 0 0 80px 20px rgba(139, 92, 246, 0.15);
+  }
+  .glow-teal {
+    box-shadow: 0 0 80px 20px rgba(20, 184, 166, 0.15);
+  }
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, #fff, #a1a1aa);
+  }
 }
