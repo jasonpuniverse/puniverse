@@ -13,49 +13,64 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, message, timestamp } = req.body || {}
+    const { name, email, message } = req.body || {}
 
     if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Missing required fields' })
+      return res.status(400).json({ error: 'Missing required fields: name, email, message' })
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
     if (!supabaseUrl || !supabaseKey) {
-      return res.status(500).json({ error: 'Supabase config missing' })
+      console.error('Supabase credentials missing:', { supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey })
+      return res.status(500).json({ error: 'Database configuration error' })
     }
 
-    // Use fetch instead of importing Supabase client
+    const payload = {
+      name: String(name).trim(),
+      email: String(email).trim(),
+      message: String(message).trim()
+    }
+
     const response = await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'apikey': supabaseKey,
-        'Authorization': `Bearer ${supabaseKey}`,
-        'Prefer': 'return=representation'
+        'Authorization': `Bearer ${supabaseKey}`
       },
-      body: JSON.stringify({
-        name: String(name).trim(),
-        email: String(email).trim(),
-        message: String(message).trim(),
-        submitted_at: timestamp || new Date().toISOString(),
-        created_at: new Date().toISOString()
-      })
+      body: JSON.stringify(payload)
     })
+
+    const responseText = await response.text()
 
     if (!response.ok) {
-      const errorData = await response.text()
-      return res.status(500).json({ error: `Database error: ${errorData}` })
+      console.error('Supabase error:', {
+        status: response.status,
+        statusText: response.statusText,
+        body: responseText
+      })
+      return res.status(response.status).json({
+        error: `Failed to submit: ${response.statusText}`,
+        details: responseText
+      })
     }
 
-    const data = await response.json()
+    let data
+    try {
+      data = JSON.parse(responseText)
+    } catch {
+      data = null
+    }
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
-      id: data?.[0]?.id || 'submitted'
+      message: 'Contact form submitted successfully',
+      id: Array.isArray(data) ? data[0]?.id : data?.id
     })
   } catch (err) {
+    console.error('Contact handler error:', err)
     return res.status(500).json({ error: err?.message || 'Server error' })
   }
 }

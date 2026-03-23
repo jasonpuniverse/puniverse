@@ -10,14 +10,34 @@ export const ContactForm: React.FC = () => {
     setStatus('loading');
     setErrorMessage('');
 
-    // Simulate network request
-    setTimeout(() => {
-      // In a real app, you would send the FormData here
-      // const formData = new FormData(e.currentTarget);
-      // const data = Object.fromEntries(formData.entries());
-      
+    try {
+      const formData = new FormData(e.currentTarget);
+      const data = {
+        name: formData.get('name') as string,
+        email: formData.get('email') as string,
+        message: formData.get('message') as string
+      };
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        setErrorMessage(error.error || 'Failed to submit form');
+        setStatus('error');
+        return;
+      }
+
       setStatus('success');
-    }, 1500);
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : 'An unexpected error occurred');
+      setStatus('error');
+    }
   };
 
   if (status === 'success') {
