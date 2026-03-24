@@ -87,7 +87,9 @@ export const Hero: React.FC = () => {
         </h1>
 
         <p className="blur-in text-lg md:text-xl lg:text-2xl text-gray-400 mb-10">
-          Not a tool. Not a dashboard. A system to{' '}
+          Not a tool. Not a dashboard.
+          <br />
+          A system to{' '}
           <span
             key={roleIndex}
             className="font-display italic text-white animate-role-fade-in inline-block"
@@ -109,7 +111,7 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Scroll indicator */}
-      <div className="blur-in absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+      <div className="blur-in absolute bottom-8 inset-x-0 z-10 flex flex-col items-center gap-2">
         <span className="text-xs text-gray-600 uppercase tracking-[0.2em]">
           Scroll
         </span>

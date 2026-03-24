@@ -7,7 +7,7 @@ export const Navbar: React.FC = () => {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'System', path: '/system' },
+    { name: 'AI OS', path: '/system' },
     { name: 'Products', path: '/products' },
     { name: 'AI Automations', path: '/ai-automations' },
     { name: 'AETHEO', path: '/aetheo' },
