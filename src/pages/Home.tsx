@@ -1,62 +1,22 @@
+'use client';
+
 import React from 'react';
-import { Sparkles, ArrowRight, Check, X, Zap, BarChart3, Box, Layers, Cpu, TrendingUp, Users } from 'lucide-react';
+import { Check, X, Zap, BarChart3, Box, Layers, Cpu, TrendingUp, Users } from 'lucide-react';
 import { GlassCard } from '../components/ui/GlassCard';
 import { GlowButton } from '../components/ui/GlowButton';
 import { SectionLabel } from '../components/ui/SectionLabel';
 import { ContactForm } from '../components/ui/ContactForm';
+import { Hero } from '../components/Hero';
 import { Link } from 'react-router-dom';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'spline-viewer': any;
-    }
-  }
-}
 
 export const Home: React.FC = () => {
   return (
     <div className="animate-in fade-in duration-700">
-      {/* Fixed Background 3D Animation */}
-      <div className="fixed inset-0 z-[-1] opacity-40 pointer-events-none overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505] z-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505] z-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-[#050505] z-10"></div>
-        <div className="absolute inset-[-50%] w-[200%] h-[200%] animate-[spin_120s_linear_infinite]">
-          <spline-viewer 
-            url="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" 
-            style={{ width: '100%', height: '100%' }}
-          ></spline-viewer>
-        </div>
-      </div>
+      <Hero />
 
-      {/* Hero */}
-      <header className="relative mb-32 min-h-[80vh] flex flex-col items-center justify-center pt-20">
-        {/* Foreground Content */}
-        <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-          <p className="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-6 flex items-center justify-center gap-2">
-            <Sparkles size={14} /> Puniverse OS
-          </p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight mb-8 leading-[1.1] drop-shadow-2xl">
-            The AI Operating System <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-teal-300 to-green-300">for Ecommerce.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10 drop-shadow-md">
-            Not a tool. Not a dashboard.<br/>
-            An autonomous system that helps you build, run, and scale ecommerce brands — from idea to multi-channel revenue.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/ai-automations">
-              <GlowButton>
-                Unlock Free AI Workflows <ArrowRight size={16} />
-              </GlowButton>
-            </Link>
-            <Link to="/system" className="px-8 py-3 rounded-full bg-white/10 backdrop-blur-md text-white font-medium hover:bg-white/20 transition-colors">
-              Explore the System
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* All sections below hero — constrained container */}
+      <div className="max-w-6xl mx-auto px-6 pb-16">
 
       {/* Problem Section */}
       <section className="mb-32">
@@ -290,6 +250,7 @@ export const Home: React.FC = () => {
           </button>
         </Link>
       </footer>
+      </div> {/* end constrained container */}
     </div>
   );
 };
