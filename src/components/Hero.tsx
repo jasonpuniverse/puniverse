@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
+import { motion } from 'framer-motion';
 import Hls from 'hls.js';
 import { Link } from 'react-router-dom';
 import { GlowButton } from './ui/GlowButton';
@@ -9,7 +9,6 @@ const VIDEO_SRC =
   'https://stream.mux.com/Aa02T7oM1wH5Mk5EEVDYhbZ1ChcdhRsS2m1NYyx4Ua1g.m3u8';
 
 export const Hero: React.FC = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [roleIndex, setRoleIndex] = useState(0);
 
@@ -34,30 +33,8 @@ export const Hero: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      tl.fromTo(
-        '.name-reveal',
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 1.2 },
-        0.1
-      );
-
-      tl.fromTo(
-        '.blur-in',
-        { opacity: 0, filter: 'blur(10px)', y: 20 },
-        { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1, stagger: 0.1 },
-        0.3
-      );
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={heroRef} className="relative w-full h-screen flex flex-col overflow-hidden">
+    <section className="relative w-full h-screen flex flex-col overflow-hidden">
       {/* Background video — absolute within the h-screen section */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <video
@@ -74,19 +51,40 @@ export const Hero: React.FC = () => {
 
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6">
-        <span className="blur-in text-xs text-gray-500 uppercase tracking-[0.3em] mb-8">
+        <motion.span 
+          initial={{ opacity: 0, y: 10, filter: 'blur(8px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-[10px] md:text-xs text-teal-400/80 font-bold uppercase tracking-[0.4em] mb-10"
+        >
           Puniverse OS
-        </span>
+        </motion.span>
 
-        <h1 className="name-reveal text-5xl md:text-7xl lg:text-8xl font-display italic leading-[0.9] tracking-tight text-white mb-6">
-          The AI Operating System
-          <br />
-          <span className="bg-gradient-to-r from-purple-400 via-teal-300 to-green-300 bg-clip-text text-transparent">
+        <h1 className="max-w-5xl text-5xl md:text-7xl lg:text-[100px] font-display italic leading-[1.2] tracking-tight text-white mb-8">
+          <motion.span
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
+            className="block mb-2 whitespace-nowrap"
+          >
+            The AI Operating System
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+            className="block bg-gradient-to-r from-purple-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent pb-2"
+          >
             for Ecommerce.
-          </span>
+          </motion.span>
         </h1>
 
-        <p className="blur-in text-lg md:text-xl lg:text-2xl text-gray-400 mb-10">
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="text-lg md:text-xl lg:text-2xl text-gray-400 mb-10 leading-relaxed"
+        >
           Not a tool. Not a dashboard.
           <br />
           A system to{' '}
@@ -97,28 +95,43 @@ export const Hero: React.FC = () => {
             {ROLES[roleIndex]}
           </span>{' '}
           your brand.
-        </p>
+        </motion.p>
 
-        <p className="blur-in text-sm md:text-base text-gray-500 leading-relaxed max-w-lg mb-12">
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="text-sm md:text-base text-gray-500 leading-relaxed max-w-lg mb-12"
+        >
           An autonomous system that helps you build, run, and scale ecommerce
           brands — from idea to multi-channel revenue.
-        </p>
+        </motion.p>
 
-        <div className="blur-in flex items-center gap-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
+          className="flex flex-col sm:flex-row items-center gap-6"
+        >
           <UnlockButton />
           <ExploreButton />
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="blur-in absolute bottom-8 inset-x-0 z-10 flex flex-col items-center gap-2">
-        <span className="text-xs text-gray-600 uppercase tracking-[0.2em]">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 2 }}
+        className="absolute bottom-10 inset-x-0 z-10 flex flex-col items-center gap-3"
+      >
+        <span className="text-[10px] text-gray-600 uppercase tracking-[0.3em]">
           Scroll
         </span>
-        <div className="w-px h-10 bg-white/10 relative overflow-hidden">
-          <div className="w-full h-1/2 bg-white animate-scroll-down" />
+        <div className="w-px h-12 bg-white/10 relative overflow-hidden">
+          <div className="w-full h-1/2 bg-white/40 animate-scroll-down" />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
