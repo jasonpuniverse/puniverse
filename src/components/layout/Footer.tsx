@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
         <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
           <NavLink to="/system" className="hover:text-white transition-colors">System</NavLink>
           <NavLink to="/products" className="hover:text-white transition-colors">Products</NavLink>
-          <NavLink to="/ai-automations" className="hover:text-white transition-colors">Automations</NavLink>
+          <NavLink to="/services" className="hover:text-white transition-colors">Services</NavLink>
           <NavLink to="/community" className="hover:text-white transition-colors">Community</NavLink>
         </div>
       </div>
@@ -33,8 +33,8 @@ export const Footer: React.FC = () => {
           &copy; 2026 PUNIVERSE LTD. All rights reserved.
         </p>
         <div className="flex gap-4 text-xs text-gray-600">
-          <a href="#" className="hover:text-gray-400 transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-gray-400 transition-colors">Terms of Service</a>
+          <NavLink to="/privacy" className="hover:text-gray-400 transition-colors">Privacy Policy</NavLink>
+          <NavLink to="/terms" className="hover:text-gray-400 transition-colors">Terms of Service</NavLink>
         </div>
       </div>
     </footer>

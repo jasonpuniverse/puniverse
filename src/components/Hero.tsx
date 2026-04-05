@@ -137,7 +137,7 @@ export const Hero: React.FC = () => {
 };
 
 const UnlockButton: React.FC = () => (
-  <Link to="/ai-automations">
+  <Link to="/services">
     <GlowButton>Run on Autopilot</GlowButton>
   </Link>
 );

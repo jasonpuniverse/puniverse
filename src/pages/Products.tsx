@@ -1,9 +1,11 @@
 import React from 'react';
 import { ShoppingCart, Package, Zap, ArrowRight, Lock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { GlassCard } from '../components/ui/GlassCard';
 import { GlowButton } from '../components/ui/GlowButton';
 import { SectionLabel } from '../components/ui/SectionLabel';
 import { Reveal, StaggerReveal, StaggerItem } from '../components/ui/ScrollReveal';
+import { digitalProducts } from '../data/products';
 
 export const Products: React.FC = () => {
   return (
@@ -22,6 +24,36 @@ export const Products: React.FC = () => {
           </p>
         </header>
       </Reveal>
+
+      <section className="mb-32">
+        <Reveal>
+          <SectionLabel>Featured Digital Workflows</SectionLabel>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {Object.values(digitalProducts).map((product, idx) => (
+            <Reveal key={product.id} delay={idx * 0.1}>
+              <GlassCard className="h-full flex flex-col group p-2 pb-6 border-white/5 bg-white/[0.02]">
+                <div className="rounded-xl overflow-hidden aspect-[16/9] mb-6 relative">
+                   <img src={product.imageUrl} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
+                   <div className="absolute top-4 right-4 bg-teal-400 text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                      £{product.price}
+                   </div>
+                </div>
+                <div className="px-5 flex flex-col flex-grow">
+                   <p className="text-xs font-mono text-teal-400 mb-2">{product.subtitle}</p>
+                   <h3 className="text-2xl font-medium text-white mb-3">{product.title}</h3>
+                   <p className="text-sm text-gray-400 leading-relaxed mb-6 flex-grow">{product.whosItFor}</p>
+                   <Link to={`/product/${product.slug}`} className="mt-auto block">
+                      <GlowButton className="w-full justify-center">
+                        View Technical Specs & Checkout <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                      </GlowButton>
+                   </Link>
+                </div>
+              </GlassCard>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
       <section className="mb-32">
         <Reveal>

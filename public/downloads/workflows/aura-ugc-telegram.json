@@ -1,0 +1,4035 @@
+{
+  "name": "Aura UGC Ads-Mood Transition-Telegram",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "c17ac6d9-617e-4b13-8b39-aef59f52a6bf",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1648,
+        224
+      ],
+      "webhookId": "telegram-trigger-webhook",
+      "credentials": {
+        "telegramApi": {
+          "id": "R3r6ecOtnvoPxjKH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "Aura UGC Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -832,
+        192
+      ],
+      "id": "4b8242ef-3a12-45a7-8567-9a6cc312d6a7",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Model }}",
+                    "rightValue": "Nano + Veo 3.1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "24879280-7ab4-4dc7-8482-f427b001a20b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Nano + Veo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -192,
+        192
+      ],
+      "id": "b16c69ad-c1f7-4a19-a97a-18cd01183bc2",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "content": "## Capture Product Information",
+        "height": 320,
+        "width": 1712,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1728,
+        80
+      ],
+      "id": "98a2e301-cb8e-48d3-8ae1-693bd706fc94",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f2b63dc1-1d3d-4df6-82b8-6010f575ca5a",
+              "leftValue": "={{ $json['Video Approval'] }}",
+              "rightValue": "Approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -448,
+        576
+      ],
+      "id": "d594caaf-0c31-4810-b1fd-e74c8c6b6993",
+      "name": "Video Approval == \"Approved\""
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5a7e4a8b-491f-4bc2-b1ad-4b35588b7944",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Finished",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -448,
+        192
+      ],
+      "id": "1950ad78-fca8-4740-96d6-e4aa81227a9a",
+      "name": "Status == \"Finished\""
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Set Chat Context').item.json.chatId }}",
+        "text": "=🚀 *Published Successfully!*\n\n*Product:* {{ $('Get Updated Row').item.json.Product }}\n*Row:* {{ $('Get Updated Row').item.json['No'] }}\n*Model:* {{ $('Get Updated Row').item.json.Model }}\n*ICP:* {{ $('Get Updated Row').item.json.ICP }}\n\n📸 [Instagram]({{ $json.Instagram }})\n▶️ [YouTube]({{ $json.YouTube }})\n📌 [Pinterest]({{ $json.Pinterest }})\n📸 [Facebook Reels]({{ $json.Facebook }})\n🎵 TikTok: check [Creator Center](https://www.tiktok.com/creator-center)\n\n✅ All URLs saved to Google Sheets.",
+        "additionalFields": {
+          "disable_web_page_preview": true,
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "5a165f77-c2a3-4b9f-8ddc-5e79391ca0a9",
+      "name": "Send publish notification",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3248,
+        1568
+      ],
+      "webhookId": "61970a08-37d8-4644-92bd-faf5e018a699",
+      "credentials": {
+        "telegramApi": {
+          "id": "R3r6ecOtnvoPxjKH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "chat-id-field",
+              "name": "chatId",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "username-field",
+              "name": "username",
+              "value": "={{ $json.message.from.first_name }}",
+              "type": "string"
+            },
+            {
+              "id": "message-text-field",
+              "name": "messageText",
+              "value": "={{ ($json.message?.text ?? '').replace(/@AuraUGCbot\\s*/gi, '').trim() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "77a439d2-fc15-4fbd-bafb-8610a6f3853f",
+      "name": "Set Chat Context",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1248,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Set Chat Context').item.json.chatId }}",
+        "text": "🚀 *Pipeline started!*\n\n📋 *What happens next:*\n① Checking your Google Sheet for a Ready row\n② Generating a UGC lifestyle image via Kie.ai _(tokens will be used)_\n③ You'll receive an *Image Approval* request here\n④ Generating a UGC video via Veo _(allow 3–8 mins)_\n⑤ You'll receive a *Video Approval* request here\n⑥ Auto-publishing to TikTok, YouTube, Instagram & Pinterest\n⑦ A *Published Notification* with all URLs will be sent when done\n\n⚠️ Please avoid sending additional messages while the pipeline is running.\n\n_Processing now..._",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "64d16a9b-f594-4920-ac45-268805919e6d",
+      "name": "Send Processing Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -656,
+        192
+      ],
+      "webhookId": "38d0c59f-dec3-42fa-8d7b-6db9f7be9d84",
+      "credentials": {
+        "telegramApi": {
+          "id": "R3r6ecOtnvoPxjKH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f2b63dc1-1d3d-4df6-82b8-6010f575ca5a",
+              "leftValue": "={{ $json['Image Approval'] }}",
+              "rightValue": "Approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -448,
+        368
+      ],
+      "id": "5b0b043a-8884-4c05-8dbb-fdbcb7d67fe8",
+      "name": "Image Approval == \"Approved\""
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cmd-run",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "/run",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "cmd-start",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "4c8e6ec4-4360-4dc7-9d2c-78f1e13ea4d7",
+      "name": "Check Command",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "greet-hi",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "hi",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "greet-hello",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "hello",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "greet-hey",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "hey",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "greet-good",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "good morning",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "greet-evening",
+              "leftValue": "={{ $json.messageText }}",
+              "rightValue": "good evening",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "ac6b9314-d3fd-4eca-aa82-4b027b082b8e",
+      "name": "Is Greeting?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Set Chat Context').item.json.chatId }}",
+        "text": "=👋 Hi {{ $json.username }}!\n\nWhat can I do for you?\n\nSend */run* to kick off the publishing pipeline, or */help* to see how it works in private chat.\n\nFor group chat, please *@AuraUGCbot /run* to kick off the pipeline, or *@AuraUGCbot /help* to understand the whole workflow. \n\nOne reminder! Pre-requisite for this workflow: \nYou'd need to prepare the Googlesheet data at https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY.",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "dd5cf70f-d5b0-48e6-a750-43f70c3025b3",
+      "name": "Send Greeting",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -832,
+        448
+      ],
+      "webhookId": "9977cea8-9a47-44c7-a9fb-495928fded27",
+      "credentials": {
+        "telegramApi": {
+          "id": "R3r6ecOtnvoPxjKH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Set Chat Context').item.json.chatId }}",
+        "text": "=ℹ️ *Aura UGC Publishing Bot*\n\nSend */run* to start the publishing pipeline, or */help* to see this message again.\n\n━━━━━━━━━━━━━━━━━━━━\n📋 *How the pipeline works:*\n\n1️⃣ *Check Google Sheet* — finds the next row with Status = Ready\n2️⃣ *Generate Image* — creates a UGC lifestyle photo via Kie.ai _(uses tokens)_\n3️⃣ *Image Approval* — you review and approve or reject via Telegram button\n4️⃣ *Generate Video* — creates a UGC video via Veo _(takes 3–8 mins)_\n5️⃣ *Video Approval* — you review and approve or reject via Telegram button\n6️⃣ *Publish* — posts to TikTok, YouTube, Instagram & Pinterest automatically\n7️⃣ *Done* — a *Published Notification* is sent to this chat with all URLs\n\n━━━━━━━━━━━━━━━━━━━━\n⚠️ *Important notes:*\n• Each run consumes Kie.ai image generation tokens\n• Video generation takes 3–8 minutes — please be patient\n• While the pipeline is running, additional */run* commands will start a new job — only send one at a time\n• If a row is rejected, it stays in the sheet for you to update and resubmit\n• You'd need to prepare the Googlesheet data at https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY.\n\nReady? Send */run* to begin! 🚀",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "id": "bb803569-e939-4671-8822-ea9e32cb6a44",
+      "name": "Send Help",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -832,
+        592
+      ],
+      "webhookId": "5aa617bb-b9fa-4334-9fc9-7193cdfa3c2a",
+      "credentials": {
+        "telegramApi": {
+          "id": "R3r6ecOtnvoPxjKH",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b7f622a0-5d0c-4745-b34f-0bde23480456",
+              "leftValue": "=={{ $json.message?.text ?? '' }}",
+              "rightValue": "@AuraUGCbot",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "1f728161-d7d6-4521-9a15-7891a1a7ea48",
+              "leftValue": "={{ $json.message?.chat?.type }}",
+              "rightValue": "private",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1472,
+        224
+      ],
+      "id": "d0ebda5f-7a30-4a1c-8827-2f11680cc5e5",
+      "name": "IF @AuraUGCbot"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "responsesApiEnabled": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        1440
+      ],
+      "id": "69998ea1-0120-49df-b551-689c1b359397",
+      "name": "OpenAI gpt-4.1-mini",
+      "credentials": {
+        "openAiApi": {
+          "id": "OVkgmjGLp9X6J0ez",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.successFlag }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "86580e04-9301-4358-946d-c17c84b57dcb"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "dae5b324-40db-4d7f-b6b9-1974c041144b",
+                    "leftValue": "={{ $json.data.successFlag }}",
+                    "rightValue": 0,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "generating"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f4c56de1-b901-4228-8710-cfed42dedf26",
+                    "leftValue": "={{ $json.data.successFlag }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gte"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "failed"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        848
+      ],
+      "id": "9d001e33-0384-4a1e-9c38-0a639c610d09",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.state }}",
+                    "rightValue": "success",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "6e693c25-d962-4851-bc40-6efba1e999b6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0a4b3182-8da4-4fff-b05d-fa12cb905b9a",
+                    "leftValue": "={{ $json.data.state }}",
+                    "rightValue": "failed",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "failed"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        224
+      ],
+      "id": "be2baef2-45f6-46aa-b17e-6f8c847b7de2",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        240
+      ],
+      "id": "074970fa-7d32-4c10-8549-52a42aebea7b",
+      "name": "Wait3",
+      "webhookId": "40f26e2c-1df1-4c84-b3bf-459be83eb0ba"
+    },
+    {
+      "parameters": {
+        "content": "## NanoBanana 2",
+        "height": 464,
+        "width": 2256,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        64,
+        96
+      ],
+      "id": "0ac8ddd0-584d-4994-985e-e79c4ca7afab",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## 🖼️ Image Approval Gate\n\nApprove → video is generated\nReject → row updated to *Image Rejected*",
+        "height": 408,
+        "width": 932,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        128
+      ],
+      "id": "079f2110-4757-45c8-bd6b-ca36b740c9f0",
+      "name": "Sticky - Image Approval1"
+    },
+    {
+      "parameters": {
+        "content": "## 🎬 Video Approval Gate\n\nSends email with video URL for review.\n\nApprove → publish to all social platforms\nReject → row updated to *Video Rejected*",
+        "height": 428,
+        "width": 924,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        624
+      ],
+      "id": "470f09ce-91ac-4b51-a0e8-fe0beb014b24",
+      "name": "Sticky - Video Approval1"
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1504,
+        288
+      ],
+      "id": "8df2770a-f65f-4f28-a912-db9e5e0e3c90",
+      "name": "Wait for Image Approval1",
+      "webhookId": "ae88cb07-1dca-43dc-a803-ffaf0e2a275f"
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1440,
+        848
+      ],
+      "id": "0a4335f4-e6c7-4292-81ed-d88a1d37c682",
+      "name": "Wait for Video Approval1",
+      "webhookId": "29ddb383-e05e-43e5-a727-4b6a65c53377"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "506e84ac-271f-4e28-b615-2c90dca567ce",
+              "leftValue": "={{ $json.query.decision }}",
+              "rightValue": "approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        848
+      ],
+      "id": "d6c09d9a-5616-4839-9d9c-83e9b3bcb383",
+      "name": "Video Approved?1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "Aura UGC Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "No": "={{ $('Get row(s) in sheet').item.json.No }}",
+            "Video Approval": "Rejected"
+          },
+          "matchingColumns": [
+            "No"
+          ],
+          "schema": [
+            {
+              "id": "No",
+              "displayName": "No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Photo",
+              "displayName": "Product Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reference Geometry Photo",
+              "displayName": "Reference Geometry Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ICP",
+              "displayName": "ICP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Setting",
+              "displayName": "Video Setting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Prompt",
+              "displayName": "Video Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Resolution",
+              "displayName": "Resolution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Image",
+              "displayName": "Finished Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Video",
+              "displayName": "Finished Video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Approval",
+              "displayName": "Image Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Approval",
+              "displayName": "Video Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1904,
+        864
+      ],
+      "id": "642fff65-0bc3-4e69-95f6-02367b6f92e5",
+      "name": "Update - Video Rejected1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.output || '';\n// Strip markdown fences if present\nconst clean = raw.replace(/```json\\s*/gi, '').replace(/```\\s*/g, '').trim();\nlet parsed;\ntry { parsed = JSON.parse(clean); } catch(e) { parsed = { error: 'JSON parse failed', raw: raw }; }\nreturn [{ json: { output: JSON.stringify(parsed), ...parsed } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        1216
+      ],
+      "id": "3e0ba93f-33da-401d-8807-9638c23833d7",
+      "name": "Parse Social Captions1"
+    },
+    {
+      "parameters": {
+        "url": "={{$('Get Updated Row').item.json['Finished Video'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "videoFile"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        1600
+      ],
+      "id": "dcb21e7c-98e9-4ded-ae13-e7b3569a8a1a",
+      "name": "Download Video for YouTube1"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $('Parse Social Captions1').item.json.youtube?.title || '' }}",
+        "regionCode": "GB",
+        "categoryId": "26",
+        "binaryProperty": "videoFile",
+        "options": {
+          "description": "={{ $('Parse Social Captions1').item.json.youtube.description }}",
+          "privacyStatus": "public",
+          "tags": "={{ ($('Parse Social Captions1').item.json.youtube?.tags || []).join(', ') }}"
+        }
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        1600
+      ],
+      "id": "171aa245-7016-4a8a-a912-310c8436bdf8",
+      "name": "Upload to YouTube1",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "21M0CUaknCt2vPH8",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "Aura UGC Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "No": "={{ $('Get row(s) in sheet').item.json.No }}",
+            "Image Approval": "Approved",
+            "Image Prompt": "={{ $('Veo Image Prompt').item.json.output }}",
+            "Finished Image": "={{ JSON.parse($('Get Nano Image').item.json.data.resultJson).resultUrls[0] }}"
+          },
+          "matchingColumns": [
+            "No"
+          ],
+          "schema": [
+            {
+              "id": "No",
+              "displayName": "No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Photo",
+              "displayName": "Product Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reference Geometry Photo",
+              "displayName": "Reference Geometry Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ICP",
+              "displayName": "ICP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Setting",
+              "displayName": "Video Setting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Prompt",
+              "displayName": "Video Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Resolution",
+              "displayName": "Resolution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Image",
+              "displayName": "Finished Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Finished Video",
+              "displayName": "Finished Video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Approval",
+              "displayName": "Image Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Approval",
+              "displayName": "Video Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1952,
+        192
+      ],
+      "id": "cdc36421-01a8-41b1-a099-2c3a2b149527",
+      "name": "Update - Image Approved1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "Aura UGC Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "No": "={{ $('Get row(s) in sheet').item.json.No }}",
+            "Video Approval": "Approved"
+          },
+          "matchingColumns": [
+            "No"
+          ],
+          "schema": [
+            {
+              "id": "No",
+              "displayName": "No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Photo",
+              "displayName": "Product Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reference Geometry Photo",
+              "displayName": "Reference Geometry Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ICP",
+              "displayName": "ICP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Setting",
+              "displayName": "Video Setting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Prompt",
+              "displayName": "Video Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Resolution",
+              "displayName": "Resolution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Image",
+              "displayName": "Finished Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Video",
+              "displayName": "Finished Video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Approval",
+              "displayName": "Image Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Approval",
+              "displayName": "Video Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1904,
+        608
+      ],
+      "id": "3c02d9ae-5fa4-498c-ab7c-ca16a4342828",
+      "name": "Update - Video Approved1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 4,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        1536
+      ],
+      "id": "1bf2d0d6-b36e-49f8-898b-e2468f7eb6ed",
+      "name": "Merge - Social Done1",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        832
+      ],
+      "id": "374c0b19-6f8b-4e05-8245-7d3321f1a970",
+      "name": "Wait4",
+      "webhookId": "95154ee5-b440-479d-9bd7-d0ebb3517af5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "Aura UGC Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "No": "={{ $('Get row(s) in sheet').item.json.No }}",
+            "Image Approval": "Rejected"
+          },
+          "matchingColumns": [
+            "No"
+          ],
+          "schema": [
+            {
+              "id": "No",
+              "displayName": "No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Photo",
+              "displayName": "Product Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reference Geometry Photo",
+              "displayName": "Reference Geometry Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ICP",
+              "displayName": "ICP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Setting",
+              "displayName": "Video Setting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Prompt",
+              "displayName": "Video Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Resolution",
+              "displayName": "Resolution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Image",
+              "displayName": "Finished Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Video",
+              "displayName": "Finished Video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Approval",
+              "displayName": "Image Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Approval",
+              "displayName": "Video Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1952,
+        384
+      ],
+      "id": "e9c217fd-4306-4ff7-a8fc-166b391655f7",
+      "name": "Update - Image Rejected1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Google Veo 3.1",
+        "height": 480,
+        "width": 2256,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        64,
+        592
+      ],
+      "id": "5c390e39-450d-40ce-8d3f-85b586360ed8",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## Publishing",
+        "height": 1024,
+        "width": 3428,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        64,
+        1152
+      ],
+      "id": "2a1073a8-7d8f-4eb1-991a-3125d6118e0c",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "17841470776614465",
+        "edge": "media",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "media_type",
+                "value": "REELS"
+              },
+              {
+                "name": "video_url",
+                "value": "={{$('Get Updated Row').item.json['Finished Video'] }}"
+              },
+              {
+                "name": "caption",
+                "value": "={{ \n(JSON.parse($('Parse Social Captions1').item.json.output || '{}').instagram?.caption || '') \n+ '\\n\\n' + \n(JSON.parse($('Parse Social Captions1').item.json.output || '{}').instagram?.hashtags || []).map(h => '#' + h).join(' ')\n}}"
+              },
+              {
+                "name": "share_to_feed",
+                "value": "true"
+              }
+            ]
+          }
+        }
+      },
+      "id": "352375a6-0306-42c2-ac26-c1566ccc18ea",
+      "name": "Create Instagram Media Container1",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        1184
+      ],
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "06H26EtxneVElp2i",
+          "name": "Facebook Graph account"
+        }
+      },
+      "notes": "Configure: Add Facebook credentials and set your Instagram Business Account ID in the 'node' field"
+    },
+    {
+      "parameters": {
+        "amount": 90
+      },
+      "id": "33895237-bd8a-49bb-a3de-18674147b062",
+      "name": "Wait for Container1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1392,
+        1184
+      ],
+      "webhookId": "10557316-9913-4e98-bde6-f5deb62c7a9b"
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v23.0",
+        "node": "17841470776614465",
+        "edge": "media_publish",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "creation_id",
+                "value": "={{ $('Create Instagram Media Container1').first().json.id }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "c618fc84-1f55-46cb-95ff-effc20958bdb",
+      "name": "Publish Instagram Post1",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        1184
+      ],
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "06H26EtxneVElp2i",
+          "name": "Facebook Graph account"
+        }
+      },
+      "notes": "Configure: Set your Instagram Business Account ID in the 'node' field"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pinterest.com/v5/pins",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"board_id\": \"967570369883073459\",\n  \"media_source\": {\n    \"source_type\": \"video_id\",\n    \"media_id\": \"{{ $('Build Pinterest Upload Body1').item.json.media_id }}\",\n    \"cover_image_url\": \"{{ $('Get Updated Row').item.json['Finished Image'] }}\"\n  },\n  \"title\": \"{{ $('Parse Social Captions1').item.json.pinterest?.title || '' }}\",\n  \"description\": \"{{ $('Parse Social Captions1').item.json.pinterest?.description || '' }}\",\n  \"link\": \"https://aetheo.co.uk/products/aetheo-aura-smart-table-lamp\"\n}",
+        "options": {}
+      },
+      "id": "aaf4b11f-2e6c-47c1-ae9a-9f7da26d2909",
+      "name": "Post to Pinterest1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        1376
+      ],
+      "credentials": {
+        "oAuth2Api": {
+          "id": "WiiESbO3K01hW2rA",
+          "name": "Pinterest"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "notes": "Configure: Add Pinterest API credentials (HTTP Header Auth with 'Authorization: Bearer YOUR_TOKEN') and set your Board ID"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1522bf36-b053-4efd-aa95-26c4d187ba1a",
+              "name": "instagramUrl",
+              "value": "={{ $('Get Instagram Permalink1').item.json.permalink }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2352,
+        1184
+      ],
+      "id": "2a64efff-817d-4c27-ab0a-894f08aaa2fe",
+      "name": "Set instagramStatus1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a79fc392-187f-4a7a-a15a-6dc4f11fb138",
+              "name": "pinterestUrl",
+              "value": "={{ 'https://pinterest.com/pin/' + $('Post to Pinterest1').item.json.id + '/' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2352,
+        1376
+      ],
+      "id": "b2a85c51-0924-48f3-af7f-848fbac41f8d",
+      "name": "Set pinterestStatus1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3c2f6888-b720-49b9-a173-86f482acfde0",
+              "name": "youtubeUrl",
+              "value": "={{ 'https://youtube.com/shorts/' + $('Upload to YouTube1').item.json.uploadId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2352,
+        1600
+      ],
+      "id": "cd8fe7de-90c2-448b-8ab3-bbab59ab845f",
+      "name": "Set youtubeStatus1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pinterest.com/v5/media",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"media_type\": \"video\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1216,
+        1376
+      ],
+      "id": "34da0ddc-4d98-4d33-bf6d-042d15b0f108",
+      "name": "Register Pinterest Upload1",
+      "credentials": {
+        "oAuth2Api": {
+          "id": "WiiESbO3K01hW2rA",
+          "name": "Pinterest"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Get Updated Row').item.json['Finished Video'] }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "pinterestVideo"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1392,
+        1376
+      ],
+      "id": "f53ba2cf-aa76-4cbb-bff2-5aafdfb1b0c1",
+      "name": "Download Video for Pinterest1"
+    },
+    {
+      "parameters": {
+        "amount": 90
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1952,
+        1376
+      ],
+      "id": "5b7713c1-801e-42a6-874f-706ec7cc60e1",
+      "name": "Wait for Pinterest Processing1",
+      "webhookId": "f10c94ad-74f7-4b02-8c33-2263adfcce99"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the binary data from the previous download node\nconst binaryData = $('Download Video for Pinterest1').item.binary.pinterestVideo;\nconst registerData = $('Register Pinterest Upload1').item.json;\n\nreturn [{\n  json: {\n    media_id: registerData.media_id,\n    upload_url: registerData.upload_url,\n    params: registerData.upload_parameters,\n  },\n  binary: {\n    // This re-attaches the video so the S3 node can see it\n    pinterestVideo: binaryData, \n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        1376
+      ],
+      "id": "574cdd8b-2057-4380-bc0d-eec0b19b4aec",
+      "name": "Build Pinterest Upload Body1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.upload_url }}",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $json.params.key }}"
+            },
+            {
+              "name": "policy",
+              "value": "={{ $json.params.policy }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "={{ $json.params['Content-Type'] }}"
+            },
+            {
+              "name": "x-amz-algorithm",
+              "value": "={{ $json.params['x-amz-algorithm'] }}"
+            },
+            {
+              "name": "x-amz-credential",
+              "value": "={{ $json.params['x-amz-credential'] }}"
+            },
+            {
+              "name": "x-amz-date",
+              "value": "={{ $json.params['x-amz-date'] }}"
+            },
+            {
+              "name": "x-amz-signature",
+              "value": "={{ $json.params['x-amz-signature'] }}"
+            },
+            {
+              "name": "x-amz-security-token",
+              "value": "={{ $json.params['x-amz-security-token'] }}"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "pinterestVideo"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1760,
+        1376
+      ],
+      "id": "8ed287fe-ceaa-44df-920f-68d6938d4153",
+      "name": "Upload to Pinterest S"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v23.0",
+        "node": "={{ $('Publish Instagram Post1').item.json.id }}",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "fields",
+                "value": "permalink"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        1184
+      ],
+      "id": "f65e52bb-7ea7-44fc-9bdf-03866375e450",
+      "name": "Get Instagram Permalink1",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "06H26EtxneVElp2i",
+          "name": "Facebook Graph account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9f4d4d8e-e907-4407-9843-cc9f6caee9be",
+              "leftValue": "={{ $json.Pinterest }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        1392
+      ],
+      "id": "89df5ded-a4c8-4831-82e9-40d0f316a10c",
+      "name": "Pinterest Check1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2f550928-eb9b-4a5b-bbfe-f4aa58e34d0e",
+              "leftValue": "={{ $json.Instagram }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        1216
+      ],
+      "id": "5b32cef6-3edc-4f3b-ae9f-85dbedb80ba5",
+      "name": "Instagram Check1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9f4d4d8e-e907-4407-9843-cc9f6caee9be",
+              "leftValue": "={{ $json.YouTube }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        1616
+      ],
+      "id": "2d1346db-59cf-4f55-9a63-83e81e3b0da7",
+      "name": "YouTube Check1"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v23.0",
+        "node": "={{ $json.post_id || $json.id }}",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "fields",
+                "value": "permalink_url"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        1808
+      ],
+      "id": "534c216a-c197-42c9-bedc-e1e6beffc7d4",
+      "name": "Get Facebook permalink_url1",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "06H26EtxneVElp2i",
+          "name": "Facebook Graph account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1522bf36-b053-4efd-aa95-26c4d187ba1a",
+              "name": "facebookUrl",
+              "value": "={{ 'https://facebook.com' + $('Get Facebook permalink_url1').item.json.permalink_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2352,
+        1808
+      ],
+      "id": "ccbf0d4a-3c2f-434a-bdfb-5b56fdffc6ea",
+      "name": "Set facebookStatus1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "9f4d4d8e-e907-4407-9843-cc9f6caee9be",
+              "leftValue": "={{ $json.Facebook }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        1824
+      ],
+      "id": "f2605fd6-4413-454f-8e48-03bfd5b54179",
+      "name": "Facebook Check1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v23.0/523204810856713/videos",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "facebookGraphApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file_url",
+              "value": "={{ $json['Finished Video'] }}"
+            },
+            {
+              "name": "title",
+              "value": "={{ JSON.parse($('Parse Social Captions1').item.json.output || '{}').facebook?.title || '' }}"
+            },
+            {
+              "name": "description",
+              "value": "={{ \n(JSON.parse($('Parse Social Captions1').item.json.output || '{}').facebook?.caption || '') \n+ '\\n\\n' + \n(JSON.parse($('Parse Social Captions1').item.json.output || '{}').facebook?.hashtags || []).map(h => '#' + h).join(' ')\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2828121d-615a-48d4-9e28-816794a5f921",
+      "name": "Publish Facebook Post1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        1808
+      ],
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "06H26EtxneVElp2i",
+          "name": "Facebook Graph account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        80,
+        448
+      ],
+      "id": "4887d42c-6851-4919-9782-2158ee94a8c9",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "smYgbzHswAr8qVIW",
+          "name": "OpenRouter account n8n-2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/jobs/recordInfo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        752,
+        192
+      ],
+      "id": "39257143-1bcd-40d0-8c73-7cdd9582b447",
+      "name": "Get Nano Image",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xbPKjXP3ik0HAPem",
+          "name": "Kie.AI Header Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/jobs/createTask",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"nano-banana-2\",\n  \"input\": {\n  \"prompt\": \"{{ $json.output.replace(/\\r?\\n|\\r/g, ' ').replace(/\\\"/g, '') }}\",\n    \"image_input\": [\n  \"{{ $('Get row(s) in sheet').item.json['Product Photo'] }}\",\n  \"{{ $('Get row(s) in sheet').item.json['Reference Geometry Photo'] }}\",\n  \"https://m.media-amazon.com/images/I/61uY-N0sDOL._AC_SX522_.jpg\"\n],\n    \"aspect_ratio\": \"9:16\",\n    \"resolution\": \"2K\",\n    \"output_format\": \"png\"\n  }\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        416,
+        240
+      ],
+      "id": "74974faf-acf9-4a6f-a502-2318db322905",
+      "name": "Nano Image",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xbPKjXP3ik0HAPem",
+          "name": "Kie.AI Header Auth"
+        },
+        "httpBearerAuth": {
+          "id": "cXMQ0OSKYdfdOGXa",
+          "name": "Kie.AI Bearer Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/veo/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": \"{{ $json.output\n  .replace(/\\r?\\n|\\r/g, ' ')\n  .replace(/\"/g, '')\n  .replace(/[“”]/g, '') // removes curly double quotes\n}}\",\n  \"imageUrls\": [\"{{ $if($('Get Nano Image').isExecuted, JSON.parse($('Get Nano Image').item.json.data.resultJson).resultUrls[0], $('Get row(s) in sheet').item.json['Finished Image']) }}\"],\n  \"model\": \"veo3_fast\",\n  \"aspectRatio\": \"9:16\",\n  \"enableTranslation\": true,\n  \"generationType\": \"REFERENCE_2_VIDEO\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        384,
+        832
+      ],
+      "id": "c82de578-8995-49ac-8ad0-7151ae829356",
+      "name": "Veo Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xbPKjXP3ik0HAPem",
+          "name": "Kie.AI Header Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.kie.ai/api/v1/veo/record-info",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "taskId",
+              "value": "={{ $json.data.taskId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        688,
+        832
+      ],
+      "id": "ff261559-4702-4e24-987a-fe11fb885fce",
+      "name": "Get Veo Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xbPKjXP3ik0HAPem",
+          "name": "Kie.AI Header Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Product: {{ $('Get row(s) in sheet').item.json.Product }}\n\nProduct ICP: {{ $('Get row(s) in sheet').item.json.ICP }}\n\nProduct Features: {{ $('Get row(s) in sheet').item.json['Product Features'] }}\n\nVideo Setting: {{ $('Get row(s) in sheet').item.json['Video Setting'] }}\n\nImage Description: {{ $if($('Veo Image Prompt').isExecuted, $('Veo Image Prompt').item.json.output, $('Get row(s) in sheet').item.json['Image Prompt']) }}\n",
+        "options": {
+          "systemMessage": "=You are an expert UGC video creator. Your task is to write a single-paragraph prompt for Veo 3.1 to animate a reference image.\n\n# Objective\nBring the reference image to life with subtle, pixel-perfect animation. The main focus is the subject speaking a relatable UGC-style sentence tailored exactly to the provided **Product ICP**, **Product Features**, and **Video Setting**.\n\n# Rules for the Prompt:\n1. **Visual Fidelity (CRITICAL):** Explicitly include this exact instruction: \"Animate the specific person and objects from the reference image with pixel-perfect fidelity. The lamp must remain a perfect, uniform cylinder with straight sides—it MUST NOT become cone-shaped or taper. The smart speaker's digital clock display must remain clear and stable. The lamp, speaker, and their cords must remain exactly as pictured without morphing or generating logos.\"\n2. **Zero-Cord Rule:** Both devices are completely cordless. Do not render any wires, cables, or plugs.\n3. **Minimal Movement:** The subject stays exactly in their current pose with their hands resting passively. \n4. **The Spoken Hook:** The subject looks at the camera and speaks one casual, natural sentence (15–20 words) in a voice matching their appearance. The spoken sentence MUST focus on the specific **Product Features** provided and perfectly match the vibe of the **Product ICP** and **Video Setting**. \n5. **The Ending:** After speaking, the subject reacts naturally (e.g., a smile, a focused nod) fitting their ICP, while the lamp's glow pulses softly.\n6. **Format:** Plain text only. No markdown, quotes, or explanations. Write only the final prompt paragraph.",
+          "passthroughBinaryImages": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        832
+      ],
+      "id": "7c956bd9-99d7-48a9-90fb-a74bc623bc1a",
+      "name": "Veo Video Prompt"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Product: {{ $json.Product }}\nProduct Photo (image_0.png): {{ $json['Product Photo'] }}\nGeometry Photo (image_1.png): {{ $json['Reference Geometry Photo'] }}\nIdeal Customer Profile: {{ $json.ICP }}\nProduct Features: {{ $json['Product Features'] }}\nImage Setting: {{ $json['Video Setting'] }}",
+        "options": {
+          "systemMessage": "=You are an expert UGC advertising prompt engineer. Your task is to generate one image prompt for a realistic lifestyle product photo focused on the **\"Mood Transition\" (Emotional Hook).**\n\n# Core Objective\n\nCreate a prompt where the subject is leaning back in total relaxation, physically moving from a chaotic day to a calm evening mood. The subject has just used their voice to command Alexa. The prompt must force a **strictly passive, body-anchored posture** for both hands to guarantee perfect anatomy and prevent the AI from generating extra limbs.\n\n# The \"Mood Transition\" Scenario\n\nThe subject (ICP) must look utterly relieved and relaxed, eyes closed, perhaps a small smile of contentment. They are leaning back on a sofa or chair. The scene visualizes the \"decompression\" moment after a busy day. This is achieved through the specific passive pose and warm lighting.\n\n# Mandatory Anatomical Guardrails\n\nTo prevent limb duplication, the prompt **must** use these strict structural constraints:\n\n1. **The Containment Anchor Rule:** Both hands MUST be explicitly anchored to the subject's core body. Specify that both the subject's left and right hands are resting flat and passively directly on their own lap or stomach.\n    \n2. **Strict Non-Interaction:** Under no circumstances should any hand be near the lamp or the Alexa device. There is significant physical empty space between the subject's hands and the products.\n    \n3. **No Dynamic Poses:** Do NOT describe arms as stretched, raised, stretching, or reaching.\n\n4. **Simplicity Clause:** Describe the resting positions naturally (\"Both hands are flat on their lap\") rather than asking the AI to count (\"two arms\").\n    \n# Aesthetic & Content Rules\n\n- **Zero Color Hallucination:** NEVER name specific colors for the lamp's light (e.g., do not use words like magenta, teal, blue, neon, etc.).\n\n- **Forced Lighting Phrase:** You must describe the light source (the Aura Lamp) using only this exact phrasing: \"emitting the soft, warm, diffused gradient glow exactly as seen in image_0.png\".\n\n- **Product Detail 1 (Aura Lamp):** Maintain the cylindrical shape of image_1.png. The lamp MUST be described as a **perfect, uniform cylinder**. \"The solid white base is plain and unmarked.\"\n    \n- **Product Detail 2 (Alexa Integration):** Explicitly add the Amazon Echo Dot, referencing the exact shape and the visible LED clock display from image_2.png. Position it next to the lamp on the surface (e.g., a nightstand or side table).\n    \n- **Scale Restriction:** Description of the Aura Lamp must remain \"compact\" or \"desktop-sized\".\n\n- **Lighting:** Dim ambient light with the warm/cool gradient glow of image_0.png as the primary focus, naturally casting light on the Alexa device and the subject.\n    \n- **Contextual Details (Background):** Hint at the previous chaos (e.g., a blurry computer screen in the background, now off, contrasted with the calm scene).\n    \n- **Photography Style:** High-quality, candid photo. Real-world texture (fabric, skin).\n    \n# Output Format\n\nReturn only the final natural paragraph. No explanations, no JSON, no quotes."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        240
+      ],
+      "id": "ef083dd6-da77-487f-bf4a-0b1e09ad097f",
+      "name": "Veo Image Prompt"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate social captions for this Aura Smart Table Lamp UGC ad.\n\nTarget audience: {{ $('Get row(s) in sheet').item.json.ICP }}\nVideo setting: {{ $('Get row(s) in sheet').item.json['Video Setting'] }}\nProduct features in video: {{ $('Get row(s) in sheet').item.json['Product Features'] }}\nFinished video URL: {{ $if($('Get Veo Video').isExecuted, $('Get Veo Video').item.json.data.response.resultUrls[0], $('Get row(s) in sheet').item.json['Finished Video']) }}",
+        "options": {
+          "systemMessage": "=You are a social media content expert for UGC lifestyle product ads. \nGenerate platform-native captions for the Ǣtheo Aura Smart Table Lamp video ad.\n\nReturn ONLY a valid JSON object — no markdown, no code blocks, no extra text.\n\nStructure:\n{\n  \"tiktok\": {\n    \"caption\": \"2-3 casual UGC-style sentences, conversational, first-person or direct address\",\n    \"hashtags\": [\"Aetheo\",\"SmartHome\",\"AuraLamp\",\"LampTok\",\"AmbientLighting\",\"HomeDecor\"]\n  },\n  \"instagram\": {\n    \"caption\": \"2-4 sentences with emojis, line breaks, conversational tone, and end with 'Link in bio' call-to-action\",\n    \"hashtags\": [\"Aetheo\",\"AuraLamp\",\"SmartLamp\",\"AmbientLighting\",\"HomeVibes\",\"SmartHome\",\"InteriorDesign\",\"LampGoals\",\"WellnessAtHome\"]\n  },\n  \"youtube\": {\n    \"title\": \"Compelling title under 80 chars — no ALL CAPS\",\n    \"description\": \"3-4 paragraphs: hook, product story, features mentioned, CTA. Include line for product link: https://aetheo.co.uk/products/aetheo-aura-smart-table-lamp\",\n    \"tags\": [\"aetheo\",\"aura lamp\",\"smart lamp\",\"ugc ad\",\"ambient lighting\",\"smart home\"]\n  },\n  \"pinterest\": {\n    \"title\": \"Descriptive pin title, keyword-rich, under 80 chars\",\n    \"description\": \"2-3 keyword-rich sentences for SEO, describe the mood and product benefit\"\n  },\n  \"facebook\": {\n    \"title\": \"Engaging video post title under 80 chars\",\n    \"caption\": \"Write 2–3 short sentences using UGC storytelling (hook → curiosity → lifestyle benefit). Make it feel like a real user sharing their experience. Place the product link on a new line at the end: https://aetheo.co.uk/products/aetheo-aura-smart-table-lamp\",\n    \"hashtags\": [\"Aetheo\",\"AuraLamp\",\"SmartHome\",\"AmbientLighting\"]\n  }\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        96,
+        1216
+      ],
+      "id": "880fcc97-2c52-42a2-8775-44ab05f1c165",
+      "name": "Generate Social Captions"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "UGC Ads Veo & Sora",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "No": "={{ $('Get row(s) in sheet').item.json.No }}",
+            "Finished Video": "={{ $('Get Veo Video').item.json.data.response.resultUrls[0] }}",
+            "Video Prompt": "={{ $('Veo Video Prompt').item.json.output }}",
+            "Resolution": "={{ $json.data.response.resolution }}"
+          },
+          "matchingColumns": [
+            "No"
+          ],
+          "schema": [
+            {
+              "id": "No",
+              "displayName": "No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Photo",
+              "displayName": "Product Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reference Geometry Photo",
+              "displayName": "Reference Geometry Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ICP",
+              "displayName": "ICP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Setting",
+              "displayName": "Video Setting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Prompt",
+              "displayName": "Video Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Resolution",
+              "displayName": "Resolution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Finished Image",
+              "displayName": "Finished Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Video",
+              "displayName": "Finished Video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1072,
+        800
+      ],
+      "id": "5b286260-7b79-489b-a693-c5f8cc5a6f3e",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot8790998799:AAEBH98iXHoebFczhzJNHCNOfQqyHzUDfhE/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ \n{\n  \"chat_id\": $('Set Chat Context').item.json.chatId,\n  \"parse_mode\": \"Markdown\",\n  \"text\": \"🖼 *Image Review Required*\\n\\n*Product:* \" + $('Get row(s) in sheet').item.json.Product + \"\\n*Row No:* \" + $('Get row(s) in sheet').item.json['No'] + \"\\n*Model:* \" + $('Get row(s) in sheet').item.json.Model + \"\\n*ICP:* \" + $('Get row(s) in sheet').item.json.ICP + \"\\n\\n[👁 View Image](\" + JSON.parse($('Get Nano Image').item.json.data.resultJson).resultUrls[0] + \")\\n\\nPlease review and approve or reject.\",\n  \"reply_markup\": {\n    \"inline_keyboard\": [[\n      { \"text\": \"✅ Approve Image\", \"url\": $execution.resumeUrl + \"?decision=approved\" },\n      { \"text\": \"❌ Reject Image\", \"url\": $execution.resumeUrl + \"?decision=rejected\" }\n    ]]\n  }\n}\n}}",
+        "options": {}
+      },
+      "id": "6171e490-5b23-4e90-96b8-1adf5256e6b0",
+      "name": "Send Image for Approval",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fc50c08a-daef-45bb-8368-a18fc2921a9e",
+              "leftValue": "={{ $json.query.decision }}",
+              "rightValue": "approved",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1728,
+        288
+      ],
+      "id": "b1010897-1877-44e2-8e95-0a980d177100",
+      "name": "Image Approved?"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "Aura UGC Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "No",
+              "lookupValue": "={{ $('Get row(s) in sheet').item.json.No }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        1216
+      ],
+      "id": "09938a1d-9d94-4e3e-880a-87af38a64f74",
+      "name": "Get Updated Row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot8790998799:AAEBH98iXHoebFczhzJNHCNOfQqyHzUDfhE/sendMessage",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={\n  \"chat_id\": \"{{ $('Set Chat Context').item.json.chatId }}\",\n  \"parse_mode\": \"Markdown\",\n  \"text\": \"🎬 *Video Review Required*\\n\\n*Product:* {{ $('Get row(s) in sheet').item.json.Product }}\\n*Row No:* {{ $('Get row(s) in sheet').item.json['No'] }}\\n*Model:* {{ $('Get row(s) in sheet').item.json.Model }}\\n\\n[▶️ Watch Video]({{ $('Update row in sheet').item.json['Finished Video'] }})\\n\\nPlease review the video above and approve or reject.\",\n  \"reply_markup\": {\n    \"inline_keyboard\": [[\n      { \"text\": \"✅ Approve Video\", \"url\": \"{{ $execution.resumeUrl }}?decision=approved\" },\n      { \"text\": \"❌ Reject Video\", \"url\": \"{{ $execution.resumeUrl }}?decision=rejected\" }\n    ]]\n  }\n}",
+        "options": {}
+      },
+      "id": "0306870b-9f14-4eb3-a8b0-fcbcc9821b36",
+      "name": "Send Video for Approval",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1264,
+        816
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY",
+          "mode": "list",
+          "cachedResultName": "Aura UGC Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eeX0QTEWec_M-3tbAbGddBZ4swCnfv4gZKPj3UswXwY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "No": "={{ $('Get Updated Row').item.json.No }}",
+            "YouTube": "={{ $('Set youtubeStatus1').first().json.youtubeUrl }}",
+            "Instagram": "={{ $('Set instagramStatus1').first().json.instagramUrl }}",
+            "Pinterest": "={{ $('Set pinterestStatus1').first().json.pinterestUrl }}",
+            "Status": "Finished",
+            "Facebook": "={{ $('Set facebookStatus1').first().json.facebookUrl }}",
+            "TikTok": "https://publish.buffer.com/channels/69b5b6307be9f8b17157e2f2?tab=sent"
+          },
+          "matchingColumns": [
+            "No"
+          ],
+          "schema": [
+            {
+              "id": "No",
+              "displayName": "No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product URL",
+              "displayName": "Product URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Photo",
+              "displayName": "Product Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reference Geometry Photo",
+              "displayName": "Reference Geometry Photo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "ICP",
+              "displayName": "ICP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Setting",
+              "displayName": "Video Setting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Model",
+              "displayName": "Model",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Image Prompt",
+              "displayName": "Image Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Prompt",
+              "displayName": "Video Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Resolution",
+              "displayName": "Resolution",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Image",
+              "displayName": "Finished Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Finished Video",
+              "displayName": "Finished Video",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Image Approval",
+              "displayName": "Image Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Approval",
+              "displayName": "Video Approval",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TikTok",
+              "displayName": "TikTok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "YouTube",
+              "displayName": "YouTube",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Instagram",
+              "displayName": "Instagram",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pinterest",
+              "displayName": "Pinterest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Facebook",
+              "displayName": "Facebook",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3024,
+        1568
+      ],
+      "id": "dc472609-5ee2-4084-8a9e-f559e3c5decf",
+      "name": "Update - Publish",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1J9TSG6Ls92Mib7Kqk-o5EMaYO3xm2jzAJ3KuyoULvUw",
+          "mode": "list",
+          "cachedResultName": "N8N to Zapier to Buffer to Tiktok",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1J9TSG6Ls92Mib7Kqk-o5EMaYO3xm2jzAJ3KuyoULvUw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1J9TSG6Ls92Mib7Kqk-o5EMaYO3xm2jzAJ3KuyoULvUw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $('Parse Social Captions1').item.json.tiktok.caption }}",
+            "Video URL": "={{ $('Get Updated Row').item.json['Finished Video'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video URL",
+              "displayName": "Video URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2848,
+        1568
+      ],
+      "id": "57a7ad06-b299-4a2b-aaff-135a968f2068",
+      "name": "TikTok via Zapier-Buffer",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CYeQjgD4TDRRJXiy",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Status == \"Finished\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Veo Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Approval == \"Approved\"": {
+      "main": [
+        [
+          {
+            "node": "Generate Social Captions",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Veo Video Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Status == \"Finished\"": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Image Approval == \"Approved\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "IF @AuraUGCbot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Chat Context": {
+      "main": [
+        [
+          {
+            "node": "Check Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Processing Message": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Approval == \"Approved\"": {
+      "main": [
+        [
+          {
+            "node": "Video Approval == \"Approved\"",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Command": {
+      "main": [
+        [
+          {
+            "node": "Send Processing Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Greeting?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Greeting?": {
+      "main": [
+        [
+          {
+            "node": "Send Greeting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Help",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF @AuraUGCbot": {
+      "main": [
+        [
+          {
+            "node": "Set Chat Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI gpt-4.1-mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Social Captions",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Send Image for Approval",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "Get Nano Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Image Approval1": {
+      "main": [
+        [
+          {
+            "node": "Image Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Video Approval1": {
+      "main": [
+        [
+          {
+            "node": "Video Approved?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Approved?1": {
+      "main": [
+        [
+          {
+            "node": "Update - Video Approved1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update - Video Rejected1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Social Captions1": {
+      "main": [
+        [
+          {
+            "node": "Get Updated Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Video for YouTube1": {
+      "main": [
+        [
+          {
+            "node": "Upload to YouTube1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to YouTube1": {
+      "main": [
+        [
+          {
+            "node": "Set youtubeStatus1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update - Image Approved1": {
+      "main": [
+        [
+          {
+            "node": "Veo Video Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update - Video Approved1": {
+      "main": [
+        [
+          {
+            "node": "Generate Social Captions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge - Social Done1": {
+      "main": [
+        [
+          {
+            "node": "TikTok via Zapier-Buffer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "Get Veo Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Instagram Media Container1": {
+      "main": [
+        [
+          {
+            "node": "Wait for Container1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Container1": {
+      "main": [
+        [
+          {
+            "node": "Publish Instagram Post1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish Instagram Post1": {
+      "main": [
+        [
+          {
+            "node": "Get Instagram Permalink1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post to Pinterest1": {
+      "main": [
+        [
+          {
+            "node": "Set pinterestStatus1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set instagramStatus1": {
+      "main": [
+        [
+          {
+            "node": "Merge - Social Done1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set pinterestStatus1": {
+      "main": [
+        [
+          {
+            "node": "Merge - Social Done1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set youtubeStatus1": {
+      "main": [
+        [
+          {
+            "node": "Merge - Social Done1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Register Pinterest Upload1": {
+      "main": [
+        [
+          {
+            "node": "Download Video for Pinterest1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Video for Pinterest1": {
+      "main": [
+        [
+          {
+            "node": "Build Pinterest Upload Body1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Pinterest Processing1": {
+      "main": [
+        [
+          {
+            "node": "Post to Pinterest1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Pinterest Upload Body1": {
+      "main": [
+        [
+          {
+            "node": "Upload to Pinterest S",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Pinterest S": {
+      "main": [
+        [
+          {
+            "node": "Wait for Pinterest Processing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Instagram Permalink1": {
+      "main": [
+        [
+          {
+            "node": "Set instagramStatus1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinterest Check1": {
+      "main": [
+        [
+          {
+            "node": "Register Pinterest Upload1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram Check1": {
+      "main": [
+        [
+          {
+            "node": "Create Instagram Media Container1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YouTube Check1": {
+      "main": [
+        [
+          {
+            "node": "Download Video for YouTube1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Facebook permalink_url1": {
+      "main": [
+        [
+          {
+            "node": "Set facebookStatus1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set facebookStatus1": {
+      "main": [
+        [
+          {
+            "node": "Merge - Social Done1",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Facebook Check1": {
+      "main": [
+        [
+          {
+            "node": "Publish Facebook Post1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish Facebook Post1": {
+      "main": [
+        [
+          {
+            "node": "Get Facebook permalink_url1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Veo Image Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Veo Video Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Nano Image": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nano Image": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Veo Video": {
+      "main": [
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Veo Video": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Veo Video Prompt": {
+      "main": [
+        [
+          {
+            "node": "Veo Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Veo Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Nano Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Social Captions": {
+      "main": [
+        [
+          {
+            "node": "Parse Social Captions1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send Video for Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Image for Approval": {
+      "main": [
+        [
+          {
+            "node": "Wait for Image Approval1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Approved?": {
+      "main": [
+        [
+          {
+            "node": "Update - Image Approved1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update - Image Rejected1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Updated Row": {
+      "main": [
+        [
+          {
+            "node": "Pinterest Check1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Instagram Check1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "YouTube Check1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Facebook Check1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Video for Approval": {
+      "main": [
+        [
+          {
+            "node": "Wait for Video Approval1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update - Publish": {
+      "main": [
+        [
+          {
+            "node": "Send publish notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TikTok via Zapier-Buffer": {
+      "main": [
+        [
+          {
+            "node": "Update - Publish",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "e6c01dc2-820f-4512-9dcf-414e2be544ff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a6eef6d761eb91b4fb1d8896520cac178172a81b9d4296e04e5c7ac3b74df4b8"
+  },
+  "id": "yTHoVmWliIm0qivS",
+  "tags": []
+}

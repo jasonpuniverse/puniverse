@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
     { name: 'Home', path: '/' },
     { name: 'AI OS', path: '/system' },
     { name: 'Products', path: '/products' },
-    { name: 'AI Automations', path: '/ai-automations' },
+    { name: 'Services', path: '/services' },
     { name: 'AETHEO', path: '/aetheo' },
     { name: 'Community', path: '/community' },
   ];

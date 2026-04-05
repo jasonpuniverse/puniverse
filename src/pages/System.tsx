@@ -224,9 +224,9 @@ export const System: React.FC = () => {
             Start with the system.<br/>
             <span className="text-gray-500">Then build your own.</span>
           </h2>
-          <Link to="/ai-automations">
-            <GlowButton className="mx-auto">
-              Explore AI Automations <ArrowRight size={16} />
+          <Link to="/services">
+            <GlowButton className="group">
+              Explore Services <ArrowRight size={16} className="ml-2 transition-transform group-hover:translate-x-1" />
             </GlowButton>
           </Link>
         </Reveal>

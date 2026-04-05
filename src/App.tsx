@@ -5,9 +5,13 @@ import { Footer } from './components/layout/Footer';
 import { Home } from './pages/Home';
 import { System } from './pages/System';
 import { Products } from './pages/Products';
-import { AIAutomations } from './pages/AIAutomations';
+import { Services } from './pages/Services';
 import { Aetheo } from './pages/Aetheo';
 import { Community } from './pages/Community';
+import { ProductIntro } from './pages/ProductIntro';
+import { Success } from './pages/Success';
+import { Privacy } from './pages/Privacy';
+import { Terms } from './pages/Terms';
 
 function AppInner() {
   const location = useLocation();
@@ -33,9 +37,13 @@ function AppInner() {
           <Route path="/" element={<Home />} />
           <Route path="/system" element={<System />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/ai-automations" element={<AIAutomations />} />
+          <Route path="/services" element={<Services />} />
           <Route path="/aetheo" element={<Aetheo />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/product/:slug" element={<ProductIntro />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
       </main>
 
