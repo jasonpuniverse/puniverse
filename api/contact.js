@@ -19,11 +19,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields: name, email, message' })
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL
 
-    if (!supabaseUrl || !supabaseKey) {
-      console.error('Supabase credentials missing:', { supabaseUrl: !!supabaseUrl, supabaseKey: !!supabaseKey })
+    if (!webhookUrl) {
+      console.error('Google Sheets Webhook URL missing')
       return res.status(500).json({ error: 'Database configuration error' })
     }
 
@@ -33,12 +32,12 @@ export default async function handler(req, res) {
       message: String(message).trim()
     }
 
-    const response = await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
+    // Since Google Apps Script Web Apps often require following redirects, 
+    // fetch normally follows redirects automatically unless told otherwise.
+    const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'apikey': supabaseKey,
-        'Authorization': `Bearer ${supabaseKey}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
     })
@@ -46,7 +45,7 @@ export default async function handler(req, res) {
     const responseText = await response.text()
 
     if (!response.ok) {
-      console.error('Supabase error:', {
+      console.error('Webhook error:', {
         status: response.status,
         statusText: response.statusText,
         body: responseText
@@ -67,7 +66,7 @@ export default async function handler(req, res) {
     return res.status(201).json({
       success: true,
       message: 'Contact form submitted successfully',
-      id: Array.isArray(data) ? data[0]?.id : data?.id
+      id: data?.id || Date.now().toString()
     })
   } catch (err) {
     console.error('Contact handler error:', err)

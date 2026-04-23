@@ -27,8 +27,13 @@ export const ContactForm: React.FC = () => {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        setErrorMessage(error.error || 'Failed to submit form');
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (e) {
+          errorData = { error: `Server returned status ${response.status}` };
+        }
+        setErrorMessage(errorData.error || 'Failed to submit form');
         setStatus('error');
         return;
       }
