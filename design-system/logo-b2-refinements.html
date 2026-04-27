@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse — B2 Earthrise · refinements</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  body{background:#0a0a0a;font-family:Inter,system-ui;-webkit-font-smoothing:antialiased;margin:0}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .stage-canvas{flex:1;display:flex;align-items:center;justify-content:center;padding:36px;min-height:280px}
+  .stage-meta{padding:14px 18px;border-top:1px solid rgba(255,255,255,.10);background:#0a0a0a;color:#a1a1aa;font-size:11px;font-family:"JetBrains Mono",ui-monospace,monospace;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .stage-meta .name{color:#fff;font-weight:600}
+  .stage-meta .tag{color:#71717a}
+  .stage-meta.light{background:#fafafa;border-top:1px solid rgba(0,0,0,.08);color:#525252}
+  .stage-meta.light .name{color:#000}
+  .stage-meta.light .tag{color:#a3a3a3}
+  .micro{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#71717a;font-weight:700}
+  @keyframes spin { to { transform: rotate(360deg) } }
+  .orbit-spin { animation: spin 24s linear infinite; transform-origin: 140px 92px }
+</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+const { useState } = React;
+
+function Defs({ id }) {
+  return (
+    <defs>
+      <linearGradient id={`earth-${id}`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#0b1530"/>
+        <stop offset="35%" stopColor="#1e3a8a"/>
+        <stop offset="70%" stopColor="#60a5fa"/>
+        <stop offset="100%" stopColor="#e0f2fe"/>
+      </linearGradient>
+      <radialGradient id={`halo-${id}`} cx=".25" cy=".5" r=".55">
+        <stop offset="60%" stopColor="#bfdbfe" stopOpacity="0"/>
+        <stop offset="92%" stopColor="#bfdbfe" stopOpacity=".35"/>
+        <stop offset="100%" stopColor="#bfdbfe" stopOpacity="0"/>
+      </radialGradient>
+      <radialGradient id={`atmo-${id}`} cx=".5" cy=".5" r=".5">
+        <stop offset="86%" stopColor="#bfdbfe" stopOpacity="0"/>
+        <stop offset="96%" stopColor="#bfdbfe" stopOpacity=".55"/>
+        <stop offset="100%" stopColor="#bfdbfe" stopOpacity="0"/>
+      </radialGradient>
+      {/* Light-mode earth: more saturated, no near-white stop so it reads on white */}
+      <linearGradient id={`earth-light-${id}`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#0b1530"/>
+        <stop offset="50%" stopColor="#1e3a8a"/>
+        <stop offset="100%" stopColor="#3b82f6"/>
+      </linearGradient>
+    </defs>
+  );
+}
+
+/* Reusable parametric glyph.
+   Knobs: stemWidth, ringWeight, planetRadius, ringRadius, ringX, ringY,
+          haloOn, atmoOn, hairlineOn (thin outer arc on dark side) */
+function B2({
+  size = 220,
+  dark = true,
+  stemWidth = 22,
+  ringWeight = 22,
+  ringRadius = 48,
+  planetRadius = 22,
+  haloOn = true,
+  atmoOn = true,
+  hairlineOn = false,
+  capRound = false,
+  id = 'a',
+}) {
+  const fg = dark ? '#fff' : '#0a0a0a';
+  const earthFill = dark ? `url(#earth-${id})` : `url(#earth-light-${id})`;
+  const stemX = 64, stemY = 40, stemH = 160;
+  const cx = 140, cy = 92;
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs id={id}/>
+      <rect x={stemX} y={stemY} width={stemWidth} height={stemH} rx={capRound? stemWidth/2 : 4} fill={fg}/>
+      <circle cx={cx} cy={cy} r={ringRadius} fill="none" stroke={fg} strokeWidth={ringWeight}/>
+      <circle cx={cx} cy={cy} r={planetRadius} fill={earthFill}/>
+      {haloOn && <circle cx={cx} cy={cy} r={planetRadius} fill={`url(#halo-${id})`}/>}
+      {atmoOn && dark && <circle cx={cx} cy={cy} r={planetRadius+2} fill={`url(#atmo-${id})`}/>}
+      {hairlineOn && (
+        <path d={`M ${cx + planetRadius} ${cy} A ${planetRadius} ${planetRadius} 0 0 1 ${cx - planetRadius} ${cy}`}
+              fill="none" stroke={dark?'#fff':'#0a0a0a'} strokeWidth=".75" opacity=".5"/>
+      )}
+    </svg>
+  );
+}
+
+/* ============================================================
+   B2 variants — each refines a different axis of the original
+============================================================ */
+
+// B2.0 — original
+const B2_0 = (p) => <B2 {...p} id="v0"/>;
+
+// B2.1 — Lighter ring (16 vs 22) + thinner stem (18). More elegant, more "ring".
+const B2_1 = (p) => <B2 {...p} stemWidth={18} ringWeight={16} id="v1"/>;
+
+// B2.2 — Heavy ring + bigger planet. Bolder, more iconic at small sizes.
+const B2_2 = (p) => <B2 {...p} stemWidth={26} ringWeight={26} planetRadius={20} id="v2"/>;
+
+// B2.3 — Rounded stem caps (subtle softening).
+const B2_3 = (p) => <B2 {...p} capRound id="v3"/>;
+
+// B2.4 — Hairline. Adds a thin hairline across the planet's "shadow" half — atmospheric.
+const B2_4 = (p) => <B2 {...p} hairlineOn id="v4"/>;
+
+// B2.5 — Concentric. Two rings: main bowl + a thin outer orbit.
+function B2_5({ size = 220, dark = true }) {
+  const fg = dark ? '#fff' : '#0a0a0a';
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs id="v5"/>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      <circle cx="140" cy="92" r="62" fill="none" stroke={fg} strokeWidth="1.2" opacity=".35" strokeDasharray="2 4"/>
+      <circle cx="140" cy="92" r="22" fill={dark ? "url(#earth-v5)" : "url(#earth-light-v5)"}/>
+      {dark && <circle cx="140" cy="92" r="22" fill="url(#halo-v5)"/>}
+    </svg>
+  );
+}
+
+// B2.6 — Satellite. Tiny moon at 2 o'clock on the orbit ring.
+function B2_6({ size = 220, dark = true }) {
+  const fg = dark ? '#fff' : '#0a0a0a';
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs id="v6"/>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      <circle cx="140" cy="92" r="22" fill={dark ? "url(#earth-v6)" : "url(#earth-light-v6)"}/>
+      {dark && <circle cx="140" cy="92" r="22" fill="url(#halo-v6)"/>}
+      {/* satellite — sits on the ring's outer edge */}
+      <circle cx="183" cy="68" r="6" fill={fg}/>
+      {dark && <circle cx="183" cy="68" r="6" fill="url(#halo-v6)" opacity=".7"/>}
+    </svg>
+  );
+}
+
+// B2.7 — Open ring. The bowl is a 270° arc with a gap at top — feels more like an orbit path.
+function B2_7({ size = 220, dark = true }) {
+  const fg = dark ? '#fff' : '#0a0a0a';
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs id="v7"/>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      {/* arc from 30° (top-right) sweeping clockwise back around */}
+      <path d="M 180 65 A 48 48 0 1 1 165 53"
+            fill="none" stroke={fg} strokeWidth="22" strokeLinecap="round"/>
+      <circle cx="140" cy="92" r="22" fill={dark ? "url(#earth-v7)" : "url(#earth-light-v7)"}/>
+      {dark && <circle cx="140" cy="92" r="22" fill="url(#halo-v7)"/>}
+    </svg>
+  );
+}
+
+// B2.8 — Solid bowl. Filled disc (no ring outline) with negative-space planet hole.
+function B2_8({ size = 220, dark = true }) {
+  const fg = dark ? '#fff' : '#0a0a0a';
+  const bg = dark ? '#050505' : '#ffffff';
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs id="v8"/>
+      <mask id="punch-v8">
+        <rect width="240" height="240" fill="#000"/>
+        <circle cx="140" cy="92" r="60" fill="#fff"/>
+        <circle cx="140" cy="92" r="22" fill="#000"/>
+      </mask>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <g mask="url(#punch-v8)">
+        <rect x="80" y="32" width="120" height="120" fill={fg}/>
+      </g>
+      {/* tiny planet inside the punched hole */}
+      <circle cx="140" cy="92" r="14" fill={dark ? "url(#earth-v8)" : "url(#earth-light-v8)"}/>
+    </svg>
+  );
+}
+
+// B2.9 — Animated. Same as v0 but with a slow-spinning satellite. (motion study)
+function B2_9({ size = 220, dark = true }) {
+  const fg = dark ? '#fff' : '#0a0a0a';
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs id="v9"/>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      <circle cx="140" cy="92" r="22" fill={dark ? "url(#earth-v9)" : "url(#earth-light-v9)"}/>
+      {dark && <circle cx="140" cy="92" r="22" fill="url(#halo-v9)"/>}
+      <g className="orbit-spin">
+        <circle cx="140" cy="33" r="3.5" fill={dark?'#bfdbfe':'#1e3a8a'}/>
+      </g>
+    </svg>
+  );
+}
+
+function Stage({ dark=true, children, label, spec, height='100%' }) {
+  return (
+    <div style={{display:'flex',flexDirection:'column',height}}>
+      <div className="stage-canvas" style={{background: dark? '#050505':'#ffffff'}}>{children}</div>
+      <div className={`stage-meta ${dark?'':'light'}`}>
+        <span className="name">{label}</span>
+        <span className="tag">{spec}</span>
+      </div>
+    </div>
+  );
+}
+
+function Lockup({ glyph, dark=true, size=86, weight=900, letter='-.01em' }) {
+  return (
+    <div style={{display:'flex',alignItems:'center',gap:14}}>
+      <div style={{width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
+        {React.cloneElement(glyph, {size, dark})}
+      </div>
+      <span style={{fontWeight:weight,letterSpacing:letter,fontSize:size*.30,color:dark?'#fff':'#0a0a0a'}}>PUNIVERSE</span>
+    </div>
+  );
+}
+
+function App() {
+  const variants = [
+    {id:'v0', name:'B2.0 · Original', el: B2_0, note:'Baseline. 22pt stem, 22pt ring, full halo. The accepted starting point.'},
+    {id:'v1', name:'B2.1 · Refined', el: B2_1, note:'Thinner stem (18) and lighter ring (16). More elegant; reads as orbit-path rather than bowl.'},
+    {id:'v2', name:'B2.2 · Bold', el: B2_2, note:'Heavier weights (26/26). Holds up better at favicon sizes — more iconic, less typographic.'},
+    {id:'v3', name:'B2.3 · Soft caps', el: B2_3, note:'Rounded stem terminals. Subtle softening — more humanist, less brutalist.'},
+    {id:'v4', name:'B2.4 · Hairline', el: B2_4, note:'Adds a hairline across the equator of the planet — picks up the atmosphere line in the photo.'},
+    {id:'v5', name:'B2.5 · Concentric', el: B2_5, note:'Adds a dashed outer orbit. More "system" feel; great for product / engineering surfaces.'},
+    {id:'v6', name:'B2.6 · Satellite', el: B2_6, note:'Tiny moon at 2 o\'clock — restores the two-body relationship without leaving the form.'},
+    {id:'v7', name:'B2.7 · Open ring', el: B2_7, note:'Ring opens at the top. Reads as orbit path; lets light in. Most distinctive silhouette.'},
+    {id:'v8', name:'B2.8 · Solid bowl', el: B2_8, note:'Filled bowl with the planet as negative space. Most poster-ready / brutalist.'},
+    {id:'v9', name:'B2.9 · Motion', el: B2_9, note:'Animated satellite (24s orbit). For website hero / app launch only.'},
+  ];
+
+  return (
+    <DesignCanvas>
+      <DCSection id="brief" title="01 · B2 Earthrise — refinement studies">
+        <DCArtboard id="brief-card" label="Brief" width={1100} height={380}>
+          <div style={{padding:32,background:'#050505',height:'100%',color:'#a1a1aa',fontFamily:'Inter',display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:32,boxSizing:'border-box'}}>
+            <div style={{display:'flex',flexDirection:'column',gap:14}}>
+              <div style={{fontSize:11,letterSpacing:'.3em',textTransform:'uppercase',color:'#bfdbfe',fontWeight:700}}>§ B2 selected · push further</div>
+              <h1 className="font-display" style={{fontStyle:'italic',color:'#fff',fontSize:42,lineHeight:1.25,margin:'0 0 6px 0',letterSpacing:'-0.02em'}}>
+                Ten earthrise refinements.
+              </h1>
+              <p style={{fontSize:14,lineHeight:1.6,margin:0,maxWidth:560}}>
+                Same DNA — orbital P, full Earth gradient inside the bowl — but each variant pulls one knob: stroke weight, stem proportion, ring shape, surface detail, motion. Compare side-by-side at the bottom.
+              </p>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <B2 size={220} dark id="hero"/>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {variants.map(v => {
+        const G = v.el;
+        return (
+          <DCSection key={v.id} id={v.id} title={v.name}>
+            <DCArtboard id={`${v.id}-dark`} label="Primary · dark" width={420} height={420}>
+              <Stage dark label={v.name} spec="primary"><G size={220} dark/></Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-light`} label="Inverse · light" width={420} height={420}>
+              <Stage dark={false} label={v.name} spec="inverse"><G size={220} dark={false}/></Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-lockup`} label="Lockup" width={520} height={300}>
+              <Stage dark label={`${v.name} · lockup`} spec="horizontal">
+                <Lockup glyph={<G/>} dark size={96}/>
+              </Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-scale`} label="Scale test · 64/32/16" width={420} height={300}>
+              <Stage dark label="64 · 32 · 16" spec="favicon scale">
+                <div style={{display:'flex',gap:24,alignItems:'flex-end'}}>
+                  <G size={64} dark/><G size={32} dark/><G size={16} dark/>
+                </div>
+              </Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-note`} label="Note" width={520} height={300}>
+              <div style={{padding:24,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter',display:'flex',flexDirection:'column',gap:10}}>
+                <div style={{color:'#bfdbfe',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700}}>Rationale</div>
+                <p style={{margin:0}}>{v.note}</p>
+              </div>
+            </DCArtboard>
+          </DCSection>
+        );
+      })}
+
+      <DCSection id="row" title="12 · Side-by-side comparison">
+        <DCArtboard id="row-dark" label="All variants · dark" width={1480} height={260}>
+          <div style={{display:'flex',background:'#050505',height:'100%',alignItems:'center',justifyContent:'space-around',padding:'20px 30px',gap:8}}>
+            {variants.map(v => {
+              const G = v.el;
+              return (
+                <div key={v.id} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}>
+                  <G size={110} dark/>
+                  <span className="micro">{v.name.split('·')[0].trim()}</span>
+                </div>
+              );
+            })}
+          </div>
+        </DCArtboard>
+        <DCArtboard id="row-light" label="All variants · light" width={1480} height={260}>
+          <div style={{display:'flex',background:'#fafafa',height:'100%',alignItems:'center',justifyContent:'space-around',padding:'20px 30px',gap:8}}>
+            {variants.map(v => {
+              const G = v.el;
+              return (
+                <div key={v.id} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}>
+                  <G size={110} dark={false}/>
+                  <span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>{v.name.split('·')[0].trim()}</span>
+                </div>
+              );
+            })}
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="pick" label="Recommendation" width={920} height={260}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontFamily:'Inter',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',position:'relative',overflow:'hidden'}}>
+            <div style={{position:'absolute',inset:0,background:'radial-gradient(circle at 80% 20%, rgba(96,165,250,.10), transparent 50%)'}}></div>
+            <div style={{position:'relative'}}>
+              <div style={{color:'#bfdbfe',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:10}}>Recommended path</div>
+              <h3 style={{color:'#fff',fontFamily:'Instrument Serif',fontStyle:'italic',fontSize:30,lineHeight:1.15,margin:0,marginBottom:12,letterSpacing:'-0.01em'}}>B2.1 (Refined) for the wordmark · B2.2 (Bold) for the app icon · B2.9 (Motion) for the site hero.</h3>
+              <p style={{margin:0,maxWidth:780}}>The lighter weight reads better next to PUNIVERSE; the bolder version survives the favicon downscale; the animated one earns the "agentic" promise on first impression. All three share the exact same construction — only stroke weights and motion change.</p>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root') || (() => {
+  const r = document.createElement('div'); r.id='root'; document.body.appendChild(r); return r;
+})()).render(<App/>);
+</script>
+</body>
+</html>

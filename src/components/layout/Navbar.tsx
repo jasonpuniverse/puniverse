@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { Logo } from '../ui/Logo';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,13 +19,8 @@ export const Navbar: React.FC = () => {
     <nav className="relative z-50 w-full max-w-7xl mx-auto px-6 pt-6 pb-4">
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <NavLink to="/" className="flex items-center gap-2 shrink-0" onClick={() => setIsOpen(false)}>
-          <img 
-            src="https://www.puniverse.net/logo.png" 
-            alt="Puniverse Logo" 
-            className="h-8 md:h-10 w-auto object-contain"
-            referrerPolicy="no-referrer"
-          />
+        <NavLink to="/" className="flex items-center gap-3 shrink-0" onClick={() => setIsOpen(false)}>
+          <Logo size={40} />
           <span className="font-black text-white tracking-tight text-xl">PUNIVERSE</span>
         </NavLink>
 

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse · Brand</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body{background:#050505;color:#a1a1aa;font-family:Inter,system-ui;-webkit-font-smoothing:antialiased}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .glass{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.10);border-radius:1rem;backdrop-filter:blur(8px)}
+  .orb{position:absolute;border-radius:9999px;filter:blur(120px);mix-blend-mode:screen;pointer-events:none}
+</style></head>
+<body class="min-h-screen relative overflow-hidden">
+  <div class="orb" style="top:-10%;left:-10%;width:40%;height:40%;background:rgba(147,51,234,.20)"></div>
+  <div class="orb" style="top:20%;right:-10%;width:30%;height:60%;background:rgba(13,148,136,.10)"></div>
+
+  <main class="relative z-10 max-w-5xl mx-auto px-10 py-14">
+    <p class="text-xs font-bold tracking-[0.3em] uppercase text-teal-400 mb-3">§01 — Brand</p>
+    <h1 class="font-display italic text-white text-5xl leading-tight tracking-tight mb-12">Identity</h1>
+
+    <div class="grid grid-cols-3 gap-4 mb-4">
+      <div class="glass p-10 flex flex-col items-center justify-center gap-5 col-span-1">
+        <img src="../assets/logo.png" alt="" class="h-14 w-auto" />
+        <span class="font-black text-white tracking-tight text-xl">PUNIVERSE</span>
+        <p class="text-[10px] font-mono tracking-widest text-zinc-600">PRIMARY · DARK</p>
+      </div>
+      <div class="rounded-2xl bg-white p-10 flex flex-col items-center justify-center gap-5 col-span-1 border border-white/10">
+        <img src="../assets/logo.png" alt="" class="h-14 w-auto" style="filter:brightness(0)" />
+        <span class="font-black text-black tracking-tight text-xl">PUNIVERSE</span>
+        <p class="text-[10px] font-mono tracking-widest text-zinc-400">INVERSE · LIGHT</p>
+      </div>
+      <div class="glass p-6 col-span-1">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4">Lockup</p>
+        <div class="font-mono text-[11px] text-zinc-400 space-y-1.5 leading-relaxed">
+          <p><span class="text-zinc-600">mark:</span> 32–40px</p>
+          <p><span class="text-zinc-600">wordmark:</span> Inter Black 20px</p>
+          <p><span class="text-zinc-600">tracking:</span> tight</p>
+          <p><span class="text-zinc-600">color:</span> #fff</p>
+          <p><span class="text-zinc-600">gap:</span> 8px</p>
+          <p><span class="text-zinc-600">min:</span> 24px tall</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="glass p-8">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-3">Vibe</p>
+        <p class="text-white text-2xl font-display italic leading-snug mb-3">"Bespoke Engineering."</p>
+        <p class="text-zinc-400 text-sm leading-relaxed">Dark mode exclusive. High-ticket. Premium B2B SaaS. Anti-bloat copy with high-contrast typography.</p>
+      </div>
+      <div class="glass p-8">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">Voice</p>
+        <ul class="space-y-1.5 text-sm">
+          <li class="flex gap-3 text-zinc-300"><span class="text-emerald-400 font-mono">+</span> Declarative · "Run on Autopilot"</li>
+          <li class="flex gap-3 text-zinc-300"><span class="text-emerald-400 font-mono">+</span> System metaphor · node, transmission, OS</li>
+          <li class="flex gap-3 text-zinc-300"><span class="text-emerald-400 font-mono">+</span> Verbs · Build · Run · Scale · Automate</li>
+          <li class="flex gap-3 text-zinc-500 line-through"><span class="text-red-400 font-mono">−</span> Casual exclamations, emoji</li>
+          <li class="flex gap-3 text-zinc-500 line-through"><span class="text-red-400 font-mono">−</span> Soft pastels, drop shadows</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</body></html>

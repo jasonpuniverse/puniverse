@@ -1,0 +1,1105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse OS — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<style>
+  :root{
+    --bg:#050505;
+    --surface:rgba(255,255,255,.03);
+    --surface-hover:rgba(255,255,255,.05);
+    --border:rgba(255,255,255,.10);
+    --border-hi:rgba(255,255,255,.20);
+    --fg:#ffffff;
+    --fg-2:#a1a1aa;
+    --fg-3:#71717a;
+    --fg-4:#52525b;
+    --purple:#8b5cf6;
+    --teal:#14b8a6;
+    --green:#10b981;
+    --emerald:#10b981;
+  }
+  html,body{background:var(--bg);color:var(--fg-2);font-family:"Inter",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .selection{}
+  ::selection{background:rgba(139,92,246,.30);color:#fff}
+
+  /* GlowButton — exact replica */
+  .glow-btn{position:relative;display:inline-flex;border-radius:9999px;padding:1px;overflow:hidden;cursor:pointer;background:transparent;border:0}
+  .glow-btn .gb-blur,.glow-btn .gb-solid{position:absolute;inset:0;border-radius:9999px;background:linear-gradient(90deg,#8b5cf6, #14b8a6, #10b981);opacity:.7;transition:opacity .3s}
+  .glow-btn .gb-blur{filter:blur(6px)}
+  .glow-btn:hover .gb-blur,.glow-btn:hover .gb-solid{opacity:1}
+  .glow-btn .gb-inner{position:relative;background:#0a0a0a;padding:.75rem 2rem;border-radius:9999px;display:inline-flex;align-items:center;gap:.5rem;color:#fff;font-size:.875rem;font-weight:500;transition:transform .15s ease}
+  .glow-btn:active{transform:scale(.98)}
+  .glow-btn:hover{transform:scale(1.02)}
+
+  /* Glass card */
+  .glass{position:relative;border-radius:1rem;background:rgba(255,255,255,.03);backdrop-filter:blur(8px);transition:background-color .2s ease, transform .2s ease}
+  .glass:hover{background:rgba(255,255,255,.06)}
+  .glass.highlight{background:rgba(20,184,166,.10)}
+
+  /* Section label */
+  .section-label{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;}
+  .section-label .pill{font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#6b7280;border:1px solid rgba(255,255,255,.10);border-radius:9999px;padding:.25rem 1rem;background:rgba(255,255,255,.05);backdrop-filter:blur(8px);white-space:nowrap}
+  .section-label .line{height:1px;width:2rem;background:rgba(255,255,255,.10)}
+
+  /* Background orbs (the real ones from App.tsx) */
+  .orb-stage{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .orb{position:absolute;border-radius:9999px;filter:blur(120px);mix-blend-mode:screen}
+  .orb.purple{top:-10%;left:-10%;width:40%;height:40%;background:rgba(147,51,234,.20)}
+  .orb.teal{top:20%;right:-10%;width:30%;height:50%;background:rgba(13,148,136,.10)}
+  .orb.blue{bottom:-10%;left:20%;width:50%;height:40%;background:rgba(37,99,235,.10)}
+
+  /* Decorative grid for spec cards */
+  .spec-grid{background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+    background-size:40px 40px;
+  }
+
+  /* Gradient text */
+  .text-gradient-tp{background:linear-gradient(90deg,#5eead4,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .text-gradient-trio{background:linear-gradient(90deg,#c4b5fd,#5eead4,#6ee7b7);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.1em}
+  .text-gradient-mono{background:linear-gradient(90deg,#fff,#a1a1aa);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* Glow utilities */
+  .glow-purple{box-shadow:0 0 80px 20px rgba(139,92,246,.15)}
+  .glow-teal{box-shadow:0 0 80px 20px rgba(20,184,166,.15)}
+  .glow-green{box-shadow:0 0 80px 20px rgba(16,185,129,.15)}
+
+  /* Anim */
+  @keyframes scroll-down{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}
+  .animate-scroll-down{animation:scroll-down 1.5s ease-in-out infinite}
+  @keyframes role-fade-in{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+  .animate-role-fade-in{animation:role-fade-in .4s ease-out forwards}
+  @keyframes spin-slow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  .animate-spin-slow{animation:spin-slow 120s linear infinite}
+  @keyframes orb-drift{
+    0%,100%{transform:translate(0,0) scale(1)}
+    50%{transform:translate(2%,-3%) scale(1.05)}
+  }
+  .orb.purple{animation:orb-drift 18s ease-in-out infinite}
+  .orb.teal{animation:orb-drift 22s ease-in-out infinite reverse}
+
+  /* table-ish row */
+  .row{display:grid;grid-template-columns:160px 1fr 1fr;gap:1rem;padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.06);align-items:center}
+  .row:first-child{border-top:0}
+  .row .k{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#71717a;font-weight:600}
+  .row .v{color:#e5e7eb}
+  .row .desc{font-size:.825rem;color:#a1a1aa}
+
+  /* checker bg for transparency demos */
+  .checker{background-image:linear-gradient(45deg,#0a0a0a 25%,transparent 25%),linear-gradient(-45deg,#0a0a0a 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#0a0a0a 75%),linear-gradient(-45deg,transparent 75%,#0a0a0a 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0;background-color:#141414}
+
+  /* swatch */
+  .swatch{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+  .swatch .body{aspect-ratio: 4/3}
+  .swatch .meta{padding:.85rem 1rem;background:#0a0a0a;border-top:1px solid var(--border)}
+
+  /* spacing scale visualization */
+  .stick{background:linear-gradient(90deg,#8b5cf6,#14b8a6,#10b981);height:6px;border-radius:9999px}
+
+  /* scrollbar */
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.06);border-radius:9999px}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.12)}
+
+  /* gradient border util for arbitrary block */
+  .gradient-border{position:relative;border-radius:1rem;padding:1px;background:linear-gradient(90deg,rgba(139,92,246,.5),rgba(20,184,166,.5),rgba(16,185,129,.5))}
+  .gradient-border > .inner{background:#0a0a0a;border-radius:calc(1rem - 1px);padding:1.5rem}
+
+  /* nav dot */
+  .toc a{display:block;padding:.5rem .75rem;font-size:.8rem;color:#a1a1aa;border-radius:.5rem;transition:background .2s,color .2s}
+  .toc a:hover{background:rgba(255,255,255,.04);color:#fff}
+  .toc a.active{color:#fff;background:rgba(255,255,255,.06)}
+
+  details > summary{list-style:none;cursor:pointer}
+  details > summary::-webkit-details-marker{display:none}
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Background orbs (live demo of the system's signature ambience) -->
+<div class="orb-stage" aria-hidden="true">
+  <div class="orb purple"></div>
+  <div class="orb teal"></div>
+  <div class="orb blue"></div>
+</div>
+
+<!-- Top bar -->
+<header class="relative z-20 border-b border-white/5 backdrop-blur-md bg-black/40">
+  <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <svg viewBox="0 0 240 240" class="h-8 w-auto" aria-hidden="true">
+        <defs>
+          <radialGradient id="nav-body" cx=".42" cy=".38" r=".75">
+            <stop offset="0%" stop-color="#1e3a5f"/><stop offset="55%" stop-color="#0c1a35"/><stop offset="100%" stop-color="#050a18"/>
+          </radialGradient>
+          <linearGradient id="nav-rim" x1="1" y1=".3" x2="0" y2=".7">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0"/><stop offset="35%" stop-color="#fff" stop-opacity=".95"/><stop offset="65%" stop-color="#bfdbfe" stop-opacity=".75"/><stop offset="100%" stop-color="#bfdbfe" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="nav-aur" x1="0" y1=".15" x2="1" y2=".85">
+            <stop offset="0%" stop-color="#5eead4" stop-opacity="0"/><stop offset="40%" stop-color="#5eead4" stop-opacity=".9"/><stop offset="80%" stop-color="#5eead4" stop-opacity=".4"/><stop offset="100%" stop-color="#5eead4" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+        <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+        <circle cx="140" cy="92" r="22" fill="url(#nav-body)"/>
+        <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="url(#nav-rim)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="#fff" stroke-width=".7" stroke-linecap="round" opacity=".95"/>
+        <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="url(#nav-aur)" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span class="font-black tracking-tight text-white text-lg">PUNIVERSE</span>
+      <span class="hidden md:inline-flex items-center gap-2 ml-3 pl-3 border-l border-white/10">
+        <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-teal-400">Design System</span>
+        <span class="text-[10px] font-mono text-zinc-600">v1.0 / 2026</span>
+      </span>
+    </div>
+    <nav class="hidden md:flex items-center gap-1 p-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-md text-sm">
+      <a href="#brand" class="px-4 py-1.5 rounded-full text-zinc-400 hover:text-white transition-colors">Brand</a>
+      <a href="#type" class="px-4 py-1.5 rounded-full text-zinc-400 hover:text-white transition-colors">Type</a>
+      <a href="#color" class="px-4 py-1.5 rounded-full text-zinc-400 hover:text-white transition-colors">Color</a>
+      <a href="#space" class="px-4 py-1.5 rounded-full text-zinc-400 hover:text-white transition-colors">Space</a>
+      <a href="#components" class="px-4 py-1.5 rounded-full text-zinc-400 hover:text-white transition-colors">Components</a>
+      <a href="#motion" class="px-4 py-1.5 rounded-full text-zinc-400 hover:text-white transition-colors">Motion</a>
+    </nav>
+    <a href="https://www.puniverse.net" class="text-xs text-zinc-500 hover:text-white transition-colors hidden md:block">puniverse.net&nbsp;↗</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="relative z-10 max-w-7xl mx-auto px-6 pt-24 pb-32">
+  <div class="section-label mb-10">
+    <span class="line"></span>
+    <span class="pill text-teal-400">The AI Operating System</span>
+    <span class="line"></span>
+  </div>
+  <h1 class="font-display italic text-white text-6xl md:text-8xl leading-[1.05] tracking-tight max-w-5xl mb-10">
+    A bespoke visual language<br />
+    <span class="text-gradient-trio">for autonomous commerce.</span>
+  </h1>
+  <p class="text-zinc-400 max-w-2xl text-lg md:text-xl leading-relaxed mb-2">
+    Puniverse OS is dark-mode exclusive, anti-bloat, and unapologetically premium.
+    This document is the source of truth for every surface, glow, and gradient that
+    carries the brand.
+  </p>
+  <p class="text-zinc-500 max-w-2xl text-sm leading-relaxed mb-12">
+    Built on four pillars — heavy black ground, low-opacity neon orbs, frosted glass surfaces, and one tri-stop gradient that ties it all together.
+  </p>
+  <div class="flex flex-wrap items-center gap-4">
+    <button class="glow-btn"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner">Explore the System →</span></button>
+    <a href="#components" class="px-7 py-3.5 rounded-full border border-white/20 text-white text-sm hover:bg-white/5 transition-colors">Jump to Components</a>
+    <span class="font-mono text-[11px] text-zinc-600 ml-2 tracking-wider">PUNIVERSE-DS / 2026.04</span>
+  </div>
+
+  <!-- Pillars -->
+  <div class="mt-24 grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div class="glass p-6 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-3">01 — Ground</p>
+      <p class="text-white text-lg leading-snug font-medium">Heavy<br/>black canvas.</p>
+      <p class="text-zinc-500 text-xs mt-3 font-mono">#050505</p>
+    </div>
+    <div class="glass p-6 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">02 — Atmosphere</p>
+      <p class="text-white text-lg leading-snug font-medium">Blurred<br/>neon orbs.</p>
+      <p class="text-zinc-500 text-xs mt-3 font-mono">blur-[120px] · screen</p>
+    </div>
+    <div class="glass p-6 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400 mb-3">03 — Surface</p>
+      <p class="text-white text-lg leading-snug font-medium">Frosted<br/>glass cards.</p>
+      <p class="text-zinc-500 text-xs mt-3 font-mono">white/0.03 · blur-sm</p>
+    </div>
+    <div class="glass p-6 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-400 mb-3">04 — Signal</p>
+      <p class="text-white text-lg leading-snug font-medium">One tri-stop<br/>gradient.</p>
+      <p class="text-zinc-500 text-xs mt-3 font-mono">purple → teal → green</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- BRAND -->
+<!-- ============================================================== -->
+<section id="brand" class="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+  <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">§01 — Brand</p>
+      <h2 class="font-display italic text-white text-5xl md:text-6xl leading-[1.05] tracking-tight">Identity</h2>
+    </div>
+    <p class="text-zinc-500 text-sm font-mono">/brand/identity</p>
+  </div>
+
+  <!-- The Aurora mark · two arcs of light over a dark Earth in the bowl of a P -->
+  <div class="mb-3 flex items-center justify-between">
+    <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500">The Aurora mark</p>
+    <p class="font-mono text-[10px] text-zinc-600">v1.0 · 2026.04 · 240×240 viewBox</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <!-- Mark · DARK -->
+    <div class="glass p-10 border border-white/10 flex flex-col items-center justify-center min-h-[320px] gap-5">
+      <svg viewBox="0 0 240 240" class="h-32 w-auto" aria-hidden="true">
+        <defs>
+          <radialGradient id="b-d-brand" cx=".42" cy=".38" r=".75">
+            <stop offset="0%" stop-color="#1e3a5f"/><stop offset="55%" stop-color="#0c1a35"/><stop offset="100%" stop-color="#050a18"/>
+          </radialGradient>
+          <linearGradient id="rim-d-brand" x1="1" y1=".3" x2="0" y2=".7">
+            <stop offset="0%" stop-color="#fff" stop-opacity="0"/><stop offset="35%" stop-color="#fff" stop-opacity=".95"/><stop offset="65%" stop-color="#bfdbfe" stop-opacity=".75"/><stop offset="100%" stop-color="#bfdbfe" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="aur-d-brand" x1="0" y1=".15" x2="1" y2=".85">
+            <stop offset="0%" stop-color="#5eead4" stop-opacity="0"/><stop offset="40%" stop-color="#5eead4" stop-opacity=".9"/><stop offset="80%" stop-color="#5eead4" stop-opacity=".4"/><stop offset="100%" stop-color="#5eead4" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+        <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+        <circle cx="140" cy="92" r="22" fill="url(#b-d-brand)"/>
+        <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="url(#rim-d-brand)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="#fff" stroke-width=".7" stroke-linecap="round" opacity=".95"/>
+        <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="url(#aur-d-brand)" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span class="font-black text-white tracking-tight text-2xl">PUNIVERSE</span>
+      <p class="text-[10px] font-mono tracking-widest text-zinc-600 mt-2">PRIMARY · DARK</p>
+    </div>
+    <!-- Mark · LIGHT (genuine rebuild, not inverted) -->
+    <div class="rounded-2xl bg-white p-10 flex flex-col items-center justify-center min-h-[320px] gap-5 border border-white/10">
+      <svg viewBox="0 0 240 240" class="h-32 w-auto" aria-hidden="true">
+        <defs>
+          <radialGradient id="b-l-brand" cx=".42" cy=".38" r=".75">
+            <stop offset="0%" stop-color="#1e3a8a"/><stop offset="60%" stop-color="#0c1a35"/><stop offset="100%" stop-color="#050a18"/>
+          </radialGradient>
+          <linearGradient id="rim-l-brand" x1="1" y1=".3" x2="0" y2=".7">
+            <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0"/><stop offset="35%" stop-color="#1e3a8a"/><stop offset="65%" stop-color="#3b82f6" stop-opacity=".85"/><stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="aur-l-brand" x1="0" y1=".15" x2="1" y2=".85">
+            <stop offset="0%" stop-color="#0d9488" stop-opacity="0"/><stop offset="40%" stop-color="#0d9488"/><stop offset="80%" stop-color="#14b8a6" stop-opacity=".6"/><stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <rect x="64" y="40" width="22" height="160" rx="4" fill="#0a0a0a"/>
+        <circle cx="140" cy="92" r="48" fill="none" stroke="#0a0a0a" stroke-width="22"/>
+        <circle cx="140" cy="92" r="22" fill="url(#b-l-brand)"/>
+        <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="url(#rim-l-brand)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="url(#aur-l-brand)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="font-black text-black tracking-tight text-2xl">PUNIVERSE</span>
+      <p class="text-[10px] font-mono tracking-widest text-zinc-400 mt-2">INVERSE · LIGHT (rebuilt)</p>
+    </div>
+    <!-- Construction spec -->
+    <div class="glass p-8 border border-white/10 flex flex-col gap-4">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500">Construction</p>
+      <div class="font-mono text-xs text-zinc-400 space-y-2 leading-relaxed">
+        <p><span class="text-zinc-600">viewBox:</span> 240 × 240</p>
+        <p><span class="text-zinc-600">stem:</span> 22w × 160h · rx 4</p>
+        <p><span class="text-zinc-600">bowl ring:</span> r 48 · stroke 22</p>
+        <p><span class="text-zinc-600">earth body:</span> r 22</p>
+        <p><span class="text-zinc-600">sun-rim arc:</span> ~5→7 o'clock</p>
+        <p><span class="text-zinc-600">aurora arc:</span> ~10→8 o'clock</p>
+        <p><span class="text-zinc-600">min size:</span> 16px → use favicon variant</p>
+      </div>
+      <div class="mt-auto pt-4 border-t border-white/10">
+        <p class="text-[10px] font-mono tracking-widest text-zinc-600">TWO LINES OF LIGHT · DARK BODY · NOTHING ELSE</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story · scale · favicon -->
+  <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <!-- Story -->
+    <div class="glass p-8 border border-white/10 lg:col-span-1">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-4">The story</p>
+      <p class="text-white text-base leading-relaxed mb-3"><em class="font-display italic">Pun</em> + <em class="font-display italic">universe</em>. Two planets, one orbit. The dark Earth body is lit by exactly two lines: the <span class="text-white font-medium">sun-rim</span> on the day-side limb, and a <span class="text-teal-300 font-medium">teal aurora</span> on the night-side. Inspired by the Artemis 2 lunar flyby photographs.</p>
+      <p class="text-zinc-500 text-xs leading-relaxed">The bowl of the P is a literal orbit. The Earth inside is the system. The aurora is the agent — alive, atmospheric, alert.</p>
+    </div>
+    <!-- Scale test -->
+    <div class="glass p-8 border border-white/10 flex flex-col">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-6">Scale</p>
+      <div class="flex items-end gap-6 flex-1">
+        <!-- 96 -->
+        <svg viewBox="0 0 240 240" width="96" height="96" aria-hidden="true">
+          <defs>
+            <radialGradient id="b-s96" cx=".42" cy=".38" r=".75"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="55%" stop-color="#0c1a35"/><stop offset="100%" stop-color="#050a18"/></radialGradient>
+            <linearGradient id="rim-s96" x1="1" y1=".3" x2="0" y2=".7"><stop offset="0%" stop-color="#fff" stop-opacity="0"/><stop offset="35%" stop-color="#fff" stop-opacity=".95"/><stop offset="65%" stop-color="#bfdbfe" stop-opacity=".75"/><stop offset="100%" stop-color="#bfdbfe" stop-opacity="0"/></linearGradient>
+            <linearGradient id="aur-s96" x1="0" y1=".15" x2="1" y2=".85"><stop offset="0%" stop-color="#5eead4" stop-opacity="0"/><stop offset="40%" stop-color="#5eead4" stop-opacity=".9"/><stop offset="80%" stop-color="#5eead4" stop-opacity=".4"/><stop offset="100%" stop-color="#5eead4" stop-opacity="0"/></linearGradient>
+          </defs>
+          <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+          <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+          <circle cx="140" cy="92" r="22" fill="url(#b-s96)"/>
+          <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="url(#rim-s96)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="#fff" stroke-width=".7" stroke-linecap="round" opacity=".95"/>
+          <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="url(#aur-s96)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <!-- 48 -->
+        <svg viewBox="0 0 240 240" width="48" height="48" aria-hidden="true">
+          <defs>
+            <radialGradient id="b-s48" cx=".42" cy=".38" r=".75"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="55%" stop-color="#0c1a35"/><stop offset="100%" stop-color="#050a18"/></radialGradient>
+            <linearGradient id="rim-s48" x1="1" y1=".3" x2="0" y2=".7"><stop offset="35%" stop-color="#fff" stop-opacity=".95"/><stop offset="65%" stop-color="#bfdbfe" stop-opacity=".75"/><stop offset="100%" stop-color="#bfdbfe" stop-opacity="0"/></linearGradient>
+            <linearGradient id="aur-s48" x1="0" y1=".15" x2="1" y2=".85"><stop offset="40%" stop-color="#5eead4" stop-opacity=".9"/><stop offset="100%" stop-color="#5eead4" stop-opacity="0"/></linearGradient>
+          </defs>
+          <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+          <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+          <circle cx="140" cy="92" r="22" fill="url(#b-s48)"/>
+          <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="url(#rim-s48)" stroke-width="2" stroke-linecap="round"/>
+          <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="url(#aur-s48)" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <!-- 32 -->
+        <svg viewBox="0 0 240 240" width="32" height="32" aria-hidden="true">
+          <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+          <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+          <circle cx="140" cy="92" r="22" fill="#0c1a35"/>
+          <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="#bfdbfe" stroke-width="3" stroke-linecap="round"/>
+          <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="#5eead4" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <!-- 16 favicon -->
+        <svg viewBox="0 0 240 240" width="16" height="16" aria-hidden="true">
+          <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+          <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+          <circle cx="140" cy="92" r="22" fill="#0c1a35"/>
+          <path d="M 161 86 A 22 22 0 0 1 150 112" fill="none" stroke="#bfdbfe" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="grid grid-cols-4 gap-1 mt-3 text-center">
+        <p class="text-[10px] font-mono text-zinc-600">96</p>
+        <p class="text-[10px] font-mono text-zinc-600">48</p>
+        <p class="text-[10px] font-mono text-zinc-600">32</p>
+        <p class="text-[10px] font-mono text-zinc-600">16 · favicon</p>
+      </div>
+    </div>
+    <!-- Tokens -->
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400 mb-4">Tokens · Aurora</p>
+      <div class="font-mono text-xs space-y-2.5">
+        <div class="flex items-center gap-3">
+          <span class="w-4 h-4 rounded" style="background:linear-gradient(135deg,#1e3a5f,#0c1a35,#050a18)"></span>
+          <span class="text-zinc-300">--earth-body</span>
+          <span class="text-zinc-600 ml-auto text-[10px]">#1e3a5f → #050a18</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-4 h-4 rounded" style="background:linear-gradient(90deg,#fff,#bfdbfe)"></span>
+          <span class="text-zinc-300">--sun-rim</span>
+          <span class="text-zinc-600 ml-auto text-[10px]">#ffffff · #bfdbfe</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-4 h-4 rounded" style="background:#5eead4"></span>
+          <span class="text-zinc-300">--aurora</span>
+          <span class="text-zinc-600 ml-auto text-[10px]">#5eead4</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-4 h-4 rounded" style="background:linear-gradient(90deg,#1e3a8a,#3b82f6)"></span>
+          <span class="text-zinc-300">--rim-light-mode</span>
+          <span class="text-zinc-600 ml-auto text-[10px]">#1e3a8a → #3b82f6</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="w-4 h-4 rounded" style="background:linear-gradient(90deg,#0d9488,#14b8a6)"></span>
+          <span class="text-zinc-300">--aurora-light-mode</span>
+          <span class="text-zinc-600 ml-auto text-[10px]">#0d9488 → #14b8a6</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Voice / vibe -->
+  <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-4">Vibe</p>
+      <p class="text-white text-2xl font-display italic leading-snug mb-4">"Bespoke Engineering."</p>
+      <p class="text-zinc-400 text-sm leading-relaxed">Dark mode exclusive. High-ticket. Premium B2B SaaS. Anti-bloat copy with high-contrast typography. The interface should feel like it costs something.</p>
+    </div>
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-4">Voice</p>
+      <ul class="space-y-2 text-sm">
+        <li class="flex gap-3 text-zinc-300"><span class="text-emerald-400 font-mono">+</span> Declarative · "Run on Autopilot"</li>
+        <li class="flex gap-3 text-zinc-300"><span class="text-emerald-400 font-mono">+</span> System metaphor · "node", "transmission", "OS"</li>
+        <li class="flex gap-3 text-zinc-300"><span class="text-emerald-400 font-mono">+</span> Verbs over nouns · Build · Run · Scale · Automate</li>
+        <li class="flex gap-3 text-zinc-500 line-through"><span class="text-red-400 font-mono">−</span> Casual exclamations, emoji, AI hype</li>
+        <li class="flex gap-3 text-zinc-500 line-through"><span class="text-red-400 font-mono">−</span> Soft pastels, drop shadows, skeuomorphism</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- TYPOGRAPHY -->
+<!-- ============================================================== -->
+<section id="type" class="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+  <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">§02 — Typography</p>
+      <h2 class="font-display italic text-white text-5xl md:text-6xl leading-[1.05] tracking-tight">Type system</h2>
+    </div>
+    <p class="text-zinc-500 text-sm font-mono">/type/scale</p>
+  </div>
+
+  <!-- Family blocks -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <div class="glass p-10 border border-white/10">
+      <div class="flex items-baseline justify-between mb-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400">Display · Sans</p>
+        <p class="font-mono text-[10px] text-zinc-600">--font-sans</p>
+      </div>
+      <p class="text-white text-7xl font-black tracking-tight leading-none mb-3">Inter</p>
+      <p class="text-zinc-500 text-sm">300 · 400 · 500 · 600 · 700 · 800 · 900</p>
+      <div class="grid grid-cols-3 gap-2 mt-8 text-center">
+        <div class="border border-white/5 rounded-lg py-3"><p class="text-white text-2xl font-light">Aa</p><p class="text-[10px] text-zinc-600 mt-1">300 Light</p></div>
+        <div class="border border-white/5 rounded-lg py-3"><p class="text-white text-2xl font-medium">Aa</p><p class="text-[10px] text-zinc-600 mt-1">500 Medium</p></div>
+        <div class="border border-white/5 rounded-lg py-3"><p class="text-white text-2xl font-black">Aa</p><p class="text-[10px] text-zinc-600 mt-1">900 Black</p></div>
+      </div>
+    </div>
+    <div class="glass p-10 border border-white/10">
+      <div class="flex items-baseline justify-between mb-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400">Editorial · Serif</p>
+        <p class="font-mono text-[10px] text-zinc-600">--font-display</p>
+      </div>
+      <p class="text-white text-7xl font-display italic leading-none mb-3">Instrument</p>
+      <p class="text-zinc-500 text-sm italic font-display">Reserved for hero headlines, signature italics &amp; rotating role words.</p>
+      <div class="grid grid-cols-2 gap-2 mt-8 text-center">
+        <div class="border border-white/5 rounded-lg py-3"><p class="text-white text-2xl font-display">Aa</p><p class="text-[10px] text-zinc-600 mt-1">Roman</p></div>
+        <div class="border border-white/5 rounded-lg py-3"><p class="text-white text-2xl font-display italic">Aa</p><p class="text-[10px] text-zinc-600 mt-1">Italic · default</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Type scale -->
+  <div class="glass border border-white/10 overflow-hidden">
+    <div class="row">
+      <span class="k">Token</span>
+      <span class="k">Specimen</span>
+      <span class="k">Spec</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">H1 · Hero</span>
+      <span class="font-display italic text-white text-5xl md:text-6xl leading-[1.05]">The AI Operating System</span>
+      <span class="desc font-mono text-xs">font-display italic · 100px / 1.05<br/>tracking-tight · text-white</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">H1 · Page</span>
+      <span class="text-white text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">Headline gradient highlight.</span>
+      <span class="desc font-mono text-xs">text-5xl md:text-7xl · font-bold<br/>tracking-tight · leading-[1.1]</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">H2</span>
+      <span class="text-white text-3xl md:text-4xl font-display italic leading-tight">Section opener</span>
+      <span class="desc font-mono text-xs">text-4xl md:text-5xl · font-display italic</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">H3 · Card</span>
+      <span class="text-white text-xl font-medium">Glass card title</span>
+      <span class="desc font-mono text-xs">text-xl · font-medium · text-white</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">Lead</span>
+      <span class="text-zinc-400 text-lg leading-relaxed">Secondary body that explains the value proposition without crowding the headline.</span>
+      <span class="desc font-mono text-xs">text-lg md:text-xl · text-gray-400<br/>leading-relaxed</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">Body</span>
+      <span class="text-zinc-400 text-sm md:text-base leading-relaxed">Default reading text. Always dialed back from white to maintain contrast hierarchy.</span>
+      <span class="desc font-mono text-xs">text-sm md:text-base · text-gray-400</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">Micro Label</span>
+      <span class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400">Categories · Indexed</span>
+      <span class="desc font-mono text-xs">text-xs · font-bold · uppercase<br/>tracking-[0.2em]</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">Caption</span>
+      <span class="text-[10px] uppercase tracking-[0.4em] text-zinc-500">Scroll · Indicator</span>
+      <span class="desc font-mono text-xs">text-[10px] · tracking-[0.4em]<br/>text-gray-500</span>
+    </div>
+    <div class="row">
+      <span class="k text-teal-400">Mono</span>
+      <span class="font-mono text-sm text-zinc-300">/api/contact · 200 OK</span>
+      <span class="desc font-mono text-xs">JetBrains Mono · for IDs, paths,<br/>system codes &amp; metadata</span>
+    </div>
+  </div>
+
+  <!-- Gradient text usage -->
+  <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-6">Highlight · 2-stop</p>
+      <p class="text-3xl font-bold leading-tight"><span class="text-gradient-tp">Gradient highlight.</span></p>
+      <p class="font-mono text-xs text-zinc-500 mt-6">from-teal-400 → to-purple-400</p>
+    </div>
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-6">Hero · Tri-stop</p>
+      <p class="text-3xl font-display italic leading-tight"><span class="text-gradient-trio">for ecommerce.</span></p>
+      <p class="font-mono text-xs text-zinc-500 mt-6">purple-400 → teal-300 → emerald-400</p>
+    </div>
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-6">Mono fade</p>
+      <p class="text-3xl font-bold leading-tight"><span class="text-gradient-mono">Subtle hierarchy.</span></p>
+      <p class="font-mono text-xs text-zinc-500 mt-6">white → zinc-400</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- COLOR -->
+<!-- ============================================================== -->
+<section id="color" class="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+  <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">§03 — Color</p>
+      <h2 class="font-display italic text-white text-5xl md:text-6xl leading-[1.05] tracking-tight">Palette</h2>
+    </div>
+    <p class="text-zinc-500 text-sm font-mono">/color/tokens</p>
+  </div>
+
+  <!-- Ground -->
+  <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4">Ground &amp; Text</p>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-12">
+    <div class="swatch"><div class="body" style="background:#050505"></div><div class="meta"><p class="text-white text-sm font-medium">Background</p><p class="text-zinc-500 font-mono text-[10px]">#050505</p></div></div>
+    <div class="swatch"><div class="body" style="background:#0a0a0a"></div><div class="meta"><p class="text-white text-sm font-medium">Button base</p><p class="text-zinc-500 font-mono text-[10px]">#0a0a0a</p></div></div>
+    <div class="swatch"><div class="body checker"></div><div class="meta"><p class="text-white text-sm font-medium">Surface</p><p class="text-zinc-500 font-mono text-[10px]">white / 3%</p></div></div>
+    <div class="swatch"><div class="body" style="background:#ffffff"></div><div class="meta"><p class="text-white text-sm font-medium">Text Primary</p><p class="text-zinc-500 font-mono text-[10px]">#ffffff</p></div></div>
+    <div class="swatch"><div class="body" style="background:#a1a1aa"></div><div class="meta"><p class="text-white text-sm font-medium">Text Secondary</p><p class="text-zinc-500 font-mono text-[10px]">#a1a1aa</p></div></div>
+    <div class="swatch"><div class="body" style="background:#71717a"></div><div class="meta"><p class="text-white text-sm font-medium">Text Tertiary</p><p class="text-zinc-500 font-mono text-[10px]">#71717a</p></div></div>
+  </div>
+
+  <!-- Accents -->
+  <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4">Neon Accents · The Trinity</p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+    <div class="swatch glow-purple"><div class="body" style="background:#8b5cf6"></div><div class="meta">
+      <div class="flex items-center justify-between"><p class="text-white text-base font-medium">Purple</p><p class="text-zinc-500 font-mono text-[10px]">violet-500</p></div>
+      <p class="text-zinc-500 font-mono text-[11px] mt-1">#8b5cf6</p>
+      <p class="text-zinc-400 text-xs mt-3 leading-relaxed">Primary neon · gradient start. Used for ambient glow + first stop on every CTA.</p>
+    </div></div>
+    <div class="swatch glow-teal"><div class="body" style="background:#14b8a6"></div><div class="meta">
+      <div class="flex items-center justify-between"><p class="text-white text-base font-medium">Teal</p><p class="text-zinc-500 font-mono text-[10px]">teal-500</p></div>
+      <p class="text-zinc-500 font-mono text-[11px] mt-1">#14b8a6</p>
+      <p class="text-zinc-400 text-xs mt-3 leading-relaxed">Signal · default micro-label color. Center stop of the trinity gradient.</p>
+    </div></div>
+    <div class="swatch glow-green"><div class="body" style="background:#10b981"></div><div class="meta">
+      <div class="flex items-center justify-between"><p class="text-white text-base font-medium">Emerald</p><p class="text-zinc-500 font-mono text-[10px]">emerald-500</p></div>
+      <p class="text-zinc-500 font-mono text-[11px] mt-1">#10b981</p>
+      <p class="text-zinc-400 text-xs mt-3 leading-relaxed">Success · transmissions, confirmations &amp; the closing stop of every gradient.</p>
+    </div></div>
+  </div>
+
+  <!-- Border tokens -->
+  <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4 mt-12">Borders &amp; Surfaces · Translucent</p>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-12">
+    <div class="rounded-xl border border-white/10 bg-white/[0.03] p-5">
+      <div class="h-12 rounded-lg bg-white/[0.03] border border-white/10 mb-3"></div>
+      <p class="text-white text-sm font-medium">Surface</p>
+      <p class="text-zinc-500 font-mono text-[10px]">white / 0.03</p>
+    </div>
+    <div class="rounded-xl border border-white/10 bg-white/[0.05] p-5">
+      <div class="h-12 rounded-lg bg-white/[0.05] border border-white/10 mb-3"></div>
+      <p class="text-white text-sm font-medium">Surface · hover</p>
+      <p class="text-zinc-500 font-mono text-[10px]">white / 0.05</p>
+    </div>
+    <div class="rounded-xl border border-white/10 bg-white/[0.03] p-5">
+      <div class="h-12 rounded-lg border border-white/10 mb-3"></div>
+      <p class="text-white text-sm font-medium">Border · default</p>
+      <p class="text-zinc-500 font-mono text-[10px]">white / 0.10</p>
+    </div>
+    <div class="rounded-xl border border-white/20 bg-white/[0.03] p-5">
+      <div class="h-12 rounded-lg border border-white/20 mb-3"></div>
+      <p class="text-white text-sm font-medium">Border · highlight</p>
+      <p class="text-zinc-500 font-mono text-[10px]">white / 0.20</p>
+    </div>
+  </div>
+
+  <!-- The Gradient -->
+  <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4">The Signature Gradient</p>
+  <div class="rounded-2xl overflow-hidden border border-white/10">
+    <div class="h-32" style="background:linear-gradient(90deg,#8b5cf6 0%,#14b8a6 50%,#10b981 100%)"></div>
+    <div class="bg-[#0a0a0a] p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <p class="text-[10px] font-mono tracking-widest text-zinc-600 mb-2">STOP 01 · 0%</p>
+        <p class="text-white font-medium">Purple</p>
+        <p class="font-mono text-xs text-zinc-500">#8b5cf6</p>
+      </div>
+      <div>
+        <p class="text-[10px] font-mono tracking-widest text-zinc-600 mb-2">STOP 02 · 50%</p>
+        <p class="text-white font-medium">Teal</p>
+        <p class="font-mono text-xs text-zinc-500">#14b8a6</p>
+      </div>
+      <div>
+        <p class="text-[10px] font-mono tracking-widest text-zinc-600 mb-2">STOP 03 · 100%</p>
+        <p class="text-white font-medium">Emerald</p>
+        <p class="font-mono text-xs text-zinc-500">#10b981</p>
+      </div>
+    </div>
+    <div class="bg-[#050505] border-t border-white/10 p-6 font-mono text-xs text-zinc-500 leading-relaxed">
+      <span class="text-zinc-700">/* canonical */</span><br/>
+      <span class="text-purple-400">background:</span> linear-gradient(90deg, <span class="text-white">#8b5cf6</span>, <span class="text-white">#14b8a6</span>, <span class="text-white">#10b981</span>);<br/>
+      <span class="text-zinc-700">// usage:</span> &nbsp;<span class="text-teal-400">GlowButton border</span> · <span class="text-teal-400">hero text gradient</span> · <span class="text-teal-400">never on body backgrounds</span>
+    </div>
+  </div>
+
+  <!-- Atmosphere demo -->
+  <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4 mt-12">Atmospheric · Background Orbs</p>
+  <div class="rounded-2xl overflow-hidden border border-white/10 relative h-72 bg-[#050505]">
+    <div class="absolute -top-12 -left-12 w-72 h-72 rounded-full mix-blend-screen" style="background:rgba(147,51,234,.20);filter:blur(120px)"></div>
+    <div class="absolute top-12 right-0 w-72 h-96 rounded-full mix-blend-screen" style="background:rgba(13,148,136,.10);filter:blur(120px)"></div>
+    <div class="absolute -bottom-12 left-1/3 w-[28rem] h-72 rounded-full mix-blend-screen" style="background:rgba(37,99,235,.10);filter:blur(120px)"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center">
+        <p class="text-[10px] font-bold tracking-[0.4em] uppercase text-teal-400 mb-3">Live Demo</p>
+        <p class="font-display italic text-white text-3xl">Page floats above orbs.</p>
+        <p class="text-zinc-500 text-sm mt-2 font-mono">blur-[120px] · mix-blend-screen · ≤20% opacity</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- SPACING / RADIUS / EFFECTS -->
+<!-- ============================================================== -->
+<section id="space" class="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+  <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">§04 — Space &amp; Effects</p>
+      <h2 class="font-display italic text-white text-5xl md:text-6xl leading-[1.05] tracking-tight">Geometry</h2>
+    </div>
+    <p class="text-zinc-500 text-sm font-mono">/space/radii/glow</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <!-- Spacing -->
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-6">Spacing scale</p>
+      <div class="space-y-4">
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">2</span><div class="stick" style="width:8px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">8px</span></div>
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">4</span><div class="stick" style="width:16px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">16px</span></div>
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">6</span><div class="stick" style="width:24px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">24px · gutter</span></div>
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">8</span><div class="stick" style="width:32px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">32px · card pad</span></div>
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">12</span><div class="stick" style="width:48px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">48px</span></div>
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">16</span><div class="stick" style="width:64px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">64px · section</span></div>
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">24</span><div class="stick" style="width:96px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">96px · hero margin</span></div>
+        <div class="flex items-center gap-4"><span class="font-mono text-xs text-zinc-500 w-12">32</span><div class="stick" style="width:128px"></div><span class="font-mono text-xs text-zinc-400 ml-auto">128px · between sections</span></div>
+      </div>
+      <p class="text-zinc-500 text-xs mt-6 leading-relaxed">Container max-width is <span class="font-mono text-zinc-400">max-w-6xl</span> for content, <span class="font-mono text-zinc-400">max-w-7xl</span> for nav and footer.</p>
+    </div>
+
+    <!-- Radii + Effects -->
+    <div class="space-y-4">
+      <div class="glass p-8 border border-white/10">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-6">Radius</p>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="text-center"><div class="aspect-square bg-white/5 border border-white/10 mb-2 mx-auto" style="border-radius:8px"></div><p class="text-[10px] font-mono text-zinc-500">8 · sm</p></div>
+          <div class="text-center"><div class="aspect-square bg-white/5 border border-white/10 mb-2 mx-auto" style="border-radius:12px"></div><p class="text-[10px] font-mono text-zinc-500">12 · md · input</p></div>
+          <div class="text-center"><div class="aspect-square bg-white/5 border border-white/10 mb-2 mx-auto" style="border-radius:16px"></div><p class="text-[10px] font-mono text-zinc-500">16 · 2xl · card</p></div>
+          <div class="text-center"><div class="aspect-square bg-white/5 border border-white/10 mb-2 mx-auto" style="border-radius:9999px"></div><p class="text-[10px] font-mono text-zinc-500">∞ · pill · CTA</p></div>
+        </div>
+      </div>
+
+      <div class="glass p-8 border border-white/10">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400 mb-6">Glow shadows</p>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="text-center">
+            <div class="h-20 rounded-2xl bg-white/5 border border-white/10 mb-3 glow-purple"></div>
+            <p class="text-white text-xs font-medium">.glow-purple</p>
+            <p class="font-mono text-[10px] text-zinc-500 mt-1">80px / 20px / 15%</p>
+          </div>
+          <div class="text-center">
+            <div class="h-20 rounded-2xl bg-white/5 border border-white/10 mb-3 glow-teal"></div>
+            <p class="text-white text-xs font-medium">.glow-teal</p>
+            <p class="font-mono text-[10px] text-zinc-500 mt-1">80px / 20px / 15%</p>
+          </div>
+          <div class="text-center">
+            <div class="h-20 rounded-2xl bg-white/5 border border-white/10 mb-3 glow-green"></div>
+            <p class="text-white text-xs font-medium">.glow-green</p>
+            <p class="font-mono text-[10px] text-zinc-500 mt-1">80px / 20px / 15%</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass p-8 border border-white/10">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-6">Backdrop blur</p>
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div><div class="h-14 rounded-xl bg-white/10 border border-white/10" style="backdrop-filter:blur(4px)"></div><p class="text-[10px] font-mono text-zinc-500 mt-2">sm · 4px</p></div>
+          <div><div class="h-14 rounded-xl bg-white/10 border border-white/10" style="backdrop-filter:blur(12px)"></div><p class="text-[10px] font-mono text-zinc-500 mt-2">md · 12px</p></div>
+          <div><div class="h-14 rounded-xl bg-white/10 border border-white/10" style="backdrop-filter:blur(24px)"></div><p class="text-[10px] font-mono text-zinc-500 mt-2">xl · 24px</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- COMPONENTS -->
+<!-- ============================================================== -->
+<section id="components" class="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+  <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">§05 — Components</p>
+      <h2 class="font-display italic text-white text-5xl md:text-6xl leading-[1.05] tracking-tight">The Holy Trinity</h2>
+    </div>
+    <p class="text-zinc-500 text-sm font-mono">/ui/primitives</p>
+  </div>
+
+  <!-- GlowButton -->
+  <article class="glass border border-white/10 p-8 md:p-12 mb-4">
+    <div class="flex items-baseline justify-between flex-wrap gap-3 mb-2">
+      <h3 class="text-white text-2xl font-medium">&lt;GlowButton /&gt;</h3>
+      <p class="font-mono text-xs text-zinc-500">src/components/ui/GlowButton.tsx</p>
+    </div>
+    <p class="text-zinc-400 text-sm max-w-2xl mb-10">All primary CTAs. Pill body on <span class="font-mono text-zinc-300">#0a0a0a</span> with an animated three-stop neon gradient border. Never inject structural padding via className — it breaks alignment against the glowing border.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="rounded-xl bg-[#050505] border border-white/5 spec-grid p-12 flex flex-col items-center justify-center gap-6 min-h-[260px]">
+        <button class="glow-btn"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner">Run on Autopilot →</span></button>
+        <button class="glow-btn"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner">Unlock <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></button>
+        <button class="glow-btn w-full max-w-xs justify-center"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner" style="justify-content:center;width:100%">Action</span></button>
+      </div>
+      <div class="space-y-3">
+        <div class="row" style="grid-template-columns:140px 1fr"><span class="k">Body</span><span class="v font-mono text-xs">#0a0a0a · rounded-full · px-8 py-3</span></div>
+        <div class="row" style="grid-template-columns:140px 1fr"><span class="k">Border</span><span class="v font-mono text-xs">1px gradient · purple → teal → green</span></div>
+        <div class="row" style="grid-template-columns:140px 1fr"><span class="k">Glow</span><span class="v font-mono text-xs">duplicate gradient · blur-sm · opacity .7</span></div>
+        <div class="row" style="grid-template-columns:140px 1fr"><span class="k">Hover</span><span class="v font-mono text-xs">opacity → 1 · scale 1.02</span></div>
+        <div class="row" style="grid-template-columns:140px 1fr"><span class="k">Tap</span><span class="v font-mono text-xs">scale 0.98 · spring 400/17</span></div>
+        <div class="row" style="grid-template-columns:140px 1fr"><span class="k">Type</span><span class="v font-mono text-xs">text-sm · font-medium · text-white</span></div>
+        <div class="row" style="grid-template-columns:140px 1fr"><span class="k">Icon</span><span class="v font-mono text-xs">lucide · 14–16px · gap-2</span></div>
+        <details class="rounded-lg bg-black/40 border border-white/5 p-4 mt-4">
+          <summary class="text-xs font-bold tracking-widest uppercase text-zinc-400 flex items-center justify-between">Markup<span class="text-zinc-600 font-mono">▾</span></summary>
+          <pre class="font-mono text-[11px] text-zinc-400 mt-3 leading-relaxed overflow-x-auto"><span class="text-purple-400">&lt;GlowButton</span> className=<span class="text-emerald-400">"w-full justify-center group"</span><span class="text-purple-400">&gt;</span>
+  Action <span class="text-purple-400">&lt;ArrowRight</span> size=<span class="text-emerald-400">{14}</span><span class="text-purple-400">/&gt;</span>
+<span class="text-purple-400">&lt;/GlowButton&gt;</span></pre>
+        </details>
+      </div>
+    </div>
+  </article>
+
+  <!-- GlassCard -->
+  <article class="glass border border-white/10 p-8 md:p-12 mb-4">
+    <div class="flex items-baseline justify-between flex-wrap gap-3 mb-2">
+      <h3 class="text-white text-2xl font-medium">&lt;GlassCard /&gt;</h3>
+      <p class="font-mono text-xs text-zinc-500">src/components/ui/GlassCard.tsx</p>
+    </div>
+    <p class="text-zinc-400 text-sm max-w-2xl mb-10">Frosted, translucent surface for grids, pricing tiers, metrics, and feature callouts. Self-manages padding; use <span class="font-mono text-zinc-300">highlight</span> for emphasized tier.</p>
+
+    <div class="rounded-xl bg-[#050505] border border-white/5 p-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="glass p-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-4">Default</p>
+        <h4 class="text-white text-xl font-medium mb-2">Item 01</h4>
+        <p class="text-sm text-zinc-400 mb-6">Single-tier card with self-managed p-6 padding.</p>
+        <button class="glow-btn w-full"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner" style="justify-content:center;width:100%">Action →</span></button>
+      </div>
+      <div class="glass highlight p-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400 mb-4">Highlight</p>
+        <h4 class="text-white text-xl font-medium mb-2">Item 02</h4>
+        <p class="text-sm text-zinc-400 mb-6">Teal-tinted variant for the recommended option.</p>
+        <button class="glow-btn w-full"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner" style="justify-content:center;width:100%">Action →</span></button>
+      </div>
+      <div class="glass p-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-4">Default</p>
+        <h4 class="text-white text-xl font-medium mb-2">Item 03</h4>
+        <p class="text-sm text-zinc-400 mb-6">On hover, lifts 4px and brightens to white/0.06.</p>
+        <button class="glow-btn w-full"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner" style="justify-content:center;width:100%">Action →</span></button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+      <div class="text-center"><p class="text-[10px] font-mono tracking-widest text-zinc-600 mb-1">RADIUS</p><p class="font-mono text-sm text-white">rounded-2xl</p></div>
+      <div class="text-center"><p class="text-[10px] font-mono tracking-widest text-zinc-600 mb-1">BG</p><p class="font-mono text-sm text-white">white / 0.03</p></div>
+      <div class="text-center"><p class="text-[10px] font-mono tracking-widest text-zinc-600 mb-1">BLUR</p><p class="font-mono text-sm text-white">backdrop-sm</p></div>
+      <div class="text-center"><p class="text-[10px] font-mono tracking-widest text-zinc-600 mb-1">HOVER</p><p class="font-mono text-sm text-white">y -4 · bg .06</p></div>
+    </div>
+  </article>
+
+  <!-- SectionLabel -->
+  <article class="glass border border-white/10 p-8 md:p-12 mb-4">
+    <div class="flex items-baseline justify-between flex-wrap gap-3 mb-2">
+      <h3 class="text-white text-2xl font-medium">&lt;SectionLabel /&gt;</h3>
+      <p class="font-mono text-xs text-zinc-500">src/components/ui/SectionLabel.tsx</p>
+    </div>
+    <p class="text-zinc-400 text-sm max-w-2xl mb-10">Pill-shaped uppercase title that sits above mapping grids and thematic dividers. Two thin rules flank a translucent capsule.</p>
+
+    <div class="rounded-xl bg-[#050505] border border-white/5 p-12 space-y-12">
+      <div class="section-label"><span class="line"></span><span class="pill">Categories</span><span class="line"></span></div>
+      <div class="section-label"><span class="line"></span><span class="pill">Featured Operators</span><span class="line"></span></div>
+      <div class="section-label"><span class="line"></span><span class="pill">04 — Pricing &amp; Tiers</span><span class="line"></span></div>
+    </div>
+  </article>
+
+  <!-- Form -->
+  <article class="glass border border-white/10 p-8 md:p-12 mb-4">
+    <div class="flex items-baseline justify-between flex-wrap gap-3 mb-2">
+      <h3 class="text-white text-2xl font-medium">&lt;ContactForm /&gt;</h3>
+      <p class="font-mono text-xs text-zinc-500">src/components/ui/ContactForm.tsx</p>
+    </div>
+    <p class="text-zinc-400 text-sm max-w-2xl mb-10">"Transmission" form — radio-comms vocabulary, full-width emerald submit, success/error states use full-glow pictograms.</p>
+
+    <div class="rounded-xl bg-[#050505] border border-white/5 p-10 grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <form class="space-y-6">
+        <div class="space-y-2">
+          <label class="text-xs font-bold uppercase tracking-widest text-zinc-400 ml-4 block">Identifier</label>
+          <input type="text" placeholder="Identity / Brand" class="w-full bg-white/5 rounded-xl px-6 py-4 text-white placeholder:text-zinc-600 focus:bg-white/10 outline-none transition-all border-0" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-xs font-bold uppercase tracking-widest text-zinc-400 ml-4 block">Postal Node</label>
+          <input type="email" placeholder="example@brand.io" class="w-full bg-white/5 rounded-xl px-6 py-4 text-white placeholder:text-zinc-600 focus:bg-white/10 outline-none transition-all border-0" />
+        </div>
+        <div class="space-y-2">
+          <label class="text-xs font-bold uppercase tracking-widest text-zinc-400 ml-4 block">Requirement Log</label>
+          <textarea rows="3" placeholder="How can we scale your operations?" class="w-full bg-white/5 rounded-xl px-6 py-4 text-white placeholder:text-zinc-600 focus:bg-white/10 outline-none transition-all resize-none border-0"></textarea>
+        </div>
+        <button type="button" class="w-full py-4 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold tracking-widest uppercase hover:bg-emerald-500/30 transition-all">Initiate Connection</button>
+      </form>
+
+      <div class="space-y-6">
+        <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-8 text-center">
+          <div class="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 text-2xl mx-auto mb-4">✓</div>
+          <h3 class="text-2xl font-black text-white mb-2 italic">TRANSMISSION RECEIVED.</h3>
+          <p class="text-zinc-400 text-sm italic">Your internal node will respond within 12 standard hours.</p>
+        </div>
+        <div class="rounded-xl border border-red-500/20 bg-red-500/5 p-8 text-center">
+          <div class="w-14 h-14 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 text-2xl mx-auto mb-4">⚠</div>
+          <h3 class="text-2xl font-black text-white mb-2 italic">TRANSMISSION FAILED.</h3>
+          <p class="text-zinc-400 text-sm">Server returned status 500.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Navigation -->
+  <article class="glass border border-white/10 p-8 md:p-12 mb-4">
+    <div class="flex items-baseline justify-between flex-wrap gap-3 mb-2">
+      <h3 class="text-white text-2xl font-medium">Navigation</h3>
+      <p class="font-mono text-xs text-zinc-500">src/components/layout/Navbar.tsx</p>
+    </div>
+    <p class="text-zinc-400 text-sm max-w-2xl mb-10">Floating pill nav over hero video. Logo + wordmark left, central pill, mobile menu trigger right. <span class="font-mono text-zinc-300">w-[120px]</span> spacer keeps the nav optically centered.</p>
+
+    <div class="rounded-xl bg-[#050505] border border-white/5 p-6 relative overflow-hidden">
+      <div class="absolute -top-12 -left-12 w-72 h-72 rounded-full mix-blend-screen" style="background:rgba(147,51,234,.15);filter:blur(120px)"></div>
+      <div class="absolute top-0 right-0 w-72 h-96 rounded-full mix-blend-screen" style="background:rgba(13,148,136,.10);filter:blur(120px)"></div>
+      <nav class="relative z-10 flex items-center justify-between gap-6">
+        <a href="#" class="flex items-center gap-2 shrink-0">
+          <svg viewBox="0 0 240 240" class="h-8 w-auto" aria-hidden="true">
+            <defs>
+              <radialGradient id="b-navc" cx=".42" cy=".38" r=".75"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="55%" stop-color="#0c1a35"/><stop offset="100%" stop-color="#050a18"/></radialGradient>
+              <linearGradient id="rim-navc" x1="1" y1=".3" x2="0" y2=".7"><stop offset="35%" stop-color="#fff" stop-opacity=".95"/><stop offset="100%" stop-color="#bfdbfe" stop-opacity="0"/></linearGradient>
+              <linearGradient id="aur-navc" x1="0" y1=".15" x2="1" y2=".85"><stop offset="40%" stop-color="#5eead4" stop-opacity=".9"/><stop offset="100%" stop-color="#5eead4" stop-opacity="0"/></linearGradient>
+            </defs>
+            <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+            <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+            <circle cx="140" cy="92" r="22" fill="url(#b-navc)"/>
+            <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="url(#rim-navc)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="url(#aur-navc)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <span class="font-black text-white tracking-tight text-lg">PUNIVERSE</span>
+        </a>
+        <div class="hidden lg:flex justify-center gap-1 p-1 bg-white/10 rounded-full backdrop-blur-md">
+          <a href="#" class="px-5 py-2 rounded-full text-sm font-medium bg-white/10 text-white">Home</a>
+          <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-zinc-400 hover:text-white">AI OS</a>
+          <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-zinc-400 hover:text-white">Products</a>
+          <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-zinc-400 hover:text-white">Services</a>
+          <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-zinc-400 hover:text-white">AETHEO</a>
+          <a href="#" class="px-5 py-2 rounded-full text-sm font-medium text-zinc-400 hover:text-white">Community</a>
+        </div>
+        <div class="hidden lg:block w-[120px]"></div>
+      </nav>
+    </div>
+  </article>
+
+  <!-- Hero pattern -->
+  <article class="glass border border-white/10 p-8 md:p-12 mb-4">
+    <div class="flex items-baseline justify-between flex-wrap gap-3 mb-2">
+      <h3 class="text-white text-2xl font-medium">Hero pattern</h3>
+      <p class="font-mono text-xs text-zinc-500">src/components/Hero.tsx</p>
+    </div>
+    <p class="text-zinc-400 text-sm max-w-2xl mb-10">Full-bleed background video, micro label, two-line display headline (gradient on the second), animated rotating role word, lead, sub-lead, dual CTA, scroll indicator at the bottom.</p>
+
+    <div class="rounded-2xl bg-[#050505] border border-white/5 p-12 relative overflow-hidden min-h-[480px] flex items-center justify-center">
+      <div class="absolute -top-12 -left-12 w-96 h-96 rounded-full mix-blend-screen" style="background:rgba(147,51,234,.20);filter:blur(120px)"></div>
+      <div class="absolute top-12 right-0 w-96 h-[28rem] rounded-full mix-blend-screen" style="background:rgba(13,148,136,.10);filter:blur(120px)"></div>
+      <div class="absolute -bottom-12 left-1/3 w-[36rem] h-72 rounded-full mix-blend-screen" style="background:rgba(37,99,235,.15);filter:blur(120px)"></div>
+
+      <div class="relative z-10 text-center">
+        <p class="text-[10px] md:text-xs text-teal-400/80 font-bold uppercase tracking-[0.4em] mb-8">Puniverse OS</p>
+        <h1 class="font-display italic text-white text-5xl md:text-6xl leading-[1.1] tracking-tight mb-6 max-w-3xl mx-auto">
+          The AI Operating System<br/>
+          <span class="text-gradient-trio">for Ecommerce.</span>
+        </h1>
+        <p class="text-zinc-400 text-base md:text-lg mb-2">Not a tool. Not a dashboard.</p>
+        <p class="text-zinc-400 text-base md:text-lg mb-8">A system to <span id="role-word" class="font-display italic text-white">Build</span> your brand.</p>
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <button class="glow-btn"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner">Run on Autopilot →</span></button>
+          <a href="#" class="px-7 py-3.5 rounded-full border border-white/20 text-white text-sm hover:bg-white/5 transition-colors">Explore the System</a>
+        </div>
+      </div>
+
+      <!-- scroll indicator -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+        <span class="text-[10px] text-zinc-600 uppercase tracking-[0.3em]">Scroll</span>
+        <div class="w-px h-10 bg-white/10 relative overflow-hidden">
+          <div class="w-full h-1/2 bg-white/40 animate-scroll-down"></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ============================================================== -->
+<!-- MOTION -->
+<!-- ============================================================== -->
+<section id="motion" class="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+  <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">§06 — Motion</p>
+      <h2 class="font-display italic text-white text-5xl md:text-6xl leading-[1.05] tracking-tight">In motion</h2>
+    </div>
+    <p class="text-zinc-500 text-sm font-mono">/motion/timing</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400 mb-3">Reveal</p>
+      <p class="text-white text-lg font-medium mb-1">opacity 0 → 1</p>
+      <p class="text-white text-lg font-medium mb-4">y 28 → 0</p>
+      <p class="font-mono text-xs text-zinc-500 leading-relaxed">duration 0.55s · ease [0.25, 0.46, 0.45, 0.94]<br/>once · margin -80px</p>
+    </div>
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">Stagger</p>
+      <p class="text-white text-lg font-medium mb-1">child y 24 → 0</p>
+      <p class="text-white text-lg font-medium mb-4">stagger 0.09s</p>
+      <p class="font-mono text-xs text-zinc-500 leading-relaxed">duration 0.45s · same ease<br/>used for grids of GlassCards</p>
+    </div>
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400 mb-3">Page mount</p>
+      <p class="text-white text-lg font-medium mb-1">fade-in</p>
+      <p class="text-white text-lg font-medium mb-4">duration 700ms</p>
+      <p class="font-mono text-xs text-zinc-500 leading-relaxed">animate-in · fade-in · duration-700<br/>top-level wrapper of every route</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-6">Easing curves</p>
+      <div class="space-y-5">
+        <div>
+          <div class="flex justify-between text-xs mb-2"><span class="font-mono text-zinc-400">EASE_OUT</span><span class="font-mono text-zinc-600">[0.25, 0.46, 0.45, 0.94]</span></div>
+          <div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-purple-500 via-teal-500 to-emerald-500 w-3/4"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-2"><span class="font-mono text-zinc-400">EXPO_OUT</span><span class="font-mono text-zinc-600">[0.16, 1, 0.3, 1]</span></div>
+          <div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-purple-500 via-teal-500 to-emerald-500 w-[88%]"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-2"><span class="font-mono text-zinc-400">SPRING (button)</span><span class="font-mono text-zinc-600">stiffness 400 · damping 17</span></div>
+          <div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-purple-500 via-teal-500 to-emerald-500 w-[60%]"></div></div>
+        </div>
+      </div>
+      <p class="text-zinc-500 text-xs mt-6 leading-relaxed">All scroll-revealed motion respects <span class="font-mono text-zinc-300">useReducedMotion</span> — y-translate falls to 0 when prefers-reduced-motion is set.</p>
+    </div>
+
+    <div class="glass p-8 border border-white/10">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-6">Looping primitives</p>
+      <div class="space-y-6">
+        <div class="flex items-center gap-6">
+          <div class="w-px h-16 bg-white/10 relative overflow-hidden flex-shrink-0">
+            <div class="w-full h-1/2 bg-white/40 animate-scroll-down"></div>
+          </div>
+          <div>
+            <p class="text-white text-sm font-medium">scroll-down</p>
+            <p class="font-mono text-xs text-zinc-500 mt-1">1.5s · ease-in-out · infinite</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-6">
+          <div class="w-12 h-12 rounded-full border border-white/10 border-t-teal-400 animate-spin-slow flex-shrink-0"></div>
+          <div>
+            <p class="text-white text-sm font-medium">spin-120s</p>
+            <p class="font-mono text-xs text-zinc-500 mt-1">120s · linear · infinite</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-6 flex-shrink-0">
+          <p id="role-demo" class="font-display italic text-white text-2xl w-24">Build</p>
+          <div>
+            <p class="text-white text-sm font-medium">role-fade-in</p>
+            <p class="font-mono text-xs text-zinc-500 mt-1">2s rotate · 0.4s fade-up</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== -->
+<!-- DO / DON'T -->
+<!-- ============================================================== -->
+<section class="relative z-10 max-w-7xl mx-auto px-6 py-20 border-t border-white/5">
+  <div class="flex items-end justify-between mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">§07 — Rules</p>
+      <h2 class="font-display italic text-white text-5xl md:text-6xl leading-[1.05] tracking-tight">Do · Don't</h2>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.03] p-8">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-emerald-400 mb-6">Do</p>
+      <ul class="space-y-4 text-sm text-zinc-300">
+        <li class="flex gap-4"><span class="font-mono text-emerald-400 text-lg leading-none">✓</span><span>Wrap main content in <span class="font-mono text-white text-xs">max-w-6xl mx-auto px-6 pb-16</span>.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-emerald-400 text-lg leading-none">✓</span><span>Use <span class="font-mono text-white text-xs">&lt;GlassCard&gt;</span> for any grid item, tier, metric.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-emerald-400 text-lg leading-none">✓</span><span>Use <span class="font-mono text-white text-xs">&lt;GlowButton&gt;</span> for ALL primary CTAs.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-emerald-400 text-lg leading-none">✓</span><span>Wrap hero text + grids in <span class="font-mono text-white text-xs">&lt;Reveal&gt;</span> / <span class="font-mono text-white text-xs">&lt;StaggerReveal&gt;</span>.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-emerald-400 text-lg leading-none">✓</span><span>Append a lucide icon to button interiors with <span class="font-mono text-white text-xs">gap-2</span>.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-emerald-400 text-lg leading-none">✓</span><span>Reserve <span class="font-mono text-white text-xs">font-display italic</span> for hero / signature italics only.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-emerald-400 text-lg leading-none">✓</span><span>Keep body copy at <span class="font-mono text-white text-xs">text-gray-400</span> — pure white is reserved for headers.</span></li>
+      </ul>
+    </div>
+    <div class="rounded-2xl border border-red-500/20 bg-red-500/[0.03] p-8">
+      <p class="text-xs font-bold tracking-[0.2em] uppercase text-red-400 mb-6">Don't</p>
+      <ul class="space-y-4 text-sm text-zinc-300">
+        <li class="flex gap-4"><span class="font-mono text-red-400 text-lg leading-none">✗</span><span>Inject <span class="font-mono text-white text-xs">px-*</span> / <span class="font-mono text-white text-xs">py-*</span> / <span class="font-mono text-white text-xs">text-lg</span> into a GlowButton's className — it breaks the gradient border alignment.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-red-400 text-lg leading-none">✗</span><span>Apply pure <span class="font-mono text-white text-xs">text-white</span> to body paragraphs.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-red-400 text-lg leading-none">✗</span><span>Build raw HTML cards instead of using <span class="font-mono text-white text-xs">&lt;GlassCard&gt;</span>.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-red-400 text-lg leading-none">✗</span><span>Use light-mode backgrounds. There is no light mode.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-red-400 text-lg leading-none">✗</span><span>Add saturated solid-color backgrounds. Color comes from blurred orbs and gradient borders only.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-red-400 text-lg leading-none">✗</span><span>Stack multiple gradients on a single page region — one tri-stop is the rule.</span></li>
+        <li class="flex gap-4"><span class="font-mono text-red-400 text-lg leading-none">✗</span><span>Recolor the wordmark or the logo lockup.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="relative z-10 max-w-7xl mx-auto px-6 py-16 mt-16 border-t border-white/10">
+  <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="flex items-center gap-2">
+      <svg viewBox="0 0 240 240" class="h-7 w-auto" aria-hidden="true">
+        <defs>
+          <radialGradient id="b-ftr" cx=".42" cy=".38" r=".75"><stop offset="0%" stop-color="#1e3a5f"/><stop offset="55%" stop-color="#0c1a35"/><stop offset="100%" stop-color="#050a18"/></radialGradient>
+          <linearGradient id="rim-ftr" x1="1" y1=".3" x2="0" y2=".7"><stop offset="35%" stop-color="#fff" stop-opacity=".95"/><stop offset="100%" stop-color="#bfdbfe" stop-opacity="0"/></linearGradient>
+          <linearGradient id="aur-ftr" x1="0" y1=".15" x2="1" y2=".85"><stop offset="40%" stop-color="#5eead4" stop-opacity=".9"/><stop offset="100%" stop-color="#5eead4" stop-opacity="0"/></linearGradient>
+        </defs>
+        <rect x="64" y="40" width="22" height="160" rx="4" fill="#fff"/>
+        <circle cx="140" cy="92" r="48" fill="none" stroke="#fff" stroke-width="22"/>
+        <circle cx="140" cy="92" r="22" fill="url(#b-ftr)"/>
+        <path d="M 160.9 84.96 A 22 22 0 0 1 149.9 111.58" fill="none" stroke="url(#rim-ftr)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M 126.8 74.4 A 22 22 0 0 0 119.1 99.04" fill="none" stroke="url(#aur-ftr)" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span class="font-black text-white tracking-tight text-lg">PUNIVERSE</span>
+      <span class="ml-3 pl-3 border-l border-white/10 text-[10px] font-mono tracking-widest text-zinc-600">DESIGN-SYSTEM / 2026.04 / v1.0</span>
+    </div>
+    <p class="text-xs text-zinc-600">&copy; 2026 PUNIVERSE LTD · Bespoke Engineering</p>
+  </div>
+</footer>
+
+<script>
+  // Rotating role word demo
+  const roles = ['Build','Run','Scale','Automate'];
+  let i = 0;
+  const role = document.getElementById('role-word');
+  const role2 = document.getElementById('role-demo');
+  setInterval(() => {
+    i = (i + 1) % roles.length;
+    [role, role2].forEach(el => {
+      if (!el) return;
+      el.textContent = roles[i];
+      el.classList.remove('animate-role-fade-in');
+      void el.offsetWidth;
+      el.classList.add('animate-role-fade-in');
+    });
+  }, 2000);
+</script>
+</body>
+</html>

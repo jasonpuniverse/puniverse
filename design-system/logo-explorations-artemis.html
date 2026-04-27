@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse — Option B / Artemis variants</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  body{background:#0a0a0a;font-family:Inter,system-ui;-webkit-font-smoothing:antialiased;margin:0}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .stage-canvas{flex:1;display:flex;align-items:center;justify-content:center;padding:36px;min-height:280px}
+  .stage-meta{padding:14px 18px;border-top:1px solid rgba(255,255,255,.10);background:#0a0a0a;color:#a1a1aa;font-size:11px;font-family:"JetBrains Mono",ui-monospace,monospace;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .stage-meta .name{color:#fff;font-weight:600}
+  .stage-meta .tag{color:#71717a}
+  .stage-meta.light{background:#fafafa;border-top:1px solid rgba(0,0,0,.08);color:#525252}
+  .stage-meta.light .name{color:#000}
+  .stage-meta.light .tag{color:#a3a3a3}
+  .micro{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#71717a;font-weight:700}
+</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+const { useState } = React;
+
+function Defs() {
+  return (
+    <defs>
+      {/* Earthrise blue: cool, glacial, with a hot terminator edge */}
+      <linearGradient id="earthrise" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stopColor="#0b1530"/>
+        <stop offset="35%" stopColor="#1e3a8a"/>
+        <stop offset="70%" stopColor="#60a5fa"/>
+        <stop offset="100%" stopColor="#e0f2fe"/>
+      </linearGradient>
+      {/* The hot terminator — thin sunlit edge */}
+      <radialGradient id="terminator" cx=".18" cy=".5" r=".55">
+        <stop offset="55%" stopColor="#ffffff" stopOpacity="0"/>
+        <stop offset="80%" stopColor="#bfdbfe" stopOpacity=".7"/>
+        <stop offset="92%" stopColor="#ffffff" stopOpacity=".95"/>
+        <stop offset="100%" stopColor="#ffffff" stopOpacity="0"/>
+      </radialGradient>
+      {/* Lunar surface grey */}
+      <linearGradient id="lunar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#3f3f46"/>
+        <stop offset="100%" stopColor="#18181b"/>
+      </linearGradient>
+      {/* Cool cosmic backdrop */}
+      <radialGradient id="cosmos" cx=".5" cy=".5" r=".7">
+        <stop offset="0%" stopColor="#0b1224"/>
+        <stop offset="100%" stopColor="#000000"/>
+      </radialGradient>
+      {/* Soft halo for the lit side */}
+      <radialGradient id="halo" cx=".25" cy=".5" r=".55">
+        <stop offset="60%" stopColor="#bfdbfe" stopOpacity="0"/>
+        <stop offset="92%" stopColor="#bfdbfe" stopOpacity=".35"/>
+        <stop offset="100%" stopColor="#bfdbfe" stopOpacity="0"/>
+      </radialGradient>
+      {/* Thin atmosphere ring */}
+      <radialGradient id="atmo" cx=".5" cy=".5" r=".5">
+        <stop offset="86%" stopColor="#bfdbfe" stopOpacity="0"/>
+        <stop offset="96%" stopColor="#bfdbfe" stopOpacity=".55"/>
+        <stop offset="100%" stopColor="#bfdbfe" stopOpacity="0"/>
+      </radialGradient>
+    </defs>
+  );
+}
+
+/* ============================================================
+   B1 — TERMINATOR
+   The Orbital P, but the planet inside is a crescent earthrise:
+   dark blue Earth body + a hot white terminator arc on the leading edge.
+============================================================ */
+const B1Terminator = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      {/* stem */}
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      {/* bowl ring (orbit) */}
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      {/* inner planet — earthrise body */}
+      <g>
+        <circle cx="140" cy="92" r="22" fill="#0b1530"/>
+        {/* terminator arc on the lit limb */}
+        <circle cx="140" cy="92" r="22" fill="url(#terminator)"/>
+        {/* atmospheric halo */}
+        <circle cx="140" cy="92" r="24" fill="url(#atmo)"/>
+      </g>
+    </svg>
+  );
+};
+
+/* ============================================================
+   B2 — EARTHRISE
+   Inner planet replaced with the actual blue earthrise gradient,
+   sitting in the orbit ring as if rising from a horizon.
+============================================================ */
+const B2Earthrise = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      {/* the Earth — full orb, gradient */}
+      <circle cx="140" cy="92" r="22" fill="url(#earthrise)"/>
+      {/* highlight on lit side */}
+      <circle cx="140" cy="92" r="22" fill="url(#halo)"/>
+    </svg>
+  );
+};
+
+/* ============================================================
+   B3 — CRESCENT
+   Inner planet is a sunlit crescent (true to the photo) — the rest
+   in shadow. Carved by a clipping mask offset to the right.
+============================================================ */
+const B3Crescent = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      <mask id="crescent-mask">
+        <rect width="240" height="240" fill="#000"/>
+        {/* full lit disc */}
+        <circle cx="140" cy="92" r="22" fill="#fff"/>
+        {/* shadow disc, offset right — produces a crescent on the LEFT */}
+        <circle cx="148" cy="92" r="22" fill="#000"/>
+      </mask>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      {/* dark planet body */}
+      <circle cx="140" cy="92" r="22" fill="#0b1530"/>
+      {/* lit crescent on top */}
+      <g mask="url(#crescent-mask)">
+        <circle cx="140" cy="92" r="22" fill="url(#earthrise)"/>
+        {/* hot edge accent */}
+        <circle cx="140" cy="92" r="22" fill="url(#terminator)"/>
+      </g>
+    </svg>
+  );
+};
+
+/* ============================================================
+   B4 — LUNAR HORIZON
+   The orbit ring becomes a lunar surface arc; Earth rises from it.
+   Most cinematic; reads as scene more than glyph.
+============================================================ */
+const B4LunarHorizon = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      {/* full orbit ring */}
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22" opacity=".25"/>
+      {/* lunar lower-half: clip ring to bottom semicircle */}
+      <mask id="lower-half">
+        <rect width="240" height="240" fill="#000"/>
+        <rect x="0" y="92" width="240" height="148" fill="#fff"/>
+      </mask>
+      <g mask="url(#lower-half)">
+        <circle cx="140" cy="92" r="48" fill="none" stroke="url(#lunar)" strokeWidth="22"/>
+      </g>
+      {/* Earth rising — partially clipped by the moon edge */}
+      <mask id="above-horizon">
+        <rect width="240" height="240" fill="#000"/>
+        <rect x="0" y="0" width="240" height="98" fill="#fff"/>
+      </mask>
+      <g mask="url(#above-horizon)">
+        <circle cx="140" cy="92" r="22" fill="url(#earthrise)"/>
+        <circle cx="140" cy="92" r="22" fill="url(#halo)"/>
+      </g>
+    </svg>
+  );
+};
+
+/* ============================================================
+   B5 — STARFIELD
+   Same Orbital P, but the bowl is set into a deep cosmic ring.
+   Tiny stars orbit; the planet has a single hot terminator point.
+============================================================ */
+const B5Starfield = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  const stars = [
+    {x:198, y:74, r:1.2}, {x:84, y:62, r:1}, {x:204, y:118, r:.9},
+    {x:96, y:140, r:.8}, {x:166, y:36, r:1}, {x:172, y:152, r:1.1},
+  ];
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      {/* deep cosmos ring */}
+      <circle cx="140" cy="92" r="48" fill="none" stroke="url(#cosmos)" strokeWidth="22"/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="1" opacity=".25"/>
+      {/* stars */}
+      {stars.map((s,i) => (
+        <circle key={i} cx={s.x} cy={s.y} r={s.r} fill={dark?"#fff":"#0a0a0a"} opacity=".9"/>
+      ))}
+      {/* the Earth */}
+      <circle cx="140" cy="92" r="20" fill="url(#earthrise)"/>
+      {/* hot terminator hairline on the leading limb */}
+      <path d="M 122 80 A 20 20 0 0 1 122 104" fill="none" stroke="#bfdbfe" strokeWidth="1.5" opacity=".9"/>
+    </svg>
+  );
+};
+
+/* ============================================================
+   B6 — DUO (two planets restored, Artemis-styled)
+   Honor the original two-planet meaning: Earth (Ethan, larger)
+   and Moon (Aiden, smaller, lunar texture). Bowl of P holds them.
+============================================================ */
+const B6Duo = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="18"/>
+      {/* Moon (Aiden) — left, lunar */}
+      <circle cx="124" cy="100" r="13" fill="url(#lunar)"/>
+      <circle cx="124" cy="100" r="13" fill="none" stroke="#52525b" strokeWidth=".5"/>
+      {/* tiny crater details */}
+      <circle cx="120" cy="98" r="1.5" fill="#27272a"/>
+      <circle cx="127" cy="103" r="1" fill="#27272a"/>
+      {/* Earth (Ethan) — right, blue, with terminator */}
+      <circle cx="152" cy="86" r="15" fill="url(#earthrise)"/>
+      <circle cx="152" cy="86" r="15" fill="url(#halo)"/>
+    </svg>
+  );
+};
+
+/* ============================================================
+   B7 — TRANSIT
+   The orbit ring is broken by a thin sunlit arc on one side —
+   suggesting motion across the dark. Planet is small, hot.
+============================================================ */
+const B7Transit = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      {/* main bowl ring */}
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      {/* highlight arc — sunlit terminator on the ring's outer edge */}
+      <path d="M 188 92 A 48 48 0 0 0 116 50" fill="none" stroke="#bfdbfe" strokeWidth="2" strokeLinecap="round" opacity=".95"/>
+      {/* small bright planet on the orbit path (top of ring) */}
+      <circle cx="140" cy="44" r="6" fill="#e0f2fe"/>
+      <circle cx="140" cy="44" r="9" fill="url(#halo)"/>
+      {/* central Earth, dim */}
+      <circle cx="140" cy="92" r="14" fill="#0b1530"/>
+    </svg>
+  );
+};
+
+function Stage({ dark=true, children, label, spec }) {
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%'}}>
+      <div className="stage-canvas" style={{background: dark? '#050505':'#ffffff'}}>{children}</div>
+      <div className={`stage-meta ${dark?'':'light'}`}>
+        <span className="name">{label}</span>
+        <span className="tag">{spec}</span>
+      </div>
+    </div>
+  );
+}
+
+function PhotoStage({ children, label, spec }) {
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%'}}>
+      <div className="stage-canvas" style={{
+        background:'linear-gradient(180deg,#000 0%,#000 60%,#1c1917 100%)',
+        position:'relative',overflow:'hidden'
+      }}>
+        {/* faux lunar horizon */}
+        <div style={{position:'absolute',bottom:0,left:0,right:0,height:'30%',
+          background:'radial-gradient(ellipse at 50% 100%, #4a4641 0%, #2a2622 50%, #000 100%)',
+          borderTopLeftRadius:'50% 100%',borderTopRightRadius:'50% 100%'}}/>
+        {/* tiny stars */}
+        {[...Array(12)].map((_,i) => (
+          <div key={i} style={{
+            position:'absolute',
+            top:`${(i*37)%70+5}%`,left:`${(i*61)%90+5}%`,
+            width:1,height:1,background:'#fff',opacity:.4+(i%3)*.2,borderRadius:'50%'
+          }}/>
+        ))}
+        <div style={{position:'relative',zIndex:1}}>{children}</div>
+      </div>
+      <div className="stage-meta">
+        <span className="name">{label}</span>
+        <span className="tag">{spec}</span>
+      </div>
+    </div>
+  );
+}
+
+function Lockup({ glyph, dark=true, size=86 }) {
+  return (
+    <div style={{display:'flex',alignItems:'center',gap:14}}>
+      <div style={{width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
+        {React.cloneElement(glyph, {size, dark})}
+      </div>
+      <span style={{fontWeight:900,letterSpacing:'-.01em',fontSize:size*.30,color:dark?'#fff':'#0a0a0a'}}>PUNIVERSE</span>
+    </div>
+  );
+}
+
+function App() {
+  const variants = [
+    {id:'b1', name:'B1 · Terminator', el: B1Terminator, note:'Orbital P with a hot terminator arc on the inner planet — closest evolution of B with Artemis lighting.'},
+    {id:'b2', name:'B2 · Earthrise', el: B2Earthrise, note:'Inner planet adopts the cool blue earthrise gradient. Most literal photo translation.'},
+    {id:'b3', name:'B3 · Crescent', el: B3Crescent, note:'True to the photo — a sunlit crescent on a dark Earth body. Most distinctive at large size.'},
+    {id:'b4', name:'B4 · Lunar Horizon', el: B4LunarHorizon, note:'The bowl ring becomes a lunar arc; Earth rises from it. Cinematic, scene-like.'},
+    {id:'b5', name:'B5 · Starfield', el: B5Starfield, note:'Cosmic ring with tiny stars; planet has a hairline terminator. Quiet, premium.'},
+    {id:'b6', name:'B6 · Duo', el: B6Duo, note:'Restores the two-planet idea: Earth + Moon (Ethan + Aiden) inside the bowl.'},
+    {id:'b7', name:'B7 · Transit', el: B7Transit, note:'Sunlit arc on the ring suggests motion; tiny bright satellite at top. Most "system" of the set.'},
+  ];
+
+  return (
+    <DesignCanvas>
+      <DCSection id="brief" title="01 · Brief">
+        <DCArtboard id="brief-card" label="Inspiration brief" width={1100} height={420}>
+          <div style={{padding:32,background:'#050505',height:'100%',color:'#a1a1aa',fontFamily:'Inter',display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:32,boxSizing:'border-box'}}>
+            <div style={{display:'flex',flexDirection:'column',gap:14}}>
+              <div style={{fontSize:11,letterSpacing:'.3em',textTransform:'uppercase',color:'#5eead4',fontWeight:700}}>§ Artemis 2 · Lunar Flyby</div>
+              <h1 className="font-display" style={{fontStyle:'italic',color:'#fff',fontSize:44,lineHeight:1.18,margin:0,letterSpacing:'-0.02em'}}>
+                Earthrise from the dark side.
+              </h1>
+              <p style={{fontSize:14,lineHeight:1.6,margin:0}}>
+                Seven Option B variants, each pulling a different visual cue from the Artemis 2 photograph: the cool blue-white of Earth, the hot terminator at the day/night edge, the textured grey lunar surface, and the deep cosmic black around it.
+              </p>
+              <div className="font-mono" style={{fontSize:11,color:'#71717a',marginTop:8,lineHeight:1.7}}>
+                <div><span style={{color:'#bfdbfe'}}>palette ←</span> #0b1530 · #1e3a8a · #60a5fa · #e0f2fe</div>
+                <div><span style={{color:'#bfdbfe'}}>terminator ←</span> #bfdbfe · #ffffff hairline</div>
+                <div><span style={{color:'#bfdbfe'}}>lunar ←</span> #3f3f46 · #18181b</div>
+              </div>
+            </div>
+            <div style={{borderRadius:12,overflow:'hidden',border:'1px solid rgba(255,255,255,.10)'}}>
+              <img src="assets/earthrise.jpg" alt="" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* Each variant: dark / light / lockup */}
+      {variants.map(v => {
+        const G = v.el;
+        return (
+          <DCSection key={v.id} id={v.id} title={v.name}>
+            <DCArtboard id={`${v.id}-dark`} label={`${v.name} · primary`} width={420} height={420}>
+              <Stage dark label={v.name} spec="primary · dark">
+                <G size={220} dark/>
+              </Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-photo`} label={`${v.name} · in scene`} width={420} height={420}>
+              <PhotoStage label={v.name} spec="cinematic · in scene">
+                <G size={200} dark/>
+              </PhotoStage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-light`} label={`${v.name} · light`} width={420} height={420}>
+              <Stage dark={false} label={v.name} spec="inverse · light">
+                <G size={220} dark={false}/>
+              </Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-lockup`} label={`${v.name} · lockup`} width={520} height={300}>
+              <Stage dark label={`${v.name} · lockup`} spec="horizontal">
+                <Lockup glyph={<G/>} dark size={96}/>
+              </Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-favicon`} label={`${v.name} · scale test`} width={420} height={300}>
+              <Stage dark label="64 · 32 · 16" spec="favicon scale">
+                <div style={{display:'flex',gap:24,alignItems:'flex-end'}}>
+                  <G size={64} dark/>
+                  <G size={32} dark/>
+                  <G size={16} dark/>
+                </div>
+              </Stage>
+            </DCArtboard>
+            <DCArtboard id={`${v.id}-note`} label={`${v.name} · note`} width={520} height={300}>
+              <div style={{padding:24,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter',display:'flex',flexDirection:'column',gap:10}}>
+                <div style={{color:'#5eead4',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700}}>Rationale</div>
+                <p style={{margin:0}}>{v.note}</p>
+              </div>
+            </DCArtboard>
+          </DCSection>
+        );
+      })}
+
+      {/* Comparison */}
+      <DCSection id="row" title="08 · All variants · side by side">
+        <DCArtboard id="row-dark" label="All B-variants · dark" width={1480} height={260}>
+          <div style={{display:'flex',background:'#050505',height:'100%',alignItems:'center',justifyContent:'space-around',padding:'20px 30px',gap:12}}>
+            {variants.map(v => {
+              const G = v.el;
+              return (
+                <div key={v.id} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}>
+                  <G size={130} dark/>
+                  <span className="micro">{v.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="pick" label="Recommendation" width={920} height={240}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontFamily:'Inter',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',position:'relative',overflow:'hidden'}}>
+            <div style={{position:'absolute',inset:0,background:'radial-gradient(circle at 80% 20%, rgba(96,165,250,.10), transparent 50%)'}}></div>
+            <div style={{position:'relative'}}>
+              <div style={{color:'#bfdbfe',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:10}}>Recommended path</div>
+              <h3 style={{color:'#fff',fontFamily:'Instrument Serif',fontStyle:'italic',fontSize:32,lineHeight:1.1,margin:0,marginBottom:12,letterSpacing:'-0.01em'}}>B3 (Crescent) for hero · B1 (Terminator) for app icon · B6 (Duo) for the family story.</h3>
+              <p style={{margin:0,maxWidth:780}}>B3 is the most distinctive at size — it makes the photograph itself part of the mark. B1 simplifies cleanly to favicon. B6 keeps the two-planet meaning intact for places where that origin story matters (about page, founder content).</p>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root') || (() => {
+  const r = document.createElement('div'); r.id='root'; document.body.appendChild(r); return r;
+})()).render(<App/>);
+</script>
+</body>
+</html>

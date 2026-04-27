@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse · Type</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body{background:#050505;color:#a1a1aa;font-family:Inter,system-ui;-webkit-font-smoothing:antialiased}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .glass{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.10);border-radius:1rem;backdrop-filter:blur(8px)}
+  .row{display:grid;grid-template-columns:140px 1fr 1fr;gap:1rem;padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,.06);align-items:center}
+  .row:first-child{border-top:0}
+  .text-gradient-tp{background:linear-gradient(90deg,#5eead4,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .text-gradient-trio{background:linear-gradient(90deg,#c4b5fd,#5eead4,#6ee7b7);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.1em}
+</style></head>
+<body class="min-h-screen">
+  <main class="max-w-5xl mx-auto px-10 py-14">
+    <p class="text-xs font-bold tracking-[0.3em] uppercase text-teal-400 mb-3">§02 — Typography</p>
+    <h1 class="font-display italic text-white text-5xl leading-tight tracking-tight mb-12">Type system</h1>
+
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div class="glass p-8">
+        <div class="flex items-baseline justify-between mb-4">
+          <p class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400">Sans</p>
+          <p class="font-mono text-[10px] text-zinc-600">--font-sans</p>
+        </div>
+        <p class="text-white text-6xl font-black tracking-tight leading-none mb-2">Inter</p>
+        <p class="text-zinc-500 text-xs">300 · 400 · 500 · 600 · 700 · 800 · 900</p>
+      </div>
+      <div class="glass p-8">
+        <div class="flex items-baseline justify-between mb-4">
+          <p class="text-xs font-bold tracking-[0.2em] uppercase text-purple-400">Serif</p>
+          <p class="font-mono text-[10px] text-zinc-600">--font-display</p>
+        </div>
+        <p class="text-white text-6xl font-display italic leading-none mb-2">Instrument</p>
+        <p class="text-zinc-500 text-xs italic font-display">For hero headlines &amp; signature italics.</p>
+      </div>
+    </div>
+
+    <div class="glass overflow-hidden">
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">H1 · Hero</span>
+        <span class="font-display italic text-white text-4xl leading-[1.05]">The AI Operating System</span>
+        <span class="font-mono text-[10px] text-zinc-500">font-display italic · 100px<br/>tracking-tight · text-white</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">H1 · Page</span>
+        <span class="text-white text-3xl font-bold tracking-tight leading-[1.1]">Headline gradient highlight.</span>
+        <span class="font-mono text-[10px] text-zinc-500">text-5xl md:text-7xl<br/>font-bold · leading-[1.1]</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">H2</span>
+        <span class="text-white text-2xl font-display italic">Section opener</span>
+        <span class="font-mono text-[10px] text-zinc-500">text-4xl md:text-5xl<br/>font-display italic</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">H3 · Card</span>
+        <span class="text-white text-xl font-medium">Glass card title</span>
+        <span class="font-mono text-[10px] text-zinc-500">text-xl · font-medium · text-white</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">Lead</span>
+        <span class="text-zinc-400 text-base leading-relaxed">Secondary body explaining the value proposition.</span>
+        <span class="font-mono text-[10px] text-zinc-500">text-lg md:text-xl<br/>text-gray-400</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">Body</span>
+        <span class="text-zinc-400 text-sm leading-relaxed">Default reading text. Always dialed back from white.</span>
+        <span class="font-mono text-[10px] text-zinc-500">text-sm md:text-base<br/>text-gray-400</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">Micro</span>
+        <span class="text-xs font-bold tracking-[0.2em] uppercase text-teal-400">Categories · Indexed</span>
+        <span class="font-mono text-[10px] text-zinc-500">text-xs · uppercase<br/>tracking-[0.2em]</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">Caption</span>
+        <span class="text-[10px] uppercase tracking-[0.4em] text-zinc-500">Scroll · Indicator</span>
+        <span class="font-mono text-[10px] text-zinc-500">text-[10px] · tracking-[0.4em]</span>
+      </div>
+      <div class="row">
+        <span class="text-[10px] uppercase tracking-[0.18em] font-semibold text-teal-400">Mono</span>
+        <span class="font-mono text-sm text-zinc-300">/api/contact · 200 OK</span>
+        <span class="font-mono text-[10px] text-zinc-500">JetBrains Mono · for IDs &amp; paths</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 mt-4">
+      <div class="glass p-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4">2-stop</p>
+        <p class="text-2xl font-bold leading-tight"><span class="text-gradient-tp">Highlight.</span></p>
+        <p class="font-mono text-[10px] text-zinc-500 mt-4">teal-400 → purple-400</p>
+      </div>
+      <div class="glass p-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4">Tri-stop</p>
+        <p class="text-2xl font-display italic leading-tight"><span class="text-gradient-trio">for ecommerce.</span></p>
+        <p class="font-mono text-[10px] text-zinc-500 mt-4">purple → teal → emerald</p>
+      </div>
+      <div class="glass p-6">
+        <p class="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 mb-4">Fade</p>
+        <p class="text-2xl font-bold leading-tight" style="background:linear-gradient(90deg,#fff,#a1a1aa);-webkit-background-clip:text;background-clip:text;color:transparent">Subtle hierarchy.</p>
+        <p class="font-mono text-[10px] text-zinc-500 mt-4">white → zinc-400</p>
+      </div>
+    </div>
+  </main>
+</body></html>

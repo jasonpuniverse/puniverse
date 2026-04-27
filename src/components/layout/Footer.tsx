@@ -1,18 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { Logo } from '../ui/Logo';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="w-full max-w-7xl mx-auto px-6 pb-12 pt-16 border-t border-white/10 mt-20">
       <div className="flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex flex-col items-center md:items-start gap-4">
-          <div className="flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
-            <img 
-              src="https://www.puniverse.net/logo.png" 
-              alt="Puniverse Logo" 
-              className="h-8 w-auto object-contain"
-              referrerPolicy="no-referrer"
-            />
+          <div className="flex items-center gap-3 opacity-80 hover:opacity-100 transition-opacity">
+            <Logo size={32} />
             <span className="font-black text-white tracking-tight text-xl">PUNIVERSE</span>
           </div>
           <p className="text-sm text-gray-500 max-w-xs text-center md:text-left">

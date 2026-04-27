@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse — Logo Explorations</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  body{background:#0a0a0a;font-family:Inter,system-ui;-webkit-font-smoothing:antialiased;margin:0}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .stage-dark{background:#050505}
+  .stage-light{background:#ffffff}
+  .stage-frame{display:flex;flex-direction:column;height:100%}
+  .stage-canvas{flex:1;display:flex;align-items:center;justify-content:center;padding:40px;min-height:280px}
+  .stage-meta{padding:14px 18px;border-top:1px solid rgba(255,255,255,.10);background:#0a0a0a;color:#a1a1aa;font-size:11px;font-family:"JetBrains Mono",ui-monospace,monospace;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .stage-meta .name{color:#fff;font-weight:600;letter-spacing:.02em}
+  .stage-meta .tag{color:#71717a}
+  .stage-meta.light{background:#fafafa;border-top:1px solid rgba(0,0,0,.08);color:#525252}
+  .stage-meta.light .name{color:#000}
+  .stage-meta.light .tag{color:#a3a3a3}
+  .gradient-text{background:linear-gradient(90deg,#c4b5fd,#5eead4,#6ee7b7);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lockup-word{font-weight:900;letter-spacing:-.01em;color:#fff;font-size:22px}
+  .lockup-word.dark{color:#0a0a0a}
+  .micro{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#71717a;font-weight:700}
+  .star{filter:url(#twinkle)}
+</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+
+<script type="text/babel">
+const { useState } = React;
+
+/* ============================================================
+   Reusable SVG defs (gradients, filters)
+============================================================ */
+function Defs() {
+  return (
+    <defs>
+      <linearGradient id="trio" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stopColor="#8b5cf6"/>
+        <stop offset="50%" stopColor="#14b8a6"/>
+        <stop offset="100%" stopColor="#10b981"/>
+      </linearGradient>
+      <linearGradient id="trio-v" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#8b5cf6"/>
+        <stop offset="50%" stopColor="#14b8a6"/>
+        <stop offset="100%" stopColor="#10b981"/>
+      </linearGradient>
+      <radialGradient id="planetA" cx=".35" cy=".35" r=".75">
+        <stop offset="0%" stopColor="#c4b5fd"/>
+        <stop offset="60%" stopColor="#8b5cf6"/>
+        <stop offset="100%" stopColor="#4c1d95"/>
+      </radialGradient>
+      <radialGradient id="planetB" cx=".35" cy=".35" r=".75">
+        <stop offset="0%" stopColor="#5eead4"/>
+        <stop offset="55%" stopColor="#14b8a6"/>
+        <stop offset="100%" stopColor="#064e3b"/>
+      </radialGradient>
+      <radialGradient id="planetMono" cx=".35" cy=".35" r=".8">
+        <stop offset="0%" stopColor="#ffffff"/>
+        <stop offset="100%" stopColor="#a1a1aa"/>
+      </radialGradient>
+      <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+        <stop offset="0%" stopColor="#14b8a6" stopOpacity=".55"/>
+        <stop offset="100%" stopColor="#14b8a6" stopOpacity="0"/>
+      </radialGradient>
+      <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="2"/>
+      </filter>
+    </defs>
+  );
+}
+
+/* ============================================================
+   1. ECLIPSE  — two filled planets, large overlap = lens shape
+   "Two planets, one orbit." Most refined version of current.
+============================================================ */
+const Eclipse = ({ size=220, dark=true }) => (
+  <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+    <Defs />
+    {/* outer atmosphere ring (thin, single hairline) */}
+    <circle cx="120" cy="120" r="112" fill="none" stroke={dark?"rgba(255,255,255,.07)":"rgba(0,0,0,.06)"} strokeWidth="1"/>
+    {/* Planet A — Ethan, top-right, larger */}
+    <circle cx="138" cy="92" r="64" fill={dark?"#fff":"#0a0a0a"}/>
+    {/* Planet B — Aiden, bottom-left, slightly smaller, inset overlap = lens */}
+    <circle cx="92" cy="138" r="58" fill="none" stroke={dark?"#fff":"#0a0a0a"} strokeWidth="6"/>
+  </svg>
+);
+
+/* ============================================================
+   2. ORBITAL P — solid P built from a ring + filled disc
+   Reads as "P" first; orbital metaphor on inspection.
+============================================================ */
+const OrbitalP = ({ size=220, dark=true }) => (
+  <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+    <Defs />
+    {/* stem */}
+    <rect x="64" y="40" width="22" height="160" rx="4" fill={dark?"#fff":"#0a0a0a"}/>
+    {/* bowl as ring (orbit) */}
+    <circle cx="140" cy="92" r="48" fill="none" stroke={dark?"#fff":"#0a0a0a"} strokeWidth="22"/>
+    {/* inner planet */}
+    <circle cx="140" cy="92" r="14" fill="url(#trio)"/>
+  </svg>
+);
+
+/* ============================================================
+   3. AETHER — minimal P glyph carved from gradient field
+   Premium / OS feel. The bowl is a dot — the "fifth element".
+============================================================ */
+const Aether = ({ size=220, dark=true }) => (
+  <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+    <Defs />
+    {/* tall stem */}
+    <rect x="78" y="40" width="14" height="160" rx="7" fill={dark?"#fff":"#0a0a0a"}/>
+    {/* the AETHER dot — gradient sphere as the bowl */}
+    <circle cx="140" cy="80" r="32" fill="url(#trio)"/>
+    <circle cx="140" cy="80" r="32" fill="url(#halo)" style={{mixBlendMode:'screen'}} opacity={dark?1:0}/>
+    {/* connective hairline arc — node-link */}
+    <path d="M 92 80 Q 116 80 108 80" fill="none" stroke={dark?"rgba(255,255,255,.5)":"rgba(0,0,0,.4)"} strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+/* ============================================================
+   4. SYSTEM NODE — abstract glyph for "agentic OS"
+   Two orbiting nodes around a central hub; reads as "P" sideways.
+============================================================ */
+const SystemNode = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      {/* outer orbit */}
+      <ellipse cx="120" cy="120" rx="92" ry="56" fill="none" stroke={fg} strokeWidth="1.5" opacity=".25" transform="rotate(-25 120 120)"/>
+      {/* inner orbit */}
+      <ellipse cx="120" cy="120" rx="60" ry="92" fill="none" stroke={fg} strokeWidth="1.5" opacity=".25" transform="rotate(25 120 120)"/>
+      {/* central node */}
+      <circle cx="120" cy="120" r="18" fill={fg}/>
+      <circle cx="120" cy="120" r="6" fill={dark?"#0a0a0a":"#fff"}/>
+      {/* satellite planets */}
+      <circle cx="200" cy="84" r="14" fill="url(#trio)"/>
+      <circle cx="40" cy="156" r="11" fill={fg}/>
+      {/* tiny accent stars */}
+      <circle cx="60" cy="60" r="1.5" fill={fg} opacity=".6"/>
+      <circle cx="190" cy="180" r="1.5" fill={fg} opacity=".6"/>
+    </svg>
+  );
+};
+
+/* ============================================================
+   5. PUN — wordmark with planet replacing the bowl of P
+   Pure typography play, leans into the "pun" of the name.
+============================================================ */
+const PunWordmark = ({ dark=true }) => (
+  <div style={{display:'flex',alignItems:'center',gap:0,letterSpacing:'-0.02em'}}>
+    <svg viewBox="0 0 80 100" width="80" height="100" style={{marginRight:-4}}>
+      <Defs />
+      {/* P stem */}
+      <rect x="6" y="6" width="14" height="88" fill={dark?"#fff":"#0a0a0a"}/>
+      {/* small planet B (orbit/aiden) */}
+      <circle cx="38" cy="52" r="20" fill="none" stroke={dark?"#fff":"#0a0a0a"} strokeWidth="6"/>
+      {/* big planet A (ethan) */}
+      <circle cx="50" cy="32" r="22" fill="url(#trio)"/>
+    </svg>
+    <span style={{fontFamily:'Inter',fontWeight:900,fontSize:64,color:dark?'#fff':'#0a0a0a',letterSpacing:'-0.04em'}}>UNIVERSE</span>
+  </div>
+);
+
+/* ============================================================
+   6. CONJUNCTION — minimal: two dots + horizon line
+   For favicon / monogram. The "pun" universe abstracted.
+============================================================ */
+const Conjunction = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      {/* horizon */}
+      <line x1="20" y1="160" x2="220" y2="160" stroke={fg} strokeWidth="2" opacity=".4"/>
+      {/* big planet (sets) */}
+      <circle cx="92" cy="120" r="48" fill={fg}/>
+      {/* small planet (rises) — gradient */}
+      <circle cx="170" cy="142" r="26" fill="url(#trio)"/>
+      {/* tiny third element — AETHER dot */}
+      <circle cx="200" cy="60" r="3" fill={fg}/>
+    </svg>
+  );
+};
+
+/* ============================================================
+   7. INVERTED — the planets as negative space inside a P-block
+   Architectural / brutalist take.
+============================================================ */
+const Inverted = ({ size=220, dark=true }) => {
+  const fg = dark ? "#fff" : "#0a0a0a";
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <Defs />
+      <mask id="punch">
+        <rect x="0" y="0" width="240" height="240" fill="#fff"/>
+        {/* punch stem area */}
+        <rect x="56" y="40" width="128" height="160" rx="14" fill="#000"/>
+      </mask>
+      <rect x="32" y="32" width="176" height="176" rx="22" fill={fg}/>
+      {/* punched holes — two planets in negative */}
+      <circle cx="100" cy="98" r="32" fill={dark?"#050505":"#fff"}/>
+      <circle cx="146" cy="142" r="22" fill={dark?"#050505":"#fff"}/>
+      {/* tiny accent */}
+      <circle cx="146" cy="142" r="6" fill="url(#trio)"/>
+    </svg>
+  );
+};
+
+/* ============================================================
+   8. SIGNATURE — italic serif "P" with planet dot, editorial
+   For AETHEO / premium-tier cousin brand.
+============================================================ */
+const Signature = ({ dark=true }) => (
+  <div style={{display:'flex',alignItems:'baseline',gap:8}}>
+    <svg viewBox="0 0 120 160" width="120" height="160">
+      <Defs />
+      {/* italic serif P, drawn as path */}
+      <text x="0" y="130" fontFamily="Instrument Serif, serif" fontStyle="italic" fontSize="160" fill={dark?"#fff":"#0a0a0a"} fontWeight="400">P</text>
+      {/* orbit dot replacing the bowl punctuation */}
+      <circle cx="98" cy="46" r="7" fill="url(#trio)"/>
+    </svg>
+  </div>
+);
+
+/* ============================================================
+   The studies — current, masterbrand, mono, etc.
+============================================================ */
+function Stage({ dark=true, children, label, spec }) {
+  return (
+    <div className="stage-frame" style={{height:'100%'}}>
+      <div className={`stage-canvas ${dark?'stage-dark':'stage-light'}`}>{children}</div>
+      <div className={`stage-meta ${dark?'':'light'}`}>
+        <span className="name">{label}</span>
+        <span className="tag">{spec}</span>
+      </div>
+    </div>
+  );
+}
+
+function Lockup({ glyph, dark=true, size=86 }) {
+  return (
+    <div style={{display:'flex',alignItems:'center',gap:14}}>
+      <div style={{width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
+        {React.cloneElement(glyph, {size, dark})}
+      </div>
+      <span className={`lockup-word ${dark?'':'dark'}`} style={{fontSize:size*.30, letterSpacing:'-0.01em'}}>PUNIVERSE</span>
+    </div>
+  );
+}
+
+/* ============================================================
+   App
+============================================================ */
+function App() {
+  return (
+    <DesignCanvas>
+      {/* INTRO / RATIONALE */}
+      <DCSection id="intro" title="01 · Brief">
+        <DCArtboard id="brief" label="Concept brief" width={920} height={420}>
+          <div style={{padding:36,background:'#050505',height:'100%',color:'#a1a1aa',fontFamily:'Inter',display:'flex',flexDirection:'column',gap:16,boxSizing:'border-box'}}>
+            <div style={{fontSize:11,letterSpacing:'.3em',textTransform:'uppercase',color:'#5eead4',fontWeight:700}}>§ Identity Reset</div>
+            <h1 className="font-display" style={{fontStyle:'italic',color:'#fff',fontSize:54,lineHeight:1.05,margin:0,letterSpacing:'-0.02em'}}>
+              Two planets. One <span className="gradient-text">orbit</span>.
+            </h1>
+            <p style={{fontSize:15,lineHeight:1.6,maxWidth:640,margin:0}}>
+              The current mark works as a private symbol — Ethan &amp; Aiden, P + Universe, the pun on Pun. To carry an <em style={{color:'#fff',fontStyle:'italic',fontFamily:'Instrument Serif',fontSize:18}}>agentic operating system</em> for ecommerce, the glyph needs to read at favicon size, work in monochrome, and feel inevitable next to AETHEO.
+            </p>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:8,marginTop:8,fontSize:11,fontFamily:'JetBrains Mono'}}>
+              <div style={{padding:'10px 12px',border:'1px solid rgba(255,255,255,.10)',borderRadius:10}}>
+                <div style={{color:'#71717a',fontSize:9,letterSpacing:'.2em'}}>KEEP</div>
+                <div style={{color:'#fff',marginTop:4}}>Two-planet DNA</div>
+              </div>
+              <div style={{padding:'10px 12px',border:'1px solid rgba(255,255,255,.10)',borderRadius:10}}>
+                <div style={{color:'#71717a',fontSize:9,letterSpacing:'.2em'}}>FIX</div>
+                <div style={{color:'#fff',marginTop:4}}>Reads "P" first</div>
+              </div>
+              <div style={{padding:'10px 12px',border:'1px solid rgba(255,255,255,.10)',borderRadius:10}}>
+                <div style={{color:'#71717a',fontSize:9,letterSpacing:'.2em'}}>ADD</div>
+                <div style={{color:'#fff',marginTop:4}}>System / OS feel</div>
+              </div>
+              <div style={{padding:'10px 12px',border:'1px solid rgba(255,255,255,.10)',borderRadius:10}}>
+                <div style={{color:'#71717a',fontSize:9,letterSpacing:'.2em'}}>EXTEND</div>
+                <div style={{color:'#fff',marginTop:4}}>To AETHEO sub-mark</div>
+              </div>
+            </div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="current" label="Current mark · for reference" width={420} height={420}>
+          <Stage dark label="Current logo" spec="reference">
+            <img src="assets/current-logo.png" alt="" style={{width:200,height:200,objectFit:'contain',borderRadius:8}}/>
+          </Stage>
+        </DCArtboard>
+      </DCSection>
+
+      {/* OPTION 01 ECLIPSE */}
+      <DCSection id="opt-eclipse" title="02 · Option A — Eclipse">
+        <DCArtboard id="eclipse-dark" label="A · Eclipse · primary" width={420} height={420}>
+          <Stage dark label="Eclipse" spec="primary · dark">
+            <Eclipse size={220} dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="eclipse-light" label="A · on light" width={420} height={420}>
+          <Stage dark={false} label="Eclipse" spec="inverse · light">
+            <Eclipse size={220} dark={false}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="eclipse-lockup" label="A · lockup" width={520} height={420}>
+          <Stage dark label="Eclipse · wordmark lockup" spec="horizontal">
+            <Lockup glyph={<Eclipse/>} dark size={96}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="eclipse-favicon" label="A · favicon · 32px" width={300} height={420}>
+          <Stage dark label="32px / 16px" spec="favicon">
+            <div style={{display:'flex',gap:24,alignItems:'flex-end'}}>
+              <Eclipse size={64} dark/>
+              <Eclipse size={32} dark/>
+              <Eclipse size={16} dark/>
+            </div>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="eclipse-rationale" label="A · why it works" width={920} height={220}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter'}}>
+            <div style={{color:'#5eead4',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:8}}>Refined evolution</div>
+            <p style={{margin:0,maxWidth:780}}>The most direct evolution: keep the two-planet construction but commit to <em style={{color:'#fff',fontStyle:'normal'}}>one filled, one outlined</em>. The lens of overlap reads cleanly. No transparency stacking, no muddy reds. The Ethan / Aiden duality is preserved — and the "P" appears the moment you tilt your head.</p>
+            <div className="font-mono" style={{marginTop:12,fontSize:11,color:'#71717a'}}>fill: #fff · stroke: 6px · 240 viewbox · works to 16px</div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* OPTION 02 ORBITAL P */}
+      <DCSection id="opt-orbital" title="03 · Option B — Orbital P">
+        <DCArtboard id="orb-dark" label="B · Orbital P · primary" width={420} height={420}>
+          <Stage dark label="Orbital P" spec="primary">
+            <OrbitalP size={220} dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="orb-light" label="B · light" width={420} height={420}>
+          <Stage dark={false} label="Orbital P" spec="inverse">
+            <OrbitalP size={220} dark={false}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="orb-lockup" label="B · lockup" width={520} height={420}>
+          <Stage dark label="Orbital P · lockup" spec="horizontal">
+            <Lockup glyph={<OrbitalP/>} dark size={96}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="orb-rationale" label="B · why it works" width={920} height={220}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter'}}>
+            <div style={{color:'#5eead4',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:8}}>Reads "P" first</div>
+            <p style={{margin:0,maxWidth:780}}>If the brief is "agentic commerce OS," the mark should look like a system. The bowl of the P becomes a literal orbit ring with a single gradient planet at its center — Ethan, Aiden, and the trinity gradient all converge in one figure-ground. The clearest letterform of the eight, and the gradient enters by reference rather than as decoration.</p>
+            <div className="font-mono" style={{marginTop:12,fontSize:11,color:'#71717a'}}>stem: 22px · ring: 22px · planet: 28px · gradient on inner only</div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* OPTION 03 AETHER */}
+      <DCSection id="opt-aether" title="04 · Option C — Aether">
+        <DCArtboard id="ae-dark" label="C · Aether · primary" width={420} height={420}>
+          <Stage dark label="Aether" spec="primary">
+            <Aether size={220} dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="ae-light" label="C · light" width={420} height={420}>
+          <Stage dark={false} label="Aether" spec="inverse">
+            <Aether size={220} dark={false}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="ae-lockup" label="C · lockup" width={520} height={420}>
+          <Stage dark label="Aether · lockup" spec="horizontal">
+            <Lockup glyph={<Aether/>} dark size={96}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="ae-rationale" label="C · why it works" width={920} height={220}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter'}}>
+            <div style={{color:'#5eead4',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:8}}>The fifth element</div>
+            <p style={{margin:0,maxWidth:780}}>A tall stem and a single gradient sphere — the bowl of the P as the AETHER node. The hairline arc connecting the two reads as a node-link in a system graph. This direction makes Puniverse the parent and AETHEO the natural sibling: the same sphere, alone, becomes AETHEO's mark.</p>
+            <div className="font-mono" style={{marginTop:12,fontSize:11,color:'#71717a'}}>parent: P + sphere · child: sphere alone (AETHEO)</div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* OPTION 04 SYSTEM NODE */}
+      <DCSection id="opt-system" title="05 · Option D — System Node">
+        <DCArtboard id="sn-dark" label="D · System Node" width={420} height={420}>
+          <Stage dark label="System Node" spec="abstract">
+            <SystemNode size={220} dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="sn-light" label="D · light" width={420} height={420}>
+          <Stage dark={false} label="System Node" spec="inverse">
+            <SystemNode size={220} dark={false}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="sn-lockup" label="D · lockup" width={520} height={420}>
+          <Stage dark label="System Node · lockup" spec="horizontal">
+            <Lockup glyph={<SystemNode/>} dark size={96}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="sn-rationale" label="D · why it works" width={920} height={220}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter'}}>
+            <div style={{color:'#5eead4',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:8}}>Most "OS"</div>
+            <p style={{margin:0,maxWidth:780}}>Two crossed orbital ellipses, a central hub, two satellite planets — the most literal "operating system" mark. Walks furthest from the "P", but reads as a brand for autonomous, agentic infrastructure. Best paired with a strong wordmark beside it.</p>
+            <div className="font-mono" style={{marginTop:12,fontSize:11,color:'#71717a'}}>orbits: -25° / +25° · gradient on satellite A · works as animated loader</div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* OPTION 05 PUN WORDMARK */}
+      <DCSection id="opt-pun" title="06 · Option E — Pun Wordmark">
+        <DCArtboard id="pun-dark" label="E · Pun · wordmark" width={680} height={300}>
+          <Stage dark label="Pun · wordmark" spec="lockup-as-mark">
+            <PunWordmark dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="pun-light" label="E · light" width={680} height={300}>
+          <Stage dark={false} label="Pun · wordmark" spec="inverse">
+            <PunWordmark dark={false}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="pun-rationale" label="E · why it works" width={920} height={220}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter'}}>
+            <div style={{color:'#5eead4',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:8}}>Editorial / wordmark</div>
+            <p style={{margin:0,maxWidth:780}}>Lean into the wordmark — there is no separate glyph. The "P" is built from the same two-planet construction as Eclipse, but optically locked at type-size with the rest of the word. For long-form contexts (presentation covers, decks, white papers), this is the most editorial option.</p>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* OPTION 06 / 07 / 08 — abstract trio */}
+      <DCSection id="opt-abstract" title="07 · Options F · G · H — Abstract studies">
+        <DCArtboard id="conj-dark" label="F · Conjunction" width={420} height={420}>
+          <Stage dark label="Conjunction" spec="minimal · favicon">
+            <Conjunction size={220} dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="inv-dark" label="G · Inverted block" width={420} height={420}>
+          <Stage dark label="Inverted" spec="brutalist">
+            <Inverted size={220} dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="sig-dark" label="H · Signature italic" width={420} height={420}>
+          <Stage dark label="Signature" spec="editorial">
+            <Signature dark/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="abs-rationale" label="F · G · H · rationale" width={920} height={240}>
+          <div style={{padding:28,background:'#050505',color:'#a1a1aa',fontSize:13,lineHeight:1.6,height:'100%',boxSizing:'border-box',fontFamily:'Inter'}}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:24}}>
+              <div>
+                <div style={{color:'#c4b5fd',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:6}}>F · Conjunction</div>
+                <p style={{margin:0}}>Two planets above a horizon — a "pun universe" abstracted to its quietest. Loses the "P" entirely; gains room to live as ambient texture across UI.</p>
+              </div>
+              <div>
+                <div style={{color:'#5eead4',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:6}}>G · Inverted block</div>
+                <p style={{margin:0}}>Architectural / brutalist — a solid block with two planets punched out as negative space. Strong on apparel, app icon, embossed surfaces. Less elegant in motion.</p>
+              </div>
+              <div>
+                <div style={{color:'#6ee7b7',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:6}}>H · Signature</div>
+                <p style={{margin:0}}>Italic Instrument Serif "P" with a tiny gradient orbit dot. Best as the editorial sub-mark for AETHEO-style premium content; not a primary.</p>
+              </div>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      {/* SHORTLIST / SIDE-BY-SIDE */}
+      <DCSection id="shortlist" title="08 · Shortlist · side by side">
+        <DCArtboard id="row-dark" label="All 8 · on dark" width={1480} height={260}>
+          <div style={{display:'flex',background:'#050505',height:'100%',alignItems:'center',justifyContent:'space-around',padding:'20px 30px',gap:12}}>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Eclipse size={130} dark/><span className="micro">A · Eclipse</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><OrbitalP size={130} dark/><span className="micro">B · Orbital</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Aether size={130} dark/><span className="micro">C · Aether</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><SystemNode size={130} dark/><span className="micro">D · System</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Conjunction size={130} dark/><span className="micro">F · Conjunction</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Inverted size={130} dark/><span className="micro">G · Inverted</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Signature dark/><span className="micro">H · Signature</span></div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="row-light" label="All · on light" width={1480} height={260}>
+          <div style={{display:'flex',background:'#fafafa',height:'100%',alignItems:'center',justifyContent:'space-around',padding:'20px 30px',gap:12}}>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Eclipse size={130} dark={false}/><span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>A · Eclipse</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><OrbitalP size={130} dark={false}/><span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>B · Orbital</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Aether size={130} dark={false}/><span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>C · Aether</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><SystemNode size={130} dark={false}/><span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>D · System</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Conjunction size={130} dark={false}/><span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>F · Conjunction</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Inverted size={130} dark={false}/><span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>G · Inverted</span></div>
+            <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:10}}><Signature dark={false}/><span style={{fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#525252',fontWeight:700}}>H · Signature</span></div>
+          </div>
+        </DCArtboard>
+
+        <DCArtboard id="my-pick" label="Recommendation" width={920} height={260}>
+          <div style={{padding:32,background:'linear-gradient(135deg,#0a0a0a,#0a0a0a),radial-gradient(circle at 30% 30%,rgba(139,92,246,.15),transparent 60%)',height:'100%',color:'#a1a1aa',fontFamily:'Inter',fontSize:13,lineHeight:1.6,boxSizing:'border-box',position:'relative',overflow:'hidden'}}>
+            <div style={{position:'absolute',inset:0,background:'radial-gradient(circle at 80% 20%, rgba(20,184,166,.10), transparent 50%)'}}></div>
+            <div style={{position:'relative'}}>
+              <div style={{color:'#6ee7b7',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700,marginBottom:10}}>Recommended path</div>
+              <h3 style={{color:'#fff',fontFamily:'Instrument Serif',fontStyle:'italic',fontSize:36,lineHeight:1.1,margin:0,marginBottom:14,letterSpacing:'-0.01em'}}>Option B (Orbital P) as primary, <br/>Option C (Aether) sphere as AETHEO sub-mark.</h3>
+              <p style={{margin:0,maxWidth:780}}>B carries the Puniverse story (two planets, a system) while reading as a clean letterform — strong at every scale. The C sphere becomes AETHEO's standalone glyph, so the family relationship is structural, not just stylistic. F (Conjunction) makes a great favicon when even B is too detailed.</p>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root') || (() => {
+  const r = document.createElement('div'); r.id='root'; document.body.appendChild(r); return r;
+})()).render(<App/>);
+</script>
+</body>
+</html>

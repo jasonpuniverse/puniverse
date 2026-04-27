@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse — B2 v3 · Aurora simplified</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  body{background:#0a0a0a;font-family:Inter,system-ui;-webkit-font-smoothing:antialiased;margin:0}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .stage-canvas{flex:1;display:flex;align-items:center;justify-content:center;padding:36px;min-height:280px}
+  .stage-meta{padding:14px 18px;border-top:1px solid rgba(255,255,255,.10);background:#0a0a0a;color:#a1a1aa;font-size:11px;font-family:"JetBrains Mono",ui-monospace,monospace;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .stage-meta .name{color:#fff;font-weight:600}
+  .stage-meta .tag{color:#71717a}
+  .stage-meta.light{background:#fafafa;border-top:1px solid rgba(0,0,0,.08);color:#525252}
+  .stage-meta.light .name{color:#000}
+  .stage-meta.light .tag{color:#a3a3a3}
+  .micro{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#71717a;font-weight:700}
+</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+/* ============================================================
+   B2.4 v3 — AURORA SIMPLIFIED
+   TWO lines of light only:
+     1) the bright sun-rim arc (terminator) on the lit limb
+     2) the teal aurora arc on the opposite (night) limb
+   No third white halo. No second green pole.
+   Dark and Light modes are genuinely different builds.
+============================================================ */
+
+function AuroraGlyphDark({ size = 220 }) {
+  const fg = '#ffffff';
+  const cx = 140, cy = 92, r = 22;
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <defs>
+        {/* Earth body — deep, dark, inky */}
+        <radialGradient id="b-d" cx=".42" cy=".38" r=".75">
+          <stop offset="0%" stopColor="#1e3a5f"/>
+          <stop offset="55%" stopColor="#0c1a35"/>
+          <stop offset="100%" stopColor="#050a18"/>
+        </radialGradient>
+        {/* LINE 1 — the sun-rim, hot white-blue arc on the right limb */}
+        <linearGradient id="rim-d" x1="1" y1=".3" x2="0" y2=".7">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0"/>
+          <stop offset="35%" stopColor="#ffffff" stopOpacity=".95"/>
+          <stop offset="65%" stopColor="#bfdbfe" stopOpacity=".75"/>
+          <stop offset="100%" stopColor="#bfdbfe" stopOpacity="0"/>
+        </linearGradient>
+        {/* LINE 2 — teal aurora arc on the left/upper limb */}
+        <linearGradient id="aur-d" x1="0" y1=".15" x2="1" y2=".85">
+          <stop offset="0%" stopColor="#5eead4" stopOpacity="0"/>
+          <stop offset="40%" stopColor="#5eead4" stopOpacity=".9"/>
+          <stop offset="80%" stopColor="#5eead4" stopOpacity=".4"/>
+          <stop offset="100%" stopColor="#5eead4" stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+      {/* P stem */}
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      {/* P bowl ring */}
+      <circle cx={cx} cy={cy} r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      {/* dark Earth body */}
+      <circle cx={cx} cy={cy} r={r} fill="url(#b-d)"/>
+      {/* LINE 1: sun-rim arc on the right (sunward) limb — ~5 to 7 o'clock */}
+      <path
+        d={`M ${cx + r*0.95} ${cy - r*0.32}
+            A ${r} ${r} 0 0 1 ${cx + r*0.45} ${cy + r*0.89}`}
+        fill="none" stroke="url(#rim-d)" strokeWidth="1.6" strokeLinecap="round"/>
+      <path
+        d={`M ${cx + r*0.95} ${cy - r*0.32}
+            A ${r} ${r} 0 0 1 ${cx + r*0.45} ${cy + r*0.89}`}
+        fill="none" stroke="#ffffff" strokeWidth=".7" strokeLinecap="round" opacity=".95"/>
+      {/* LINE 2: teal aurora arc on the left/top limb — ~10 to 8 o'clock */}
+      <path
+        d={`M ${cx - r*0.6} ${cy - r*0.8}
+            A ${r} ${r} 0 0 0 ${cx - r*0.95} ${cy + r*0.32}`}
+        fill="none" stroke="url(#aur-d)" strokeWidth="1.8" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function AuroraGlyphLight({ size = 220 }) {
+  const fg = '#0a0a0a';
+  const cx = 140, cy = 92, r = 22;
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <defs>
+        {/* Light-mode body: an ink-saturated planet — flat with a tonal shift */}
+        <radialGradient id="b-l" cx=".42" cy=".38" r=".75">
+          <stop offset="0%" stopColor="#1e3a8a"/>
+          <stop offset="60%" stopColor="#0c1a35"/>
+          <stop offset="100%" stopColor="#050a18"/>
+        </radialGradient>
+        {/* LINE 1 (light) — sun-rim is rendered as a SAPPHIRE arc, not white */}
+        <linearGradient id="rim-l" x1="1" y1=".3" x2="0" y2=".7">
+          <stop offset="0%" stopColor="#1e3a8a" stopOpacity="0"/>
+          <stop offset="35%" stopColor="#1e3a8a" stopOpacity="1"/>
+          <stop offset="65%" stopColor="#3b82f6" stopOpacity=".85"/>
+          <stop offset="100%" stopColor="#3b82f6" stopOpacity="0"/>
+        </linearGradient>
+        {/* LINE 2 (light) — aurora is rendered as a deeper TEAL ink, more graphic */}
+        <linearGradient id="aur-l" x1="0" y1=".15" x2="1" y2=".85">
+          <stop offset="0%" stopColor="#0d9488" stopOpacity="0"/>
+          <stop offset="40%" stopColor="#0d9488" stopOpacity="1"/>
+          <stop offset="80%" stopColor="#14b8a6" stopOpacity=".6"/>
+          <stop offset="100%" stopColor="#14b8a6" stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx={cx} cy={cy} r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      {/* In LIGHT mode the planet is a deep saturated body (vs the dark mode where it's near-black) */}
+      <circle cx={cx} cy={cy} r={r} fill="url(#b-l)"/>
+      {/* sun-rim — sapphire blue, slightly thicker so it reads on white */}
+      <path
+        d={`M ${cx + r*0.95} ${cy - r*0.32}
+            A ${r} ${r} 0 0 1 ${cx + r*0.45} ${cy + r*0.89}`}
+        fill="none" stroke="url(#rim-l)" strokeWidth="2" strokeLinecap="round"/>
+      {/* aurora — deep teal */}
+      <path
+        d={`M ${cx - r*0.6} ${cy - r*0.8}
+            A ${r} ${r} 0 0 0 ${cx - r*0.95} ${cy + r*0.32}`}
+        fill="none" stroke="url(#aur-l)" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+/* Wrapper: switches build by `dark` */
+const AuroraGlyph = ({ size = 220, dark = true }) =>
+  dark ? <AuroraGlyphDark size={size}/> : <AuroraGlyphLight size={size}/>;
+
+/* Favicon-grade simplification: drop both lines, keep only the rim hairline */
+function AuroraFavicon({ size = 64, dark = true }) {
+  const fg = dark ? '#fff' : '#0a0a0a';
+  const body = dark ? '#0c1a35' : '#1e3a8a';
+  const rim = dark ? '#bfdbfe' : '#3b82f6';
+  return (
+    <svg viewBox="0 0 240 240" width={size} height={size} aria-hidden>
+      <rect x="64" y="40" width="22" height="160" rx="4" fill={fg}/>
+      <circle cx="140" cy="92" r="48" fill="none" stroke={fg} strokeWidth="22"/>
+      <circle cx="140" cy="92" r="22" fill={body}/>
+      <path d="M 161 86 A 22 22 0 0 1 150 112" fill="none" stroke={rim} strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function Stage({ dark=true, children, label, spec }) {
+  return (
+    <div style={{display:'flex',flexDirection:'column',height:'100%'}}>
+      <div className="stage-canvas" style={{background: dark? '#050505':'#ffffff'}}>{children}</div>
+      <div className={`stage-meta ${dark?'':'light'}`}>
+        <span className="name">{label}</span>
+        <span className="tag">{spec}</span>
+      </div>
+    </div>
+  );
+}
+
+function Lockup({ dark=true, size=96 }) {
+  return (
+    <div style={{display:'flex',alignItems:'center',gap:14}}>
+      <AuroraGlyph size={size} dark={dark}/>
+      <span style={{fontWeight:900,letterSpacing:'-.01em',fontSize:size*.30,color:dark?'#fff':'#0a0a0a'}}>PUNIVERSE</span>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="brief" title="01 · B2.4 v3 — Aurora, simplified">
+        <DCArtboard id="brief-card" label="Brief" width={1200} height={380}>
+          <div style={{padding:32,background:'#050505',height:'100%',color:'#a1a1aa',fontFamily:'Inter',display:'grid',gridTemplateColumns:'1.2fr 1fr',gap:32,boxSizing:'border-box'}}>
+            <div style={{display:'flex',flexDirection:'column',gap:14}}>
+              <div style={{fontSize:11,letterSpacing:'.3em',textTransform:'uppercase',color:'#5eead4',fontWeight:700}}>§ Two lines only</div>
+              <h1 className="font-display" style={{fontStyle:'italic',color:'#fff',fontSize:40,lineHeight:1.25,margin:'0 0 6px 0',letterSpacing:'-0.02em'}}>
+                Sun rim. Aurora. Nothing else.
+              </h1>
+              <p style={{fontSize:13.5,lineHeight:1.6,margin:0,maxWidth:540}}>
+                The previous build had three lines of light fighting on the planet. This one is built from exactly two arcs: a hot sun-rim on the lit limb, and a teal aurora on the opposite limb. The dark Earth body sits between them.
+              </p>
+              <div className="font-mono" style={{fontSize:11,color:'#71717a',marginTop:6,lineHeight:1.7}}>
+                <div><span style={{color:'#bfdbfe'}}>line 1 ·</span> sun-rim · #ffffff → #bfdbfe (dark) · #1e3a8a → #3b82f6 (light)</div>
+                <div><span style={{color:'#5eead4'}}>line 2 ·</span> aurora · #5eead4 (dark) · #0d9488 → #14b8a6 (light)</div>
+                <div><span style={{color:'#71717a'}}>body ·</span> #0c1a35 (dark) · #0c1a35 (light, more saturated)</div>
+              </div>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <AuroraGlyph size={240} dark/>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="primary" title="02 · Primary on dark">
+        <DCArtboard id="primary-dark" label="Primary · dark" width={520} height={520}>
+          <Stage dark label="B2.4 v3" spec="primary · dark"><AuroraGlyph size={300} dark/></Stage>
+        </DCArtboard>
+        <DCArtboard id="primary-lockup" label="Lockup · dark" width={620} height={300}>
+          <Stage dark label="Lockup" spec="horizontal"><Lockup dark size={110}/></Stage>
+        </DCArtboard>
+        <DCArtboard id="primary-detail" label="Two arcs · annotated" width={520} height={520}>
+          <Stage dark label="Two arcs" spec="construction">
+            <div style={{position:'relative'}}>
+              <AuroraGlyph size={300} dark/>
+              <div style={{position:'absolute',top:170,left:300,fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#bfdbfe',fontWeight:700,fontFamily:'JetBrains Mono'}}>SUN RIM →</div>
+              <div style={{position:'absolute',top:120,right:280,fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',color:'#5eead4',fontWeight:700,fontFamily:'JetBrains Mono'}}>← AURORA</div>
+            </div>
+          </Stage>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="light" title="03 · Light mode — re-built, not just inverted">
+        <DCArtboard id="light-version" label="Inverse · light" width={520} height={520}>
+          <Stage dark={false} label="B2.4 v3" spec="primary · light">
+            <AuroraGlyph size={300} dark={false}/>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="light-lockup" label="Lockup · light" width={620} height={300}>
+          <Stage dark={false} label="Lockup" spec="horizontal · light"><Lockup dark={false} size={110}/></Stage>
+        </DCArtboard>
+        <DCArtboard id="light-note" label="What's different" width={520} height={520}>
+          <div style={{padding:32,background:'#fafafa',color:'#404040',fontFamily:'Inter',fontSize:13,lineHeight:1.65,height:'100%',boxSizing:'border-box',display:'flex',flexDirection:'column',gap:14}}>
+            <div style={{color:'#0d9488',fontSize:10,letterSpacing:'.3em',textTransform:'uppercase',fontWeight:700}}>Light mode · genuine differences</div>
+            <h3 style={{fontFamily:'Instrument Serif',fontStyle:'italic',color:'#0a0a0a',fontSize:26,lineHeight:1.2,margin:'0 0 4px 0'}}>Not the dark version on white.</h3>
+            <ul style={{margin:0,paddingLeft:18,display:'flex',flexDirection:'column',gap:10}}>
+              <li><strong>Body:</strong> deeper, more saturated blue. White-on-near-black became a flat ink — the planet now <em>contrasts</em> with the page.</li>
+              <li><strong>Sun rim:</strong> rendered in <span style={{color:'#1e3a8a',fontWeight:700}}>sapphire</span>, not white. White on white disappears; sapphire is the legible equivalent.</li>
+              <li><strong>Aurora:</strong> shifted from glowing teal to deep <span style={{color:'#0d9488',fontWeight:700}}>ink teal</span> — same hue family, but printable.</li>
+              <li><strong>Stroke:</strong> thicker (2px vs 1.6) so the arcs survive the higher-contrast background.</li>
+            </ul>
+          </div>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="scale" title="04 · Scale + favicon split">
+        <DCArtboard id="scale-dark" label="Scale test · dark" width={760} height={300}>
+          <Stage dark label="280 · 96 · 64 · 32 · 16" spec="scale">
+            <div style={{display:'flex',gap:28,alignItems:'flex-end'}}>
+              <AuroraGlyph size={140} dark/>
+              <AuroraGlyph size={96} dark/>
+              <AuroraGlyph size={64} dark/>
+              <AuroraGlyph size={32} dark/>
+              <AuroraFavicon size={16} dark/>
+            </div>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="scale-light" label="Scale test · light" width={760} height={300}>
+          <Stage dark={false} label="280 · 96 · 64 · 32 · 16" spec="scale">
+            <div style={{display:'flex',gap:28,alignItems:'flex-end'}}>
+              <AuroraGlyph size={140} dark={false}/>
+              <AuroraGlyph size={96} dark={false}/>
+              <AuroraGlyph size={64} dark={false}/>
+              <AuroraGlyph size={32} dark={false}/>
+              <AuroraFavicon size={16} dark={false}/>
+            </div>
+          </Stage>
+        </DCArtboard>
+        <DCArtboard id="favicon" label="Favicon (≤16px)" width={420} height={300}>
+          <Stage dark label="Favicon variant" spec="below 16px · drop both arcs">
+            <div style={{display:'flex',gap:18,alignItems:'flex-end'}}>
+              <AuroraFavicon size={64} dark/>
+              <AuroraFavicon size={32} dark/>
+              <AuroraFavicon size={16} dark/>
+            </div>
+          </Stage>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="compare" title="05 · Side by side · dark + light">
+        <DCArtboard id="compare-row" label="Direct comparison" width={1100} height={420}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',height:'100%'}}>
+            <div style={{background:'#050505',display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <AuroraGlyph size={260} dark/>
+            </div>
+            <div style={{background:'#fafafa',display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <AuroraGlyph size={260} dark={false}/>
+            </div>
+          </div>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root') || (() => {
+  const r = document.createElement('div'); r.id='root'; document.body.appendChild(r); return r;
+})()).render(<App/>);
+</script>
+</body>
+</html>

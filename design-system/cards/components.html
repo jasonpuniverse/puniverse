@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puniverse · Components</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body{background:#050505;color:#a1a1aa;font-family:Inter,system-ui;-webkit-font-smoothing:antialiased}
+  .font-display{font-family:"Instrument Serif",serif}
+  .font-mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  .glass{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.10);border-radius:1rem;backdrop-filter:blur(8px);transition:background-color .2s ease, transform .2s ease}
+  .glass:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
+  .glass.highlight{background:rgba(20,184,166,.10)}
+  .glow-btn{position:relative;display:inline-flex;border-radius:9999px;padding:1px;overflow:hidden;cursor:pointer;background:transparent;border:0;transition:transform .15s ease}
+  .glow-btn .gb-blur,.glow-btn .gb-solid{position:absolute;inset:0;border-radius:9999px;background:linear-gradient(90deg,#8b5cf6,#14b8a6,#10b981);opacity:.7;transition:opacity .3s}
+  .glow-btn .gb-blur{filter:blur(6px)}
+  .glow-btn:hover .gb-blur,.glow-btn:hover .gb-solid{opacity:1}
+  .glow-btn:hover{transform:scale(1.02)}
+  .glow-btn .gb-inner{position:relative;background:#0a0a0a;padding:.75rem 2rem;border-radius:9999px;display:inline-flex;align-items:center;gap:.5rem;color:#fff;font-size:.875rem;font-weight:500}
+  .section-label{display:inline-flex;align-items:center;justify-content:center;gap:.5rem}
+  .section-label .pill{font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#6b7280;border:1px solid rgba(255,255,255,.10);border-radius:9999px;padding:.25rem 1rem;background:rgba(255,255,255,.05);backdrop-filter:blur(8px);white-space:nowrap}
+  .section-label .line{height:1px;width:2rem;background:rgba(255,255,255,.10)}
+  .spec-grid{background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px}
+</style></head>
+<body class="min-h-screen">
+  <main class="max-w-5xl mx-auto px-10 py-14">
+    <p class="text-xs font-bold tracking-[0.3em] uppercase text-teal-400 mb-3">§05 — Components</p>
+    <h1 class="font-display italic text-white text-5xl leading-tight tracking-tight mb-12">The Holy Trinity</h1>
+
+    <article class="glass p-8 mb-4">
+      <div class="flex items-baseline justify-between mb-2 flex-wrap gap-3">
+        <h3 class="text-white text-xl font-medium">&lt;GlowButton /&gt;</h3>
+        <p class="font-mono text-[10px] text-zinc-500">src/components/ui/GlowButton.tsx</p>
+      </div>
+      <p class="text-zinc-400 text-sm mb-8">All primary CTAs. Pill on #0a0a0a with animated tri-stop gradient border.</p>
+      <div class="rounded-xl bg-[#050505] border border-white/5 spec-grid p-10 flex flex-col items-center gap-5">
+        <button class="glow-btn"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner">Run on Autopilot →</span></button>
+        <button class="glow-btn"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner">Unlock <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></button>
+      </div>
+    </article>
+
+    <article class="glass p-8 mb-4">
+      <div class="flex items-baseline justify-between mb-2 flex-wrap gap-3">
+        <h3 class="text-white text-xl font-medium">&lt;GlassCard /&gt;</h3>
+        <p class="font-mono text-[10px] text-zinc-500">src/components/ui/GlassCard.tsx</p>
+      </div>
+      <p class="text-zinc-400 text-sm mb-8">Frosted translucent surface for grids and tiers. Self-managed padding · hover lifts.</p>
+      <div class="rounded-xl bg-[#050505] border border-white/5 p-6 grid grid-cols-3 gap-3">
+        <div class="glass p-5">
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">Default</p>
+          <h4 class="text-white text-base font-medium mb-2">Item 01</h4>
+          <p class="text-xs text-zinc-400 mb-5">Self-managed p-6 padding.</p>
+          <button class="glow-btn w-full"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner" style="justify-content:center;width:100%">Action</span></button>
+        </div>
+        <div class="glass highlight p-5">
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-emerald-400 mb-3">Highlight</p>
+          <h4 class="text-white text-base font-medium mb-2">Item 02</h4>
+          <p class="text-xs text-zinc-400 mb-5">Recommended tier variant.</p>
+          <button class="glow-btn w-full"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner" style="justify-content:center;width:100%">Action</span></button>
+        </div>
+        <div class="glass p-5">
+          <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-teal-400 mb-3">Default</p>
+          <h4 class="text-white text-base font-medium mb-2">Item 03</h4>
+          <p class="text-xs text-zinc-400 mb-5">Lifts on hover, brightens.</p>
+          <button class="glow-btn w-full"><span class="gb-blur"></span><span class="gb-solid"></span><span class="gb-inner" style="justify-content:center;width:100%">Action</span></button>
+        </div>
+      </div>
+    </article>
+
+    <article class="glass p-8 mb-4">
+      <div class="flex items-baseline justify-between mb-2 flex-wrap gap-3">
+        <h3 class="text-white text-xl font-medium">&lt;SectionLabel /&gt;</h3>
+        <p class="font-mono text-[10px] text-zinc-500">src/components/ui/SectionLabel.tsx</p>
+      </div>
+      <p class="text-zinc-400 text-sm mb-8">Pill-shaped uppercase title above mapping grids and section dividers.</p>
+      <div class="rounded-xl bg-[#050505] border border-white/5 p-10 space-y-9">
+        <div class="section-label"><span class="line"></span><span class="pill">Categories</span><span class="line"></span></div>
+        <div class="section-label"><span class="line"></span><span class="pill">Featured Operators</span><span class="line"></span></div>
+        <div class="section-label"><span class="line"></span><span class="pill">04 — Pricing &amp; Tiers</span><span class="line"></span></div>
+      </div>
+    </article>
+
+    <article class="glass p-8 mb-4">
+      <div class="flex items-baseline justify-between mb-2 flex-wrap gap-3">
+        <h3 class="text-white text-xl font-medium">&lt;ContactForm /&gt;</h3>
+        <p class="font-mono text-[10px] text-zinc-500">src/components/ui/ContactForm.tsx</p>
+      </div>
+      <p class="text-zinc-400 text-sm mb-8">"Transmission" form — radio-comms vocabulary, full-width emerald submit.</p>
+      <div class="rounded-xl bg-[#050505] border border-white/5 p-8 grid grid-cols-2 gap-8">
+        <form class="space-y-5">
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-4 block">Identifier</label>
+            <input type="text" placeholder="Identity / Brand" class="w-full bg-white/5 rounded-xl px-5 py-3 text-white text-sm placeholder:text-zinc-600 focus:bg-white/10 outline-none border-0" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-4 block">Postal Node</label>
+            <input type="email" placeholder="example@brand.io" class="w-full bg-white/5 rounded-xl px-5 py-3 text-white text-sm placeholder:text-zinc-600 focus:bg-white/10 outline-none border-0" />
+          </div>
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-bold uppercase tracking-widest text-zinc-400 ml-4 block">Requirement Log</label>
+            <textarea rows="2" placeholder="How can we scale your operations?" class="w-full bg-white/5 rounded-xl px-5 py-3 text-white text-sm placeholder:text-zinc-600 focus:bg-white/10 outline-none resize-none border-0"></textarea>
+          </div>
+          <button type="button" class="w-full py-3 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold tracking-widest uppercase text-xs hover:bg-emerald-500/30 transition-all">Initiate Connection</button>
+        </form>
+        <div class="space-y-3">
+          <div class="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-6 text-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 text-xl mx-auto mb-3">✓</div>
+            <h4 class="text-lg font-black text-white italic mb-1">TRANSMISSION RECEIVED.</h4>
+            <p class="text-zinc-400 text-xs italic">Internal node responds within 12h.</p>
+          </div>
+          <div class="rounded-xl border border-red-500/20 bg-red-500/5 p-6 text-center">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 text-xl mx-auto mb-3">⚠</div>
+            <h4 class="text-lg font-black text-white italic mb-1">TRANSMISSION FAILED.</h4>
+            <p class="text-zinc-400 text-xs">Server returned status 500.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+</body></html>
