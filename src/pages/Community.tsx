@@ -55,7 +55,7 @@ export const Community: React.FC = () => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-purple-500/10 blur-[100px] rounded-full pointer-events-none"></div>
               <div className="relative z-10 text-center">
                 <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">Puniverse Inner Circle</h3>
-                <p className="text-purple-200 mb-8">Hosted on Skool</p>
+                <p className="text-purple-600 dark:text-purple-200 mb-8">Hosted on Skool</p>
                 <div className="text-5xl font-bold text-[var(--color-text-primary)] mb-2">$99<span className="text-xl text-[var(--color-text-secondary)] font-normal">/mo</span></div>
                 <p className="text-sm text-[var(--color-text-secondary)] mb-8">Cancel anytime. Lock in early pricing.</p>
                 <GlowButton className="w-full justify-center mb-4">

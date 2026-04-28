@@ -60,7 +60,7 @@ export const Hero: React.FC = () => {
           Puniverse OS
         </motion.span>
 
-        <h1 className="max-w-5xl text-5xl md:text-7xl lg:text-[100px] font-display italic leading-[1.2] tracking-tight text-[var(--color-text-primary)] mb-8">
+        <h1 className="max-w-5xl text-5xl md:text-7xl lg:text-[100px] font-display italic leading-[1.2] tracking-tight text-white mb-8">
           <motion.span
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -83,14 +83,14 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-lg md:text-xl lg:text-2xl text-[var(--color-text-secondary)] mb-10 leading-relaxed"
+          className="text-lg md:text-xl lg:text-2xl text-white/80 mb-10 leading-relaxed"
         >
           Not a tool. Not a dashboard.
           <br />
           A system to{' '}
           <span
             key={roleIndex}
-            className="font-display italic text-[var(--color-text-primary)] animate-role-fade-in inline-block"
+            className="font-display italic text-white animate-role-fade-in inline-block"
           >
             {ROLES[roleIndex]}
           </span>{' '}
@@ -101,7 +101,7 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="text-sm md:text-base text-[var(--color-text-tertiary)] leading-relaxed max-w-lg mb-12"
+          className="text-sm md:text-base text-white/60 leading-relaxed max-w-lg mb-12"
         >
           An autonomous system that helps you build, run, and scale ecommerce
           brands — from idea to multi-channel revenue.
@@ -125,7 +125,7 @@ export const Hero: React.FC = () => {
         transition={{ duration: 1, delay: 2 }}
         className="absolute bottom-10 inset-x-0 z-10 flex flex-col items-center gap-3"
       >
-        <span className="text-[10px] text-[var(--color-text-tertiary)] uppercase tracking-[0.3em]">
+        <span className="text-[10px] text-white/50 uppercase tracking-[0.3em]">
           Scroll
         </span>
         <div className="w-px h-12 bg-[var(--color-surface-hover)] relative overflow-hidden">

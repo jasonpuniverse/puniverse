@@ -93,7 +93,7 @@ export const System: React.FC = () => {
               </ul>
               <div className="pt-4 border-t border-teal-500/20">
                 <p className="text-xs font-semibold text-teal-500 uppercase tracking-wider mb-2">Powered By</p>
-                <p className="text-xs text-teal-200/70">Claude Code &bull; OpenRouter models &bull; Autoresearch systems</p>
+                <p className="text-xs text-[var(--color-text-tertiary)]">Claude Code &bull; OpenRouter models &bull; Autoresearch systems</p>
               </div>
             </GlassCard>
           </StaggerItem>

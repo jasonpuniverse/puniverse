@@ -74,7 +74,7 @@ export const Products: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-medium text-[var(--color-text-primary)] mb-2">{item.title}</h3>
                 <p className="text-sm text-[var(--color-text-secondary)] mb-6">{item.desc}</p>
-                <button className="text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors flex items-center gap-1">
+                <button className="text-sm font-medium text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors flex items-center gap-1">
                   Explore <ArrowRight size={14} />
                 </button>
               </GlassCard>

@@ -1,0 +1,179 @@
+- generic [ref=e3]:
+  - navigation [ref=e5]:
+    - generic [ref=e6]:
+      - link "PUNIVERSE" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+        - generic [ref=e15]: PUNIVERSE
+      - generic [ref=e16]:
+        - link "Home" [ref=e17] [cursor=pointer]:
+          - /url: /
+        - link "AI OS" [ref=e18] [cursor=pointer]:
+          - /url: /system
+        - link "Products" [ref=e19] [cursor=pointer]:
+          - /url: /products
+        - link "Services" [ref=e20] [cursor=pointer]:
+          - /url: /services
+        - link "AETHEO" [ref=e21] [cursor=pointer]:
+          - /url: /aetheo
+        - link "Community" [ref=e22] [cursor=pointer]:
+          - /url: /community
+      - button "Switch to light mode" [active] [ref=e254]:
+        - img [ref=e256]
+  - main [ref=e28]:
+    - generic [ref=e29]:
+      - generic [ref=e31]:
+        - paragraph [ref=e32]:
+          - img [ref=e33]
+          - text: System Architecture
+        - heading "Inside the AI Operating System." [level=1] [ref=e36]:
+          - text: Inside the AI
+          - text: Operating System.
+        - paragraph [ref=e37]: A modular system that connects data, intelligence, and execution into a single ecommerce engine.
+      - generic [ref=e39]:
+        - generic [ref=e42]: Core Concept
+        - generic [ref=e44]:
+          - paragraph [ref=e45]: "Puniverse is structured like an operating system:"
+          - generic [ref=e46]:
+            - generic [ref=e47]:
+              - img [ref=e48]
+              - generic [ref=e52]: Inputs → Data
+            - generic [ref=e53]:
+              - img [ref=e54]
+              - generic [ref=e57]: Processing → AI + Agents
+            - generic [ref=e58]:
+              - img [ref=e59]
+              - generic [ref=e61]: Outputs → Actions
+          - paragraph [ref=e62]: It doesn't just analyse. It decides and executes.
+      - generic [ref=e63]:
+        - generic [ref=e67]: System Layers
+        - generic [ref=e69]:
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - img [ref=e74]
+              - heading "Data Layer" [level=3] [ref=e78]
+            - list [ref=e79]:
+              - listitem [ref=e80]: Products, SKUs
+              - listitem [ref=e82]: Orders and inventory
+              - listitem [ref=e84]: Customers and reviews
+              - listitem [ref=e86]: Content and ad performance
+          - generic [ref=e89]:
+            - generic [ref=e90]:
+              - img [ref=e92]
+              - heading "AI Brain" [level=3] [ref=e95]
+            - list [ref=e96]:
+              - listitem [ref=e97]: Decision-making logic
+              - listitem [ref=e99]: Opportunity detection
+              - listitem [ref=e101]: Predictive insights
+              - listitem [ref=e103]: Agent workflows
+            - generic [ref=e105]:
+              - paragraph [ref=e106]: Powered By
+              - paragraph [ref=e107]: Claude Code • OpenRouter models • Autoresearch systems
+          - generic [ref=e109]:
+            - generic [ref=e110]:
+              - img [ref=e112]
+              - heading "Execution Layer" [level=3] [ref=e115]
+            - list [ref=e116]:
+              - listitem [ref=e117]: Shopify
+              - listitem [ref=e119]: Amazon
+              - listitem [ref=e121]: TikTok Shop
+              - listitem [ref=e123]: Ads platforms
+              - listitem [ref=e125]: APIs and automation tools
+      - generic [ref=e127]:
+        - generic [ref=e131]: Real Implementation (Your Stack)
+        - generic [ref=e133]:
+          - generic [ref=e135]:
+            - heading "Agentic Workflow Stack" [level=4] [ref=e136]:
+              - img [ref=e137]
+              - text: Agentic Workflow Stack
+            - list [ref=e141]:
+              - listitem [ref=e142]: • Claude Code with Google Antigravity
+              - listitem [ref=e143]: • GitHub → Vercel deployment
+              - listitem [ref=e144]: • n8n automation pipelines
+              - listitem [ref=e145]: • NotebookLM for research and content intelligence
+          - generic [ref=e147]:
+            - heading "Shopify System" [level=4] [ref=e148]:
+              - img [ref=e149]
+              - text: Shopify System
+            - paragraph [ref=e153]: Manage products like bulk product_export CSV processing, automate store updates, handle dropshipping product sync from AliExpress, CJ Dropshipping, AutoDS, Dsers, Zendrop, plus custom Liquid scripts, custom landing pages, and more.
+          - generic [ref=e155]:
+            - heading "Automation Engine" [level=4] [ref=e156]:
+              - img [ref=e157]
+              - text: Automation Engine
+            - list [ref=e159]:
+              - listitem [ref=e160]: • UGC video ads generation
+              - listitem [ref=e161]: • Meta ads automation
+              - listitem [ref=e162]: • SEO automation for AETHEO
+              - listitem [ref=e163]: • Nano Banana JSON prompting systems
+          - generic [ref=e165]:
+            - heading "Sourcing Intelligence" [level=4] [ref=e166]:
+              - img [ref=e167]
+              - text: Sourcing Intelligence
+            - list [ref=e170]:
+              - listitem [ref=e171]: • 1688-based sourcing workflows
+              - listitem [ref=e172]: • Margin-first product selection
+              - listitem [ref=e173]: • Supplier and logistics automation
+          - generic [ref=e175]:
+            - heading "Content & Media System" [level=4] [ref=e176]:
+              - img [ref=e177]
+              - text: Content & Media System
+            - list [ref=e181]:
+              - listitem [ref=e182]: • YouTube automation (ambient + wellness channels)
+              - listitem [ref=e183]: • Long-form video generation pipelines
+              - listitem [ref=e184]: • AI-assisted research and scripting
+      - generic [ref=e185]:
+        - generic [ref=e189]: System Loop
+        - generic [ref=e191]:
+          - generic [ref=e192]:
+            - generic [ref=e195]:
+              - generic [ref=e196]: "1"
+              - generic [ref=e197]: Detect opportunity
+            - generic [ref=e199]:
+              - generic [ref=e200]: "2"
+              - generic [ref=e201]: Validate demand
+            - generic [ref=e203]:
+              - generic [ref=e204]: "3"
+              - generic [ref=e205]: Build product + brand
+            - generic [ref=e207]:
+              - generic [ref=e208]: "4"
+              - generic [ref=e209]: Generate content
+            - generic [ref=e211]:
+              - generic [ref=e212]: "5"
+              - generic [ref=e213]: Launch across channels
+            - generic [ref=e215]:
+              - generic [ref=e216]: "6"
+              - generic [ref=e217]: Optimise automatically
+          - paragraph [ref=e219]: Then repeat — continuously improving.
+      - generic [ref=e221]:
+        - heading "Start with the system. Then build your own." [level=2] [ref=e222]:
+          - text: Start with the system.
+          - text: Then build your own.
+        - link "Explore Services" [ref=e223] [cursor=pointer]:
+          - /url: /services
+          - button "Explore Services" [ref=e224]:
+            - generic [ref=e227]:
+              - text: Explore Services
+              - img [ref=e228]
+  - contentinfo [ref=e231]:
+    - generic [ref=e232]:
+      - generic [ref=e233]:
+        - generic [ref=e234]:
+          - img [ref=e235]
+          - generic [ref=e242]: PUNIVERSE
+        - paragraph [ref=e243]: AI-powered ecommerce systems, automations, and digital tools powering real DTC brands.
+      - generic [ref=e244]:
+        - link "System" [ref=e245] [cursor=pointer]:
+          - /url: /system
+        - link "Products" [ref=e246] [cursor=pointer]:
+          - /url: /products
+        - link "Services" [ref=e247] [cursor=pointer]:
+          - /url: /services
+        - link "Community" [ref=e248] [cursor=pointer]:
+          - /url: /community
+    - generic [ref=e249]:
+      - paragraph [ref=e250]: © 2026 PUNIVERSE LTD. All rights reserved.
+      - generic [ref=e251]:
+        - link "Privacy Policy" [ref=e252] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms of Service" [ref=e253] [cursor=pointer]:
+          - /url: /terms

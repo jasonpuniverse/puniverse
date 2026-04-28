@@ -1,0 +1,235 @@
+- generic [ref=e3]:
+  - navigation [ref=e5]:
+    - generic [ref=e6]:
+      - link "PUNIVERSE" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e8]
+        - generic [ref=e15]: PUNIVERSE
+      - generic [ref=e16]:
+        - link "Home" [ref=e17] [cursor=pointer]:
+          - /url: /
+        - link "AI OS" [ref=e18] [cursor=pointer]:
+          - /url: /system
+        - link "Products" [ref=e19] [cursor=pointer]:
+          - /url: /products
+        - link "Services" [ref=e20] [cursor=pointer]:
+          - /url: /services
+        - link "AETHEO" [ref=e21] [cursor=pointer]:
+          - /url: /aetheo
+        - link "Community" [ref=e22] [cursor=pointer]:
+          - /url: /community
+      - button "Switch to dark mode" [ref=e24]:
+        - img [ref=e26]
+  - main [ref=e28]:
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: Puniverse OS
+          - heading "The AI Operating System for Ecommerce." [level=1] [ref=e37]:
+            - generic [ref=e38]: The AI Operating System
+            - generic [ref=e39]: for Ecommerce.
+          - paragraph [ref=e40]:
+            - text: Not a tool. Not a dashboard.
+            - text: A system to
+            - generic [ref=e41]: Build
+            - text: your brand.
+          - paragraph [ref=e42]: An autonomous system that helps you build, run, and scale ecommerce brands — from idea to multi-channel revenue.
+          - generic [ref=e43]:
+            - link "Run on Autopilot" [ref=e44] [cursor=pointer]:
+              - /url: /services
+              - button "Run on Autopilot" [ref=e45]:
+                - generic [ref=e48]: Run on Autopilot
+            - link "Explore the System" [ref=e49] [cursor=pointer]:
+              - /url: /system
+              - generic [ref=e51]: Explore the System
+        - generic [ref=e53]: Scroll
+      - generic [ref=e56]:
+        - generic [ref=e58]:
+          - generic [ref=e61]: Ecommerce is fragmented by default
+          - generic [ref=e63]:
+            - list [ref=e65]:
+              - listitem [ref=e66]:
+                - img [ref=e67]
+                - generic [ref=e70]: 8+ tools with no central intelligence
+              - listitem [ref=e71]:
+                - img [ref=e72]
+                - generic [ref=e75]: Data lives in silos across Shopify, ads, and suppliers
+              - listitem [ref=e76]:
+                - img [ref=e77]
+                - generic [ref=e80]: Decisions are manual, slow, and reactive
+              - listitem [ref=e81]:
+                - img [ref=e82]
+                - generic [ref=e85]: No feedback loop from customer → product → content
+            - generic [ref=e86]:
+              - paragraph [ref=e87]: You don't need more tools.
+              - paragraph [ref=e88]: You need a system.
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - generic [ref=e93]: A System, Not Another Tool
+            - paragraph [ref=e96]:
+              - text: Puniverse is an AI Operating System for ecommerce.
+              - text: It connects workflows, agents, data, and execution into a single layer — so your business doesn't just show data, it acts on it.
+          - generic [ref=e97]:
+            - generic [ref=e99]:
+              - img [ref=e100]
+              - generic [ref=e102]: Identify opportunities
+            - generic [ref=e104]:
+              - img [ref=e105]
+              - generic [ref=e108]: Launch products
+            - generic [ref=e110]:
+              - img [ref=e111]
+              - generic [ref=e115]: Generate content
+            - generic [ref=e117]:
+              - img [ref=e118]
+              - generic [ref=e121]: Optimise performance
+            - generic [ref=e123]:
+              - img [ref=e124]
+              - generic [ref=e127]: Manage operations
+          - paragraph [ref=e129]: All as part of one system.
+        - generic [ref=e130]:
+          - generic [ref=e134]: From Data to Decisions to Actions
+          - generic [ref=e136]:
+            - generic [ref=e138]:
+              - generic [ref=e139]: Data Layer
+              - paragraph [ref=e140]: Products, orders, customers, content, and performance signals.
+            - generic [ref=e142]:
+              - generic [ref=e143]: AI Layer
+              - paragraph [ref=e144]: Decision-making, predictions, and agent workflows.
+            - generic [ref=e146]:
+              - generic [ref=e147]: Execution Layer
+              - paragraph [ref=e148]: Shopify, ads, content, sourcing, and automation pipelines.
+        - generic [ref=e150]:
+          - generic [ref=e153]: Built on a Real Brand
+          - generic [ref=e157]:
+            - heading "AETHEO is not a demo." [level=3] [ref=e158]
+            - paragraph [ref=e159]: It is the live system running on Puniverse.
+            - list [ref=e160]:
+              - listitem [ref=e161]:
+                - img [ref=e162]
+                - text: Product development powered by AI
+              - listitem [ref=e164]:
+                - img [ref=e165]
+                - text: Content and SEO generated at scale
+              - listitem [ref=e167]:
+                - img [ref=e168]
+                - text: Automation replacing manual workflows
+              - listitem [ref=e170]:
+                - img [ref=e171]
+                - text: Transitioning into a premium UK-based wellness brand
+            - generic [ref=e173]:
+              - paragraph [ref=e174]: Puniverse is the engine. AETHEO is the proof.
+              - link "Read the Case Study →" [ref=e175] [cursor=pointer]:
+                - /url: /aetheo
+        - generic [ref=e176]:
+          - generic [ref=e180]: From Idea to Scale — In One System
+          - generic [ref=e182]:
+            - generic [ref=e184]:
+              - generic [ref=e185]: "1"
+              - paragraph [ref=e186]: Validate products using AI-driven research
+            - generic [ref=e188]:
+              - generic [ref=e189]: "2"
+              - paragraph [ref=e190]: Build brands with structured systems
+            - generic [ref=e192]:
+              - generic [ref=e193]: "3"
+              - paragraph [ref=e194]: Automate content, SEO, and marketing
+            - generic [ref=e196]:
+              - generic [ref=e197]: "4"
+              - paragraph [ref=e198]: Sync Shopify, Amazon, and suppliers
+            - generic [ref=e200]:
+              - generic [ref=e201]: "5"
+              - paragraph [ref=e202]: Run operations with minimal manual work
+        - generic [ref=e206]:
+          - heading "Join the Puniverse System" [level=3] [ref=e207]
+          - paragraph [ref=e208]: Learn how to build and run ecommerce using AI.
+          - generic [ref=e209]:
+            - generic [ref=e210]: Real workflows
+            - generic [ref=e211]: Agent systems
+            - generic [ref=e212]: AETHEO breakdowns
+            - generic [ref=e213]: Early access to tools
+          - link "Join Community" [ref=e214] [cursor=pointer]:
+            - /url: /community
+            - button "Join Community" [ref=e215]:
+              - generic [ref=e218]:
+                - text: Join Community
+                - img [ref=e219]
+        - generic [ref=e225]:
+          - generic [ref=e227]:
+            - img [ref=e229]
+            - generic [ref=e231]: Launch faster
+          - generic [ref=e233]:
+            - img [ref=e235]
+            - generic [ref=e237]: Operate leaner
+          - generic [ref=e239]:
+            - img [ref=e241]
+            - generic [ref=e244]: Scale smarter
+          - generic [ref=e246]:
+            - img [ref=e248]
+            - generic [ref=e251]: Replace manual work with systems
+        - generic [ref=e252]:
+          - generic [ref=e256]: FAQ
+          - generic [ref=e258]:
+            - generic [ref=e260]:
+              - heading "Is this a tool or a platform?" [level=4] [ref=e261]
+              - paragraph [ref=e262]: Neither. It's a system made of workflows, agents, and integrations.
+            - generic [ref=e264]:
+              - heading "Do I need technical skills?" [level=4] [ref=e265]
+              - paragraph [ref=e266]: No. You can start with ready-to-use workflows and build up.
+            - generic [ref=e268]:
+              - heading "What do I get for free?" [level=4] [ref=e269]
+              - paragraph [ref=e270]: Access to core workflows and system logic.
+            - generic [ref=e272]:
+              - heading "What is inside the community?" [level=4] [ref=e273]
+              - paragraph [ref=e274]: Advanced systems, tutorials, and real-world implementations.
+        - generic [ref=e277]:
+          - generic [ref=e278]:
+            - generic [ref=e280]: Deployment Query
+            - heading "INITIATE CONTACT." [level=2] [ref=e281]:
+              - text: INITIATE
+              - text: CONTACT.
+            - paragraph [ref=e282]: Ready to deploy autonomous systems? Request custom blueprints for your brand or enterprise access to our multi-agent core.
+            - generic [ref=e284]:
+              - img [ref=e286]
+              - generic [ref=e288]:
+                - generic [ref=e289]: Digital Node
+                - text: hello@puniverse.net
+          - generic [ref=e291]:
+            - generic [ref=e292]:
+              - text: Identifier
+              - textbox "Identity / Brand" [ref=e293]
+            - generic [ref=e294]:
+              - text: Postal Node
+              - textbox "example@brand.io" [ref=e295]
+            - generic [ref=e296]:
+              - text: Requirement Log
+              - textbox "How can we scale your operations?" [ref=e297]
+            - button "INITIATE CONNECTION" [ref=e298]
+        - generic [ref=e300]:
+          - paragraph [ref=e301]:
+            - text: Build, run, and scale ecommerce —
+            - text: with AI doing most of the work.
+          - link "View Products" [ref=e302] [cursor=pointer]:
+            - /url: /products
+            - button "View Products" [ref=e303]
+  - contentinfo [ref=e305]:
+    - generic [ref=e306]:
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - img [ref=e309]
+          - generic [ref=e316]: PUNIVERSE
+        - paragraph [ref=e317]: AI-powered ecommerce systems, automations, and digital tools powering real DTC brands.
+      - generic [ref=e318]:
+        - link "System" [ref=e319] [cursor=pointer]:
+          - /url: /system
+        - link "Products" [ref=e320] [cursor=pointer]:
+          - /url: /products
+        - link "Services" [ref=e321] [cursor=pointer]:
+          - /url: /services
+        - link "Community" [ref=e322] [cursor=pointer]:
+          - /url: /community
+    - generic [ref=e323]:
+      - paragraph [ref=e324]: © 2026 PUNIVERSE LTD. All rights reserved.
+      - generic [ref=e325]:
+        - link "Privacy Policy" [ref=e326] [cursor=pointer]:
+          - /url: /privacy
+        - link "Terms of Service" [ref=e327] [cursor=pointer]:
+          - /url: /terms

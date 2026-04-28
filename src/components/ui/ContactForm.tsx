@@ -119,7 +119,7 @@ export const ContactForm: React.FC = () => {
       <button 
         type="submit" 
         disabled={status === 'loading'}
-        className="w-full py-4 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold tracking-widest uppercase hover:bg-emerald-500/30 transition-all disabled:opacity-50"
+        className="w-full py-4 rounded-xl bg-emerald-600 text-white font-bold tracking-widest uppercase hover:bg-emerald-700 transition-all disabled:opacity-50"
       >
         {status === 'loading' ? 'TRANSMITTING...' : 'INITIATE CONNECTION'}
       </button>

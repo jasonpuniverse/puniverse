@@ -120,7 +120,7 @@ export const Home: React.FC = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 blur-[80px] rounded-full"></div>
             <div className="relative z-10 max-w-2xl">
               <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-4">AETHEO is not a demo.</h3>
-              <p className="text-lg text-teal-200 mb-8">It is the live system running on Puniverse.</p>
+              <p className="text-lg text-[var(--color-text-secondary)] mb-8">It is the live system running on Puniverse.</p>
               <ul className="space-y-4 text-[var(--color-text-secondary)] mb-8">
                 <li className="flex items-center gap-3"><Check className="text-teal-400" size={18} /> Product development powered by AI</li>
                 <li className="flex items-center gap-3"><Check className="text-teal-400" size={18} /> Content and SEO generated at scale</li>
@@ -129,7 +129,7 @@ export const Home: React.FC = () => {
               </ul>
               <div className="pt-6 border-t border-[var(--color-border)]">
                 <p className="text-lg font-medium text-[var(--color-text-primary)]">Puniverse is the engine. <span className="text-teal-400">AETHEO is the proof.</span></p>
-                <Link to="/aetheo" className="inline-block mt-4 text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors">
+                <Link to="/aetheo" className="inline-block mt-4 text-teal-500 hover:text-teal-600 dark:text-teal-400 dark:hover:text-teal-300 text-sm font-medium transition-colors">
                   Read the Case Study &rarr;
                 </Link>
               </div>
