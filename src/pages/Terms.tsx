@@ -10,15 +10,15 @@ export const Terms: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold mb-6 uppercase tracking-widest">
             <FileText size={14} /> Legal Terms
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">Terms of Service</h1>
-          <p className="text-gray-400 font-mono text-sm tracking-tight">Last Updated: April 5, 2026</p>
+          <h1 className="text-4xl md:text-6xl font-bold text-[var(--color-text-primary)] tracking-tight mb-4">Terms of Service</h1>
+          <p className="text-[var(--color-text-secondary)] font-mono text-sm tracking-tight">Last Updated: April 5, 2026</p>
         </header>
       </Reveal>
 
-      <section className="space-y-12 text-gray-300 leading-relaxed text-sm md:text-base">
+      <section className="space-y-12 text-[var(--color-text-secondary)] leading-relaxed text-sm md:text-base">
         <Reveal>
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+            <h2 className="text-2xl font-bold text-[var(--color-text-primary)] flex items-center gap-3">
               <Scale className="text-purple-400" size={24} /> Overview
             </h2>
             <p>
@@ -35,7 +35,7 @@ export const Terms: React.FC = () => {
 
         <Reveal>
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">Section 1 - Online Store Terms</h3>
+            <h3 className="text-xl font-bold text-[var(--color-text-primary)]">Section 1 - Online Store Terms</h3>
             <p>
               By agreeing to these Terms of Service, you represent that you are at least the age of majority in your state or province of residence. You may not use our products for any illegal or unauthorized purpose nor may you, in the use of the Service, violate any laws in your jurisdiction (including but not limited to copyright laws).
             </p>
@@ -47,7 +47,7 @@ export const Terms: React.FC = () => {
 
         <Reveal>
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">Section 2 - General Conditions</h3>
+            <h3 className="text-xl font-bold text-[var(--color-text-primary)]">Section 2 - General Conditions</h3>
             <p>
               We reserve the right to refuse Service to anyone for any reason at any time. You understand that your content (not including credit card information), may be transferred unencrypted and involve (a) transmissions over various networks; and (b) changes to conform and adapt to technical requirements of connecting networks or devices. Credit card information is always encrypted during transfer over networks.
             </p>
@@ -56,7 +56,7 @@ export const Terms: React.FC = () => {
 
         <Reveal>
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">Section 3 - Accuracy, Completeness and Timeliness</h3>
+            <h3 className="text-xl font-bold text-[var(--color-text-primary)]">Section 3 - Accuracy, Completeness and Timeliness</h3>
             <p>
               The material on this site is provided for general information only and should not be relied upon or used as the sole basis for making decisions without consulting primary sources of information. Any reliance on the material on this site is at your own risk.
             </p>
@@ -65,7 +65,7 @@ export const Terms: React.FC = () => {
 
         <Reveal>
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">Section 4 - Modifications to Service and Prices</h3>
+            <h3 className="text-xl font-bold text-[var(--color-text-primary)]">Section 4 - Modifications to Service and Prices</h3>
             <p>
               Prices for our products are subject to change without notice. We reserve the right at any time to modify or discontinue the Service (or any part or content thereof) without notice at any time.
             </p>
@@ -74,7 +74,7 @@ export const Terms: React.FC = () => {
 
         <Reveal>
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">Section 5 - Products or Services</h3>
+            <h3 className="text-xl font-bold text-[var(--color-text-primary)]">Section 5 - Products or Services</h3>
             <p>
               Certain products or Services may be available exclusively online through the website. These products or Services may have limited quantities and are subject to return or exchange only according to our Return & Refund Policy. We do not warrant that the quality of any products, Services, information, or other material purchased or obtained by you will meet your expectations.
             </p>
@@ -83,7 +83,7 @@ export const Terms: React.FC = () => {
 
         <Reveal>
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-white">Section 6 - Prohibited Uses</h3>
+            <h3 className="text-xl font-bold text-[var(--color-text-primary)]">Section 6 - Prohibited Uses</h3>
             <p>
               In addition to other prohibitions, you are prohibited from using the site or its content: (a) for any unlawful purpose; (b) to solicit others to perform or participate in any unlawful acts; (c) to violate any regulations, laws, or local ordinances; (d) to infringe upon or violate our intellectual property rights; (e) to harass, abuse, insult, harm, defame, slander, or discriminate; (f) to submit false or misleading information; (g) to upload or transmit viruses or any other type of malicious code; (h) to collect or track personal information of others; (i) for any obscene or immoral purpose.
             </p>
@@ -91,8 +91,8 @@ export const Terms: React.FC = () => {
         </Reveal>
 
         <Reveal>
-          <div className="space-y-6 border-t border-white/10 pt-12">
-            <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+          <div className="space-y-6 border-t border-[var(--color-border)] pt-12">
+            <h2 className="text-2xl font-bold text-[var(--color-text-primary)] flex items-center gap-3">
               <Gavel className="text-teal-400" size={24} /> Section 7 - Governing Law
             </h2>
             <p>
@@ -103,7 +103,7 @@ export const Terms: React.FC = () => {
 
         <Reveal>
           <div className="p-8 rounded-2xl border border-red-500/20 bg-red-500/5">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-[var(--color-text-primary)] mb-4 flex items-center gap-2">
                <AlertCircle className="text-red-400" size={20} /> Limitation of Liability
             </h2>
             <p className="text-sm">
@@ -113,15 +113,15 @@ export const Terms: React.FC = () => {
         </Reveal>
 
         <Reveal>
-          <div className="pt-12 border-t border-white/10">
-            <h2 className="text-2xl font-bold text-white mb-8">Contact Information</h2>
+          <div className="pt-12 border-t border-[var(--color-border)]">
+            <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-8">Contact Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <MapPin className="text-purple-400 shrink-0 mt-1" size={18} />
                   <div>
-                    <p className="text-white font-medium">Business Name</p>
-                    <p className="text-sm text-gray-400">Puniverse (trading name of PUNIVERSE LTD)<br/>Company Number: 15999087</p>
+                    <p className="text-[var(--color-text-primary)] font-medium">Business Name</p>
+                    <p className="text-sm text-[var(--color-text-secondary)]">Puniverse (trading name of PUNIVERSE LTD)<br/>Company Number: 15999087</p>
                   </div>
                 </div>
               </div>
@@ -129,8 +129,8 @@ export const Terms: React.FC = () => {
                 <div className="flex items-start gap-3">
                   <Mail className="text-purple-400 shrink-0 mt-1" size={18} />
                   <div>
-                    <p className="text-white font-medium">Customer Support</p>
-                    <p className="text-sm text-gray-400">Email: support@puniverse.net<br/>Available: Mon-Fri, 9am - 6pm (UK)</p>
+                    <p className="text-[var(--color-text-primary)] font-medium">Customer Support</p>
+                    <p className="text-sm text-[var(--color-text-secondary)]">Email: support@puniverse.net<br/>Available: Mon-Fri, 9am - 6pm (UK)</p>
                   </div>
                 </div>
               </div>

@@ -46,7 +46,7 @@ export const Hero: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#050505] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--color-background)] to-transparent" />
       </div>
 
       {/* Content */}
@@ -60,7 +60,7 @@ export const Hero: React.FC = () => {
           Puniverse OS
         </motion.span>
 
-        <h1 className="max-w-5xl text-5xl md:text-7xl lg:text-[100px] font-display italic leading-[1.2] tracking-tight text-white mb-8">
+        <h1 className="max-w-5xl text-5xl md:text-7xl lg:text-[100px] font-display italic leading-[1.2] tracking-tight text-[var(--color-text-primary)] mb-8">
           <motion.span
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -83,14 +83,14 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-lg md:text-xl lg:text-2xl text-gray-400 mb-10 leading-relaxed"
+          className="text-lg md:text-xl lg:text-2xl text-[var(--color-text-secondary)] mb-10 leading-relaxed"
         >
           Not a tool. Not a dashboard.
           <br />
           A system to{' '}
           <span
             key={roleIndex}
-            className="font-display italic text-white animate-role-fade-in inline-block"
+            className="font-display italic text-[var(--color-text-primary)] animate-role-fade-in inline-block"
           >
             {ROLES[roleIndex]}
           </span>{' '}
@@ -101,7 +101,7 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="text-sm md:text-base text-gray-500 leading-relaxed max-w-lg mb-12"
+          className="text-sm md:text-base text-[var(--color-text-tertiary)] leading-relaxed max-w-lg mb-12"
         >
           An autonomous system that helps you build, run, and scale ecommerce
           brands — from idea to multi-channel revenue.
@@ -125,11 +125,11 @@ export const Hero: React.FC = () => {
         transition={{ duration: 1, delay: 2 }}
         className="absolute bottom-10 inset-x-0 z-10 flex flex-col items-center gap-3"
       >
-        <span className="text-[10px] text-gray-600 uppercase tracking-[0.3em]">
+        <span className="text-[10px] text-[var(--color-text-tertiary)] uppercase tracking-[0.3em]">
           Scroll
         </span>
-        <div className="w-px h-12 bg-white/10 relative overflow-hidden">
-          <div className="w-full h-1/2 bg-white/40 animate-scroll-down" />
+        <div className="w-px h-12 bg-[var(--color-surface-hover)] relative overflow-hidden">
+          <div className="w-full h-1/2 bg-[var(--color-surface-hover)] animate-scroll-down" />
         </div>
       </motion.div>
     </section>
@@ -159,8 +159,8 @@ const ExploreButton: React.FC = () => {
         style={{ inset: '-2px' }}
       />
       <span
-        className={`relative z-10 block px-7 py-3.5 rounded-full border border-white/20 text-white transition-colors duration-300 ${
-          hovered ? 'bg-[#050505]' : 'bg-transparent'
+        className={`relative z-10 block px-7 py-3.5 rounded-full border border-[var(--color-border)] text-[var(--color-text-primary)] transition-colors duration-300 ${
+          hovered ? 'bg-[var(--color-shell)]' : 'bg-transparent'
         }`}
       >
         Explore the System

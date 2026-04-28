@@ -31,7 +31,7 @@ export const Success: React.FC = () => {
   return (
     <div className="animate-in fade-in duration-700 min-h-[70vh] flex flex-col items-center justify-center py-12 px-4">
       <Reveal className="w-full max-w-md">
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
+        <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
           {/* Ambient Glow */}
           <div className="absolute top-0 right-0 w-full h-full bg-teal-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
@@ -39,16 +39,16 @@ export const Success: React.FC = () => {
             {verifying ? (
               <div className="animate-pulse flex flex-col items-center">
                 <Loader2 className="w-16 h-16 text-teal-400 mb-6 animate-spin" />
-                <h2 className="text-2xl font-bold text-white mb-2">Verifying Payment...</h2>
-                <p className="text-gray-400">Securely confirming your transaction with Stripe.</p>
+                <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">Verifying Payment...</h2>
+                <p className="text-[var(--color-text-secondary)]">Securely confirming your transaction with Stripe.</p>
               </div>
             ) : verified ? (
               <div className="flex flex-col items-center animate-in zoom-in duration-500">
                 <div className="w-20 h-20 rounded-full bg-teal-500/20 flex items-center justify-center mb-6 border border-teal-500/30">
                   <CheckCircle2 className="w-10 h-10 text-teal-400" />
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-3">Payment Successful!</h2>
-                <p className="text-gray-300 mb-8 max-w-sm">
+                <h2 className="text-3xl font-bold text-[var(--color-text-primary)] mb-3">Payment Successful!</h2>
+                <p className="text-[var(--color-text-secondary)] mb-8 max-w-sm">
                   Welcome to the system. Your transaction was verified successfully. A backup copy has also been sent to your email via n8n.
                 </p>
                 
@@ -61,7 +61,7 @@ export const Success: React.FC = () => {
                   </a>
                   
                   <Link to="/" className="block w-full">
-                    <button className="w-full py-4 text-sm font-medium text-gray-400 hover:text-white transition-colors bg-white/5 hover:bg-white/10 rounded-xl border border-white/5">
+                    <button className="w-full py-4 text-sm font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors bg-[var(--color-surface)] hover:bg-[var(--color-surface-hover)] rounded-xl border border-[var(--color-border)]">
                       Return to Dashboard
                     </button>
                   </Link>
@@ -72,8 +72,8 @@ export const Success: React.FC = () => {
                 <div className="w-20 h-20 rounded-full bg-red-500/20 flex items-center justify-center mb-6 border border-red-500/30">
                   <CheckCircle2 className="w-10 h-10 text-red-400 opacity-50" />
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-3">Verification Failed</h2>
-                <p className="text-gray-400 mb-8">
+                <h2 className="text-2xl font-bold text-[var(--color-text-primary)] mb-3">Verification Failed</h2>
+                <p className="text-[var(--color-text-secondary)] mb-8">
                   We couldn't verify your session ID. If you completed payment, please check your email for the backup link sent by our system.
                 </p>
                 <Link to="/products">

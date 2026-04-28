@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Logo } from '../ui/Logo';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,18 +22,20 @@ export const Navbar: React.FC = () => {
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-3 shrink-0" onClick={() => setIsOpen(false)}>
           <Logo size={40} />
-          <span className="font-black text-white tracking-tight text-xl">PUNIVERSE</span>
+          <span className="font-black text-[var(--color-text-primary)] tracking-tight text-xl transition-colors duration-200">PUNIVERSE</span>
         </NavLink>
 
         {/* Desktop Navigation Pill */}
-        <div className="hidden lg:flex flex-wrap justify-center gap-1 sm:gap-2 p-1 bg-white/10 rounded-full backdrop-blur-md">
+        <div className="hidden lg:flex flex-wrap justify-center gap-1 sm:gap-2 p-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-full backdrop-blur-md transition-colors duration-200">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
                 `px-3 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
-                  isActive ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white'
+                  isActive
+                    ? 'bg-[var(--color-surface-hover)] text-[var(--color-text-primary)]'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
                 }`
               }
             >
@@ -41,22 +44,27 @@ export const Navbar: React.FC = () => {
           ))}
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="lg:hidden text-white p-2 hover:bg-white/5 rounded-lg transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Desktop right: theme toggle + spacer */}
+        <div className="hidden lg:flex items-center gap-2 w-[120px] justify-end">
+          <ThemeToggle />
+        </div>
 
-        {/* Spacer for flex balance on desktop */}
-        <div className="hidden lg:block w-[120px]"></div>
+        {/* Mobile right: theme toggle + hamburger */}
+        <div className="lg:hidden flex items-center gap-1">
+          <ThemeToggle />
+          <button
+            className="text-[var(--color-text-primary)] p-2 hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full px-6 py-4 bg-[#0a0a0c]/95 backdrop-blur-xl flex flex-col gap-2 shadow-2xl">
+        <div className="lg:hidden absolute top-full left-0 w-full px-6 py-4 bg-[var(--color-background)]/95 backdrop-blur-xl flex flex-col gap-2 shadow-2xl border-b border-[var(--color-border)] transition-colors duration-200">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
@@ -64,7 +72,9 @@ export const Navbar: React.FC = () => {
               onClick={() => setIsOpen(false)}
               className={({ isActive }) =>
                 `px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                  isActive ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  isActive
+                    ? 'bg-[var(--color-surface-hover)] text-[var(--color-text-primary)]'
+                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface)]'
                 }`
               }
             >

@@ -28,11 +28,11 @@ export const Aetheo: React.FC = () => {
            <p className="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-6 flex items-center gap-2">
             <Workflow size={14} /> Brand Ecosystem
           </p>
-          <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-8 leading-[1.1] max-w-4xl">
+          <h1 className="text-5xl md:text-7xl font-bold text-[var(--color-text-primary)] tracking-tight mb-8 leading-[1.1] max-w-4xl">
             Build a Self-Compounding <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-400">E-Commerce Engine.</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed mb-10">
+          <p className="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-2xl leading-relaxed mb-10">
             AETHEO is a brand system that turns traffic into trust, and trust into scalable revenue—across Amazon, Shopify, and TikTok.
           </p>
           
@@ -43,7 +43,7 @@ export const Aetheo: React.FC = () => {
                 </GlowButton>
             </a>
             <Link to="/services" className="w-full sm:w-auto mt-2 sm:mt-0">
-                <button className="w-full px-8 py-3 rounded-full border border-white/10 text-white font-medium hover:bg-white/5 transition-all text-sm">
+                <button className="w-full px-8 py-3 rounded-full border border-[var(--color-border)] text-[var(--color-text-primary)] font-medium hover:bg-[var(--color-surface)] transition-all text-sm">
                   Start Building Your Engine
                 </button>
             </Link>
@@ -56,13 +56,13 @@ export const Aetheo: React.FC = () => {
         <Reveal>
             <SectionLabel>The Paradigm</SectionLabel>
         </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 rounded-3xl overflow-hidden shadow-2xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[var(--color-surface)] rounded-3xl overflow-hidden shadow-2xl">
             {/* The Problem */}
-            <div className="bg-[#0a0a0c] p-10 md:p-14 relative overflow-hidden group">
+            <div className="bg-[var(--color-shell)] p-10 md:p-14 relative overflow-hidden group">
                <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 blur-[80px] rounded-full translate-x-1/3 -translate-y-1/3 transition-all group-hover:bg-red-500/10"></div>
                <AlertTriangle className="text-red-400 mb-6 w-10 h-10" />
-               <h3 className="text-2xl font-bold text-white mb-6">Most e-commerce brands are fragile.</h3>
-               <ul className="space-y-4 text-gray-400 leading-relaxed mb-8">
+               <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-6">Most e-commerce brands are fragile.</h3>
+               <ul className="space-y-4 text-[var(--color-text-secondary)] leading-relaxed mb-8">
                   <li className="flex gap-3">
                      <span className="text-red-400 mt-1">&rarr;</span>
                      Dependent on one platform
@@ -77,28 +77,28 @@ export const Aetheo: React.FC = () => {
                   </li>
                </ul>
                <div className="pt-6 border-t border-red-500/10">
-                   <p className="text-white font-medium">Traffic comes in… and disappears.</p>
+                   <p className="text-[var(--color-text-primary)] font-medium">Traffic comes in… and disappears.</p>
                    <p className="text-red-400">There is no system. Only short-term wins.</p>
                </div>
             </div>
 
             {/* The Shift */}
-            <div className="bg-[#0a0a0c] p-10 md:p-14 relative overflow-hidden group">
+            <div className="bg-[var(--color-shell)] p-10 md:p-14 relative overflow-hidden group">
                <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/5 blur-[80px] rounded-full -translate-x-1/3 translate-y-1/3 transition-all group-hover:bg-teal-500/10"></div>
                <Lightbulb className="text-teal-400 mb-6 w-10 h-10" />
-               <h3 className="text-2xl font-bold text-white mb-6">AETHEO changes the model.</h3>
+               <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-6">AETHEO changes the model.</h3>
                
-               <div className="space-y-6 text-gray-400 leading-relaxed">
+               <div className="space-y-6 text-[var(--color-text-secondary)] leading-relaxed">
                    <div>
                        <span className="text-xs font-bold uppercase tracking-widest text-[#050505] bg-gray-500 rounded px-2 py-1 inline-block mb-3">From</span>
                        <ul className="space-y-2">
-                           <li className="flex gap-3"><span className="text-gray-500">&bull;</span> Single-channel selling</li>
-                           <li className="flex gap-3"><span className="text-gray-500">&bull;</span> Linear funnels</li>
+                           <li className="flex gap-3"><span className="text-[var(--color-text-tertiary)]">&bull;</span> Single-channel selling</li>
+                           <li className="flex gap-3"><span className="text-[var(--color-text-tertiary)]">&bull;</span> Linear funnels</li>
                        </ul>
                    </div>
                    <div>
                        <span className="text-xs font-bold uppercase tracking-widest text-[#050505] bg-teal-400 rounded px-2 py-1 inline-block mb-3">To</span>
-                       <ul className="space-y-2 text-gray-300">
+                       <ul className="space-y-2 text-[var(--color-text-secondary)]">
                            <li className="flex gap-3"><span className="text-teal-400">&bull;</span> Multi-channel ecosystems</li>
                            <li className="flex gap-3"><span className="text-teal-400">&bull;</span> Compounding flywheels</li>
                        </ul>
@@ -106,7 +106,7 @@ export const Aetheo: React.FC = () => {
                </div>
 
                <div className="pt-8 mt-8 border-t border-teal-500/20">
-                   <p className="text-white text-lg font-medium">This is not marketing.</p>
+                   <p className="text-[var(--color-text-primary)] text-lg font-medium">This is not marketing.</p>
                    <p className="text-teal-400 text-lg font-medium">This is infrastructure.</p>
                </div>
             </div>
@@ -116,10 +116,10 @@ export const Aetheo: React.FC = () => {
       {/* 3. THE FLYWHEEL DIAGRAM */}
       <section id="flywheel" className="mb-32">
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-2 overflow-hidden mb-16 shadow-2xl relative">
+          <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-2 overflow-hidden mb-16 shadow-2xl relative">
              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-teal-500/10 blur-3xl pointer-events-none"></div>
              {/* Flywheel Image Implementation */}
-             <div className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#050505] flex items-center justify-center">
+             <div className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-[var(--color-shell)] flex items-center justify-center">
                  <img 
                     src="/images/aetheo/flywheel.png" 
                     alt="The AETHEO Brand Ecosystem Flywheel" 
@@ -132,10 +132,10 @@ export const Aetheo: React.FC = () => {
                     }}
                  />
                  {/* Visual Fallback Container */}
-                 <div className="hidden flex-col items-center justify-center w-full h-full text-center p-8 absolute inset-0 z-10 border border-teal-500/20 rounded-2xl bg-[#0a0a0c]">
+                 <div className="hidden flex-col items-center justify-center w-full h-full text-center p-8 absolute inset-0 z-10 border border-teal-500/20 rounded-2xl bg-[var(--color-shell)]">
                      <Repeat size={48} className="text-teal-400/50 mb-4 animate-pulse" />
-                     <p className="text-gray-400 font-mono text-sm">[ Flywheel Diagram Schema Render ]</p>
-                     <p className="text-gray-500 text-xs mt-2">Place `flywheel.png` in `/public/images/aetheo/`</p>
+                     <p className="text-[var(--color-text-secondary)] font-mono text-sm">[ Flywheel Diagram Schema Render ]</p>
+                     <p className="text-[var(--color-text-tertiary)] text-xs mt-2">Place `flywheel.png` in `/public/images/aetheo/`</p>
                  </div>
              </div>
           </div>
@@ -155,17 +155,17 @@ export const Aetheo: React.FC = () => {
                     "SEO drives consistent inbound demand",
                     "The system feeds itself"
                 ].map((step, idx) => (
-                    <div key={idx} className="flex gap-6 items-center p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-teal-500/30 hover:bg-teal-500/5 transition-all">
-                        <div className="w-10 h-10 rounded-full bg-[#050505] border border-white/10 flex items-center justify-center shrink-0 font-mono text-teal-400">
+                    <div key={idx} className="flex gap-6 items-center p-4 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-teal-500/30 hover:bg-teal-500/5 transition-all">
+                        <div className="w-10 h-10 rounded-full bg-[var(--color-shell)] border border-[var(--color-border)] flex items-center justify-center shrink-0 font-mono text-teal-400">
                             {idx + 1}
                         </div>
-                        <p className="text-gray-300 md:text-lg">{step}</p>
+                        <p className="text-[var(--color-text-secondary)] md:text-lg">{step}</p>
                     </div>
                 ))}
                 
                 <div className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-teal-500/10 to-purple-500/10 border border-t-teal-500/30 text-center">
-                    <p className="text-gray-400 uppercase tracking-widest text-xs font-bold mb-3">Result</p>
-                    <p className="text-xl md:text-2xl text-white font-medium leading-relaxed">
+                    <p className="text-[var(--color-text-secondary)] uppercase tracking-widest text-xs font-bold mb-3">Result</p>
+                    <p className="text-xl md:text-2xl text-[var(--color-text-primary)] font-medium leading-relaxed">
                         More traffic &rarr; More trust &rarr; More conversions &rarr; <span className="text-teal-400">Stronger brand</span>
                     </p>
                 </div>
@@ -184,9 +184,9 @@ export const Aetheo: React.FC = () => {
                <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center border border-orange-500/20 mb-6">
                 <ShoppingCart className="text-orange-400" size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Amazon</h3>
+              <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">Amazon</h3>
               <p className="text-xs font-bold tracking-[0.2em] uppercase text-orange-400 mb-6">Revenue Engine</p>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-[var(--color-text-secondary)] leading-relaxed">
                 Captures demand at peak intent and converts at scale.
               </p>
             </GlassCard>
@@ -197,9 +197,9 @@ export const Aetheo: React.FC = () => {
                <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center border border-green-500/20 mb-6">
                 <ShoppingBag className="text-green-400" size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Shopify</h3>
+              <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">Shopify</h3>
               <p className="text-xs font-bold tracking-[0.2em] uppercase text-green-400 mb-6">Brand Brain</p>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-[var(--color-text-secondary)] leading-relaxed">
                 Owns the customer, data, and long-term value.
               </p>
             </GlassCard>
@@ -210,9 +210,9 @@ export const Aetheo: React.FC = () => {
                <div className="w-12 h-12 rounded-xl bg-pink-500/10 flex items-center justify-center border border-pink-500/20 mb-6">
                 <Play className="text-pink-400" size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">TikTok</h3>
+              <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">TikTok</h3>
               <p className="text-xs font-bold tracking-[0.2em] uppercase text-pink-400 mb-6">Viral Engine</p>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-[var(--color-text-secondary)] leading-relaxed">
                 Generates attention, culture, and explosive reach.
               </p>
             </GlassCard>
@@ -220,8 +220,8 @@ export const Aetheo: React.FC = () => {
         </StaggerReveal>
 
         <Reveal delay={0.4}>
-            <p className="text-center text-gray-500 mt-10 font-medium tracking-wide text-lg">
-                Together, they don’t just operate. <span className="text-white">They reinforce each other.</span>
+            <p className="text-center text-[var(--color-text-tertiary)] mt-10 font-medium tracking-wide text-lg">
+                Together, they don’t just operate. <span className="text-[var(--color-text-primary)]">They reinforce each other.</span>
             </p>
         </Reveal>
       </section>
@@ -236,8 +236,8 @@ export const Aetheo: React.FC = () => {
                 <GlassCard className="flex items-start gap-6 h-full">
                     <Search className="text-teal-400 shrink-0 mt-1" size={24} />
                     <div>
-                        <h4 className="text-lg font-bold text-white mb-2">SEO &rarr; Shopify</h4>
-                        <p className="text-gray-400">Own your traffic. Build long-term exponential domain authority.</p>
+                        <h4 className="text-lg font-bold text-[var(--color-text-primary)] mb-2">SEO &rarr; Shopify</h4>
+                        <p className="text-[var(--color-text-secondary)]">Own your traffic. Build long-term exponential domain authority.</p>
                     </div>
                 </GlassCard>
             </StaggerItem>
@@ -245,8 +245,8 @@ export const Aetheo: React.FC = () => {
                 <GlassCard className="flex items-start gap-6 h-full">
                     <ShoppingCart className="text-purple-400 shrink-0 mt-1" size={24} />
                     <div>
-                        <h4 className="text-lg font-bold text-white mb-2">Amazon Reviews</h4>
-                        <p className="text-gray-400">Turn raw purchasing customers into compounding conversion assets.</p>
+                        <h4 className="text-lg font-bold text-[var(--color-text-primary)] mb-2">Amazon Reviews</h4>
+                        <p className="text-[var(--color-text-secondary)]">Turn raw purchasing customers into compounding conversion assets.</p>
                     </div>
                 </GlassCard>
             </StaggerItem>
@@ -254,8 +254,8 @@ export const Aetheo: React.FC = () => {
                 <GlassCard className="flex items-start gap-6 h-full">
                     <MessageSquare className="text-pink-400 shrink-0 mt-1" size={24} />
                     <div>
-                        <h4 className="text-lg font-bold text-white mb-2">Social Media</h4>
-                        <p className="text-gray-400">Create consistent brand presence and continuous top-of-mind recall.</p>
+                        <h4 className="text-lg font-bold text-[var(--color-text-primary)] mb-2">Social Media</h4>
+                        <p className="text-[var(--color-text-secondary)]">Create consistent brand presence and continuous top-of-mind recall.</p>
                     </div>
                 </GlassCard>
             </StaggerItem>
@@ -263,8 +263,8 @@ export const Aetheo: React.FC = () => {
                 <GlassCard className="flex items-start gap-6 h-full">
                     <Network className="text-teal-400 shrink-0 mt-1" size={24} />
                     <div>
-                        <h4 className="text-lg font-bold text-white mb-2">TikTok Affiliates</h4>
-                        <p className="text-gray-400">Scale reach and conversion velocity without scaling ad spend.</p>
+                        <h4 className="text-lg font-bold text-[var(--color-text-primary)] mb-2">TikTok Affiliates</h4>
+                        <p className="text-[var(--color-text-secondary)]">Scale reach and conversion velocity without scaling ad spend.</p>
                     </div>
                 </GlassCard>
             </StaggerItem>
@@ -283,31 +283,31 @@ export const Aetheo: React.FC = () => {
                         "Organic + Paid + Marketplace = Full Web Coverage",
                         "Data ownership natively enables long-term lifecycle growth"
                     ].map((bullet, idx) => (
-                        <li key={idx} className="flex gap-4 text-gray-300 md:text-lg">
+                        <li key={idx} className="flex gap-4 text-[var(--color-text-secondary)] md:text-lg">
                             <ArrowRight className="text-teal-400 shrink-0 mt-1" size={20} />
                             <span>{bullet}</span>
                         </li>
                     ))}
                 </ul>
-                <div className="pt-8 border-t border-white/10">
-                    <p className="text-xl text-gray-400">You are not renting attention. <br/><span className="text-white font-medium">You are building an asset.</span></p>
+                <div className="pt-8 border-t border-[var(--color-border)]">
+                    <p className="text-xl text-[var(--color-text-secondary)]">You are not renting attention. <br/><span className="text-[var(--color-text-primary)] font-medium">You are building an asset.</span></p>
                 </div>
             </div>
         </Reveal>
 
         <Reveal delay={0.2}>
             <div className="rounded-3xl border border-purple-500/30 bg-purple-500/10 p-10 h-full flex flex-col justify-center">
-                <h3 className="text-2xl font-bold text-white mb-8">The Ultimate Outcome</h3>
+                <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-8">The Ultimate Outcome</h3>
                 <p className="text-purple-200 mb-6 font-mono text-sm uppercase tracking-widest">AETHEO Creates:</p>
-                <ul className="space-y-4 text-white text-lg font-medium mb-10">
+                <ul className="space-y-4 text-[var(--color-text-primary)] text-lg font-medium mb-10">
                     <li className="flex gap-3 items-center"><span className="w-2 h-2 rounded-full bg-purple-400" /> A defensible brand</li>
                     <li className="flex gap-3 items-center"><span className="w-2 h-2 rounded-full bg-purple-400" /> A scalable acquisition engine</li>
                     <li className="flex gap-3 items-center"><span className="w-2 h-2 rounded-full bg-purple-400" /> A compounding revenue system</li>
                 </ul>
                 
-                <div className="p-6 rounded-2xl bg-[#050505]/50 border border-white/5 backdrop-blur-md">
-                    <p className="text-gray-400 mb-2">Not a store.</p>
-                    <p className="text-gray-400 mb-2">Not a campaign.</p>
+                <div className="p-6 rounded-2xl bg-[var(--color-shell)]/50 border border-[var(--color-border)] backdrop-blur-md">
+                    <p className="text-[var(--color-text-secondary)] mb-2">Not a store.</p>
+                    <p className="text-[var(--color-text-secondary)] mb-2">Not a campaign.</p>
                     <p className="text-2xl text-purple-400 font-bold">A System.</p>
                 </div>
             </div>
@@ -320,14 +320,14 @@ export const Aetheo: React.FC = () => {
           <div className="rounded-3xl bg-teal-500/10 p-12 md:p-20 text-center relative overflow-hidden border border-teal-500/20">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-teal-500/10 blur-[100px] rounded-full pointer-events-none"></div>
             <div className="relative z-10">
-              <h3 className="text-4xl md:text-5xl font-bold text-white mb-6">Build Your Brand Like a System</h3>
+              <h3 className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-6">Build Your Brand Like a System</h3>
               <p className="text-xl text-teal-200 mb-12 max-w-2xl mx-auto">
                 Stop chasing traffic. Start engineering growth.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <a href="#flywheel" className="w-full sm:w-auto">
-                    <button className="w-full px-8 py-4 rounded-full border border-teal-500/30 text-white font-medium hover:bg-teal-500/10 transition-colors text-sm">
+                    <button className="w-full px-8 py-4 rounded-full border border-teal-500/30 text-[var(--color-text-primary)] font-medium hover:bg-teal-500/10 transition-colors text-sm">
                         Explore AETHEO
                     </button>
                 </a>

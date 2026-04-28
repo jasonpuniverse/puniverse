@@ -15,11 +15,11 @@ export const Products: React.FC = () => {
           <p className="text-xs font-bold tracking-[0.2em] uppercase text-teal-400 mb-6 flex items-center gap-2">
             <ShoppingCart size={14} /> Products & Access
           </p>
-          <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight mb-8 leading-[1.1] max-w-4xl">
+          <h1 className="text-5xl md:text-7xl font-bold text-[var(--color-text-primary)] tracking-tight mb-8 leading-[1.1] max-w-4xl">
             Use the <br/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-400">System.</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed">
+          <p className="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-2xl leading-relaxed">
             Ready-to-use workflows, agent systems, and applications to power your ecommerce brand.
           </p>
         </header>
@@ -32,7 +32,7 @@ export const Products: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {Object.values(digitalProducts).map((product, idx) => (
             <Reveal key={product.id} delay={idx * 0.1}>
-              <GlassCard className="h-full flex flex-col group p-2 pb-6 border-white/5 bg-white/[0.02]">
+              <GlassCard className="h-full flex flex-col group p-2 pb-6 border-[var(--color-border)] bg-[var(--color-surface)]">
                 <div className="rounded-xl overflow-hidden aspect-[16/9] mb-6 relative">
                    <img src={product.imageUrl} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"/>
                    <div className="absolute top-4 right-4 bg-teal-400 text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">
@@ -41,8 +41,8 @@ export const Products: React.FC = () => {
                 </div>
                 <div className="px-5 flex flex-col flex-grow">
                    <p className="text-xs font-mono text-teal-400 mb-2">{product.subtitle}</p>
-                   <h3 className="text-2xl font-medium text-white mb-3">{product.title}</h3>
-                   <p className="text-sm text-gray-400 leading-relaxed mb-6 flex-grow">{product.whosItFor}</p>
+                   <h3 className="text-2xl font-medium text-[var(--color-text-primary)] mb-3">{product.title}</h3>
+                   <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-6 flex-grow">{product.whosItFor}</p>
                    <Link to={`/product/${product.slug}`} className="mt-auto block">
                       <GlowButton className="w-full justify-center">
                         View Technical Specs & Checkout <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -69,11 +69,11 @@ export const Products: React.FC = () => {
           ].map((item, i) => (
             <StaggerItem key={i}>
               <GlassCard className="h-full">
-                <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 mb-6">
+                <div className="w-10 h-10 rounded-lg bg-[var(--color-surface)] flex items-center justify-center border border-[var(--color-border)] mb-6">
                   <item.icon className="text-teal-400" size={20} />
                 </div>
-                <h3 className="text-xl font-medium text-white mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-400 mb-6">{item.desc}</p>
+                <h3 className="text-xl font-medium text-[var(--color-text-primary)] mb-2">{item.title}</h3>
+                <p className="text-sm text-[var(--color-text-secondary)] mb-6">{item.desc}</p>
                 <button className="text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors flex items-center gap-1">
                   Explore <ArrowRight size={14} />
                 </button>
@@ -89,8 +89,8 @@ export const Products: React.FC = () => {
             <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[80px] rounded-full"></div>
             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
               <div>
-                <h3 className="text-2xl font-bold text-white mb-2">Pro Access</h3>
-                <p className="text-gray-300">Get full access to all advanced systems, agents, and the private community.</p>
+                <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">Pro Access</h3>
+                <p className="text-[var(--color-text-secondary)]">Get full access to all advanced systems, agents, and the private community.</p>
               </div>
               <GlowButton className="shrink-0">
                 Unlock Pro Access <Lock size={16} />

@@ -51,11 +51,11 @@ export const ContactForm: React.FC = () => {
         <div className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 text-3xl mx-auto mb-8">
           ✓
         </div>
-        <h3 className="text-3xl font-black text-white mb-4 italic">TRANSMISSION RECEIVED.</h3>
-        <p className="text-gray-400 mb-10 italic">Your internal node will respond within 12 standard hours.</p>
+        <h3 className="text-3xl font-black text-[var(--color-text-primary)] mb-4 italic">TRANSMISSION RECEIVED.</h3>
+        <p className="text-[var(--color-text-secondary)] mb-10 italic">Your internal node will respond within 12 standard hours.</p>
         <button 
           onClick={() => setStatus('idle')}
-          className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
+          className="px-6 py-3 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-medium hover:bg-[var(--color-surface-hover)] transition-colors"
         >
           New Transmission
         </button>
@@ -69,11 +69,11 @@ export const ContactForm: React.FC = () => {
         <div className="w-20 h-20 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 text-3xl mx-auto mb-8">
           ⚠
         </div>
-        <h3 className="text-3xl font-black text-white mb-4 italic">TRANSMISSION FAILED.</h3>
-        <p className="text-gray-400 mb-10">{errorMessage || 'An unknown error occurred.'}</p>
+        <h3 className="text-3xl font-black text-[var(--color-text-primary)] mb-4 italic">TRANSMISSION FAILED.</h3>
+        <p className="text-[var(--color-text-secondary)] mb-10">{errorMessage || 'An unknown error occurred.'}</p>
         <button 
           onClick={() => setStatus('idle')}
-          className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors"
+          className="px-6 py-3 rounded-full bg-[var(--color-surface)] border border-[var(--color-border)] text-[var(--color-text-primary)] font-medium hover:bg-[var(--color-surface-hover)] transition-colors"
         >
           Try Again
         </button>
@@ -84,35 +84,35 @@ export const ContactForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="space-y-2">
-        <label className="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Identifier</label>
+        <label className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-secondary)] ml-4">Identifier</label>
         <input 
           name="name" 
           required 
           type="text" 
           placeholder="Identity / Brand" 
-          className="w-full bg-white/5 rounded-xl px-6 py-4 text-white placeholder:text-gray-600 focus:bg-white/10 outline-none transition-all"
+          className="w-full bg-[var(--color-surface)] rounded-xl px-6 py-4 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:bg-[var(--color-surface-hover)] outline-none transition-all"
         />
       </div>
       
       <div className="space-y-2">
-        <label className="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Postal Node</label>
+        <label className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-secondary)] ml-4">Postal Node</label>
         <input 
           name="email" 
           required 
           type="email" 
           placeholder="example@brand.io" 
-          className="w-full bg-white/5 rounded-xl px-6 py-4 text-white placeholder:text-gray-600 focus:bg-white/10 outline-none transition-all"
+          className="w-full bg-[var(--color-surface)] rounded-xl px-6 py-4 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:bg-[var(--color-surface-hover)] outline-none transition-all"
         />
       </div>
       
       <div className="space-y-2">
-        <label className="text-xs font-bold uppercase tracking-widest text-gray-400 ml-4">Requirement Log</label>
+        <label className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-secondary)] ml-4">Requirement Log</label>
         <textarea 
           name="message" 
           required 
           rows={4} 
           placeholder="How can we scale your operations?" 
-          className="w-full bg-white/5 rounded-xl px-6 py-4 text-white placeholder:text-gray-600 focus:bg-white/10 outline-none transition-all resize-none"
+          className="w-full bg-[var(--color-surface)] rounded-xl px-6 py-4 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:bg-[var(--color-surface-hover)] outline-none transition-all resize-none"
         />
       </div>
       
