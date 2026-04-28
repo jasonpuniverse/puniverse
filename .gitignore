@@ -6,3 +6,7 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Browser automation / audit artefacts
+.playwright-mcp/
+/*.png
