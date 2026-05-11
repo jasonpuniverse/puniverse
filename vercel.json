@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/products/reinstate/:path*",
+      "destination": "https://amazon-reinstatement-tool.vercel.app/:path*"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/:path*"
     },
